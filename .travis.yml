@@ -3,36 +3,31 @@ language: node_js #設置語言
 node_js: stable #設置相應的版本
 
 cache:
+  apt: true
   directories:
-    - node_modules # 緩存不經常更改的內容
+    - node_modules
+
+notifications:
+  email:
+    recipients:
+      - babycoolzx@126.com
+    on_success: change
+    on_failure: always
 
 before_install:
-  - echo 安装hexo相关环境...
+  - export TZ='Asia/Shanghai'
+  - npm install hexo-cli -g
+  - chmod +x ./publish.sh
 
 install:
-  # - npm install -g cnpm --registry=https://registry.npm.taobao.org
-  - npm install hexo-cli -g
-
-before_script:
-  - echo 正在清空缓存静态文件...
-  - hexo clean # 清除缓存静态文件
-  - echo 正在生成静态文件...
-  - hexo g # 生成静态文件
-  - cd ./public
-  - ls -l
+  - npm install
 
 script:
-  - hexo d
-#   - echo 开始部署...
-#   - git init
-#   - git config --global user.name "${GH_username}" # 修改name
-#   - git config --global user.email "${GH_useremail}" # 修改email
-#   - git add ./
-#   - git commit -m "update"
-#   - git push --force --quiet "https://${CI_TOKEN}@${GH_REF}" master:master # GH_TOKEN是在Travis中配置token的名稱
+  - hexo clean
+  - hexo generate
 
 after_script:
-  - echo 部署完成！
+  - ./publish.sh
 
 branches:
   only:
