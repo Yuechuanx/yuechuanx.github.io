@@ -3,13 +3,13 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Yuechuan Xiao
+title: Keep Coding
 subtitle: from a coder
 description:
-keywords:
+keywords: Developer
 author: Yuechuan Xiao
 language: zh-CN
-timezone:
+timezone: Asia/Shanghai
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -36,7 +36,7 @@ external_link: true # Open external links in new tab
 filename_case: 0
 render_drafts: false
 post_asset_folder: false
-relative_link: true
+relative_link: falsegs
 future: true
 highlight:
   enable: true
