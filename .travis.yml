@@ -10,7 +10,7 @@ cache:
 notifications:
   email:
     recipients:
-      - babycoolzx@126.com
+      - xiaoyuechuanz@163.com
     on_success: change
     on_failure: always
 
