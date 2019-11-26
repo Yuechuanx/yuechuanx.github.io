@@ -1,12 +1,14 @@
 ---
 title: GitLab 迁移与升级
-tags: 
-- gitlab
+tags:
+  - gitlab
+categories:
+  - DevOps
 ---
 
 
 
-# 关于 GItlab 数据迁移与升级
+## 关于 GItlab 数据迁移与升级
 
 ## 背景
 
