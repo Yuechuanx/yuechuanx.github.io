@@ -1,5 +1,6 @@
 ---
 title: 平衡二叉树（AVLTree）封装+模板实现
+date: 2019-11-27 11:36:49
 categories:
   - Algorithm
   - Data-Structure

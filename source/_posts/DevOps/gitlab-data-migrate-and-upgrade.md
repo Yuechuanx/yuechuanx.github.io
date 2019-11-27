@@ -1,12 +1,11 @@
 ---
 title: GitLab 迁移与升级
+date: 2019-11-27 20:16:23
 tags:
   - gitlab
 categories:
   - DevOps
 ---
-
-
 
 ## 关于 GItlab 数据迁移与升级
 
