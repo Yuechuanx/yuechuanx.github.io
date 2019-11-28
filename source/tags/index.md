@@ -1,6 +1,5 @@
 ---
-title: tags
-date: 2019-03-23 21:43:29
-type: tags
+title: 标签
+layout: tags
 comments: false
 ---

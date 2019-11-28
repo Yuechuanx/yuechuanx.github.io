@@ -1,6 +1,5 @@
 ---
-title: categories
-date: 2019-03-23 21:43:41
-type: categories
+title: 分类
+layout: categories
 comments: false
 ---

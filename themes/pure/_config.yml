@@ -175,6 +175,23 @@ plugins:
   baidu_analytics: # enter Baidu Analytics hash key
   tencent_analytics:
 
+# hexo-neat
+neat_enable: true
+neat_html:
+  enable: true
+  exclude:
+neat_css:
+  enable: true
+  exclude:
+    - "*.min.css"
+neat_js:
+  enable: true
+  mangle: true
+  output:
+  compress:
+  exclude:
+    - "*.min.js"
+
 # Miscellaneous
 twitter:
 google_plus:
