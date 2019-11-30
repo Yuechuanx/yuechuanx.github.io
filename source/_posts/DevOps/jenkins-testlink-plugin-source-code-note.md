@@ -108,7 +108,7 @@ throw new AbortException(Messages.TestLinkBuilder_InvalidTLAPI());
 
 TestlinkInstallation 保存 configuration 里面对 Testlink 的配置信息:
 
-包括 `name`, `url`, `devKey`, `testlinkJavaAPIPr	operties`
+包括 `name`, `url`, `devKey`, `testlinkJavaAPIProperties`
 
 接下来是初始化其他的东西
 

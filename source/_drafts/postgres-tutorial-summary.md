@@ -5,7 +5,7 @@ tags:
 
 > 本篇是针对 PostgreSQL tutorial 的总结
 >
-> [postgresqltutorial](http://www.postgresqltutorial.com/) 是一个非常好的入门文档，提供一个 `dvdrental` 数据库以及 E-R 图，可以尽情在上面操作与玩耍。
+> [postgresqltutorial](http://www.postgresqltutorial.com/) 是一个非常好的入门文档，提供 `dvdrental` 数据库以及 E-R 图，可以尽情在上面操作与玩耍。
 
 ~~~sql
 			 
