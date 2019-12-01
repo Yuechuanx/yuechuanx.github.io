@@ -1,8 +1,12 @@
 ---
 title: 如何编写最佳的Dockerfile
+toc: true
+comments: true
 tags:
-- docker
+  - docker
+date: 2019-12-01 16:29:15
 ---
+
 
 > **译者按:** Dockerfile 的语法非常简单，然而如何加快镜像构建速度，如何减少 Docker 镜像的大小却不是那么直观，需要积累实践经验。这篇博客可以帮助你快速掌握编写 Dockerfile 的技巧。 
 >
@@ -63,7 +67,7 @@ CMD mysql & sshd & npm start
 
 `docker build -t wtf `  
 
-### **1. 编写.dockerignore 文件**
+### **编写.dockerignore 文件**
 
 构建镜像时，Docker 需要先准备context ，将所有需要的文件收集到进程中。默认的context包含 Dockerfile 目录中的所有文件，但是实际上，**我们并不需要.git 目录，node_modules 目录等内容**。 .dockerignore 的作用和语法类似于 .gitignore，可以忽略一些不需要的文件，这样可以有效加快镜像构建时间，同时减少 Docker 镜像的大小。示例如下: 
 
@@ -75,7 +79,7 @@ dist/
 
 
 
-### **2. 容器只运行单个应用**
+### **容器只运行单个应用**
 
 从技术角度讲，你可以在 Docker 容器中运行多个进程。你可以将数据库，前端，后端，ssh，supervisor 都运行在同一个 Docker 容器中。但是，这会让你非常痛苦:
 
@@ -107,7 +111,7 @@ CMD npm start
 
 
 
-### **3. 将多个 RUN 指令合并为一个**
+### **将多个 RUN 指令合并为一个**
 
 Docker 镜像是分层的，下面这些知识点非常重要:
 
@@ -148,7 +152,7 @@ CMD npm start
 
 
 
-### **4. 基础镜像的标签不要用 latest**
+### **基础镜像的标签不要用 latest**
 
 当镜像没有指定标签时，将默认使用latest 标签。因此， FROM ubuntu 指令等同于FROM ubuntu:latest。当时，当镜像更新时，latest 标签会指向不同的镜像，这时构建镜像有可能失败。如果你的确需要使用最新版的基础镜像，可以使用 latest 标签，否则的话，最好指定确定的镜像标签。 
 
@@ -166,7 +170,7 @@ CMD npm start
 
 
 
-### **5. 每个 RUN 指令后删除多余文件**
+### **每个 RUN 指令后删除多余文件**
 
 假设我们更新了 apt-get 源，下载，解压并安装了一些软件包，它们都保存在/var/lib/apt/lists/目录中。但是，运行应用时 Docker 镜像中并不需要这些文件。我们最好将它们删除，因为它会使 Docker 镜像变大。
 
@@ -188,7 +192,7 @@ CMD npm start
 
 
 
-### **6. 选择合适的基础镜像(alpine 版本最好)**
+### **选择合适的基础镜像(alpine 版本最好)**
 
 在示例中，我们选择了ubuntu作为基础镜像。但是我们只需要运行 node 程序，有必要使用一个通用的基础镜像吗？node镜像应该是更好的选择。
 
@@ -218,7 +222,7 @@ CMD npm start
 
 
 
-### **7. 设置 WORKDIR 和 CMD**
+### **设置 WORKDIR 和 CMD**
 
 [WORKDIR](https://docs.docker.com/engine/reference/builder/#workdir)指令可以设置默认目录，也就是运行RUN / CMD / ENTRYPOINT指令的地方。 
 
@@ -236,7 +240,7 @@ CMD ["npm", "start"]
 
 
 
-### **8. 使用 ENTRYPOINT (可选)**
+### **使用 ENTRYPOINT (可选)**
 
 [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint)指令并不是必须的，因为它会增加复杂度。ENTRYPOINT是一个脚本，它会默认执行，并且将指定的命令错误其参数。它通常用于构建可执行的 Docker 镜像。entrypoint.sh 如下:
 
@@ -293,13 +297,13 @@ CMD ["start"]
 
 
 
-### **9. 在 entrypoint 脚本中使用 exec**
+### **在 entrypoint 脚本中使用 exec**
 
 在前文的 entrypoint 脚本中，我使用了exec命令运行 node 应用。不使用exec的话，我们则不能顺利地关闭容器，因为 SIGTERM 信号会被 bash 脚本进程吞没。exec命令启动的进程可以取代脚本进程，因此所有的信号都会正常工作。
 
 
 
-### **10. COPY 与 ADD 优先使用前者**
+### **COPY 与 ADD 优先使用前者**
 
 [COPY](https://docs.docker.com/engine/reference/builder/#copy)指令非常简单，仅用于将文件拷贝到镜像中。[ADD](https://docs.docker.com/engine/reference/builder/#add)相对来讲复杂一些，可以用于下载远程文件以及解压压缩包(参考[官方文档](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#add-or-copy))。
 
@@ -317,7 +321,7 @@ CMD ["start"]
 
 
 
-### **11. 合理调整 COPY 与 RUN 的顺序**
+### **合理调整 COPY 与 RUN 的顺序**
 
 我们应该**把变化最少的部分放在 Dockerfile 的前面**，这样可以充分利用镜像缓存。
 
@@ -338,7 +342,7 @@ CMD ["start"]
 
 
 
-### **12. 设置默认的环境变量，映射端口和数据卷**
+### **设置默认的环境变量，映射端口和数据卷**
 
 运行 Docker 容器时很可能需要一些环境变量。在 Dockerfile 设置默认的环境变量是一种很好的方式。另外，我们应该在 Dockerfile 中设置映射端口和数据卷。示例如下:
 
@@ -372,7 +376,7 @@ CMD ["start"]
 
 [ENV](https://docs.docker.com/engine/reference/builder/#env)指令指定的环境变量在容器中可以使用。如果你只是需要指定构建镜像时的变量，你可以使用[ARG](https://docs.docker.com/engine/reference/builder/#arg)指令。
 
-### **13. 使用 LABEL 设置镜像元数据**
+### **使用 LABEL 设置镜像元数据**
 
 使用[LABEL](https://docs.docker.com/engine/reference/builder/#label)指令，可以为镜像设置元数据，例如**镜像创建者**或者**镜像说明**。旧版的 Dockerfile 语法使用[MAINTAINER](https://docs.docker.com/engine/reference/builder/#maintainer-deprecated)指令指定镜像创建者，但是它已经被弃用了。有时，一些外部程序需要用到镜像的元数据，例如[nvidia-docker](https://github.com/NVIDIA/nvidia-docker)需要用到`com.nvidia.volumes.needed`。
 
@@ -387,7 +391,7 @@ LABEL maintainer "jakub.skalecki@example.com"
 
 
 
-### **14. 添加 HEALTHCHECK**
+### **添加 HEALTHCHECK**
 
 运行容器时，可以指定--restart always选项。这样的话，容器崩溃时，Docker 守护进程(docker daemon)会重启容器。对于需要长时间运行的容器，这个选项非常有用。但是，如果容器的确在运行，但是不可(陷入死循环，配置错误)用怎么办？使用[HEALTHCHECK](https://docs.docker.com/engine/reference/builder/#healthcheck)指令可以让 Docker 周期性的检查容器的健康状况。我们只需要指定一个命令，如果一切正常的话返回 0，否则返回 1。对 HEALTHCHECK 感兴趣的话，可以参考[这篇博客](https://blog.newrelic.com/2016/08/24/docker-health-check-instruction/)。示例如下:
 
@@ -421,6 +425,7 @@ CMD ["start"]
 如果你想要了解更多，请参阅 [STOPSIGNAL](https://docs.docker.com/engine/reference/builder/#stopsignal), [ONBUILD](https://docs.docker.com/engine/reference/builder/#onbuild), 和 [SHELL](https://docs.docker.com/engine/reference/builder/#shell) 指令。还要提到在构建镜像中一个非常有用的指令 `--no-cache`  (特别是在 CI 服务器上)，以及` --squash` [here](https://docs.docker.com/engine/reference/commandline/build/#squash-an-images-layers---squash-experimental-only)).
 
 以上，Have fun :)
+
 
 
 
