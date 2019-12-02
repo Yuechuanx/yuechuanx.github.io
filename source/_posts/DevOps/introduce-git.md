@@ -1,9 +1,10 @@
 ---
 title: Git 基础
+date: 2016-01-02 18:38:54
 categories:
   - DevOps
 tags:
-  - tools
+  - git
 ---
 
 ## 版本控制

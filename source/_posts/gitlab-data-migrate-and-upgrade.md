@@ -1,6 +1,6 @@
 ---
 title: GitLab 迁移与升级
-date: 2019-11-27 20:16:23
+date: 2019-11- 20:16:23
 tags:
   - gitlab
 categories:
@@ -15,7 +15,7 @@ categories:
 
 Git LFS 工具可以很好的解决这个问题，通过将二进制文件直接上传的方式，git 只需要保存字符链接，关于 git LFS 的原理可以看这里：
 
-![image-20191101162007033](/Users/Xiaoy/Library/Application Support/typora-user-images/image-20191101162007033.png)
+![git-lfs-graphic](https://git-lfs.github.com/images/graphic.gif)
 
 那么问题来了，由于 gitlab 的开始对 LFS 的版本高于目前公司使用的版本，那么就开始升级采坑之旅吧。
 

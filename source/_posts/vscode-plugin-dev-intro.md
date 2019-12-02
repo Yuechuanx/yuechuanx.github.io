@@ -1,15 +1,9 @@
 ---
-title: VSCode插件开发入门
+title: VSCode 插件开发入门
+date: 2019-04-02 13:49:04
 tags:
   - vscode
-  - plugin
-categories:
-  - Tools
 ---
-
-
-
-# VSCode 插件开发
 
 ## 核心组件
 

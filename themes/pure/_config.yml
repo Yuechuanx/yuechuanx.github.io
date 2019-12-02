@@ -111,7 +111,7 @@ comment:
   type: valine # 启用哪种评论系统
   disqus: # enter disqus shortname here
   youyan:
-    uid: 1783844 # enter youyan uid
+    uid: # enter youyan uid
   livere:
     uid: # enter youyan uid
   gitment:
@@ -130,12 +130,12 @@ comment:
     app_id: vnWyd9at2TOeKtADpH8PYRGG-gzGzoHsz # leancloud <AppID>
     app_key: Xd6asdahJkmYD6Uj9GW5D0bL # leancloud <AppKey>
     notify: false # mail notifier , https://github.com/xCss/Valine/wiki
-    verify: false # Verification code
-    placeholder: Just go go # comment box placeholder
+    verify: true # Verification code
+    placeholder: ヾﾉ≧∀≦)o来啊，快活啊! # comment box placeholder
     avatar: mm # gravatar style
     meta: nick,mail,link # custom comment header
     pageSize: 10 # pagination size
-    visitor: false # Article reading statistic https://valine.js.org/visitor.html
+    visitor: true # Article reading statistic https://valine.js.org/visitor.html
 
 # douban 豆瓣书单
 # Api：
@@ -170,8 +170,8 @@ postCount:
 
 # Plugins
 plugins:
-  google_analytics: # enter the tracking ID for your Google Analytics
-  google_site_verification: # enter Google site verification code
+  google_analytics: UA-153687468-1 # enter the tracking ID for your Google Analytics
+  google_site_verification: 6jcyYTEWbkiJxHX-_FPfoG7WGHPZUKpuZWg4B8y6Snc # enter Google site verification code
   baidu_analytics: # enter Baidu Analytics hash key
   tencent_analytics:
 
