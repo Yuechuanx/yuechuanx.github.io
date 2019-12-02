@@ -2,7 +2,6 @@
 title: 求图的拓扑排序
 categories:
   - Algorithm
-  - Data-Structure
 tags:
   - graph
   - topological-sort

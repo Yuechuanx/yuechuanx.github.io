@@ -1,12 +1,11 @@
 ---
-title: Java常见问题汇总-thread
+title: 问题梳理-Java多线程
 categories:
   - Java
-  - Summary
 tags:
-  - interview-questions
+  - multithread
+  - interview
 ---
-<!-- toc -->
 
 ## 1. 简述线程，程序、进程的基本概念。以及他们之间关系是什么？
 

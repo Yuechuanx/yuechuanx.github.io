@@ -2,10 +2,9 @@
 title: Java容器——HashMap
 categories:
   - Java
-  - Collection-Framework
 tags:
-- map
-- hashmap
+  - map
+  - hashmap
 ---
 <!-- MarkdownTOC -->
 

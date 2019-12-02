@@ -2,7 +2,6 @@
 title: Java容器——ArrayList扩容源码分析
 categories:
   - Java
-  - Collection-Framework
 tags:
   - array-list
 ---

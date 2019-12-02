@@ -2,7 +2,6 @@
 title: 【剑指offer】旋转数组的最小数字
 categories:
   - Algorithm
-  - ForOffer
 tags:
   - algorithm
   - search

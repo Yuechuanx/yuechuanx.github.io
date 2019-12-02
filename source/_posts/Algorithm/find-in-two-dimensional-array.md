@@ -2,7 +2,6 @@
 title: 【剑指offer】二维数组中的查找
 categories:
   - Algorithm
-  - ForOffer
 tags:
   - algorithm
   - array

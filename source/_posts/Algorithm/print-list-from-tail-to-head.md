@@ -2,7 +2,6 @@
 title: 【剑指offer】从尾到头打印链表
 categories:
   - Algorithm
-  - ForOffer
 tags:
   - algorithm
   - linked-list

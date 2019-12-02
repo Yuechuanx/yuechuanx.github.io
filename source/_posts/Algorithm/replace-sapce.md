@@ -2,7 +2,6 @@
 title: 【剑指Offer】替换空格
 categories:
   - Algorithm
-  - ForOffer
 tags:
   - algorithm
   - string

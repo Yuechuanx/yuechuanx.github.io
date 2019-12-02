@@ -2,7 +2,6 @@
 title: 【剑指offer】栈实现队列
 categories:
   - Algorithm
-  - ForOffer
 tags:
   - algorithm
   - queue

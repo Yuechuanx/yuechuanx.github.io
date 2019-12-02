@@ -2,7 +2,6 @@
 title: 判断是否为二叉搜索树（BST）
 categories:
   - Algorithm
-  - Data-Structure
 tags:
   - algorithm
   - tree

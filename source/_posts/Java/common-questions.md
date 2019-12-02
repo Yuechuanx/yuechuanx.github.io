@@ -2,7 +2,6 @@
 title: Java常见问题汇总-1
 categories:
   - Java
-  - Summary
 tags:
   - interview-questions
 ---

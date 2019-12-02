@@ -2,7 +2,6 @@
 title: Java容器——ArrayList
 categories:
   - Java
-  - Collection-Framework
 tags:
   - array-list
 ---

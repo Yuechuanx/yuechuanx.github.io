@@ -2,7 +2,6 @@
 title: 【剑指offer】重建二叉树
 categories:
   - Algorithm
-  - ForOffer
 tags:
   - algorithm
   - binary-tree

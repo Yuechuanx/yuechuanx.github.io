@@ -2,9 +2,8 @@
 title: Java容器——LinkedList
 categories:
   - Java
-  - Collection-Framework
-tags: 
-- linked-list
+tags:
+  - linked-list
 ---
 
 <!-- MarkdownTOC -->

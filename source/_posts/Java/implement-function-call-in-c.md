@@ -1,13 +1,12 @@
 ---
 title: 《深入理解JVM》函数调用
-date: 2019-11-27 19:48:56
-update: 2019-11-27 19:49:07
 toc: true
 categories:
   - Java
-  - JVM
 tags:
   - jvm
+date: 2019-11-27 19:48:56
+update: 2019-11-27 19:49:07
 ---
 
 

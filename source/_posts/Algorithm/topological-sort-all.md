@@ -2,7 +2,6 @@
 title: 求有向图全部拓扑序列
 categories:
   - Algorithm
-  - Data-Structure
 tags:
   - algorithm
   - graph
