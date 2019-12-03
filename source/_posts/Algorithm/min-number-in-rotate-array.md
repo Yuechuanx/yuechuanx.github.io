@@ -1,5 +1,6 @@
 ---
 title: 【剑指offer】旋转数组的最小数字
+date: 2018-12-03 20:03:11
 categories:
   - Algorithm
 tags:

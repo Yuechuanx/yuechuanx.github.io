@@ -1,6 +1,6 @@
 ---
 title: Git 基础
-date: 2016-01-02 18:38:54
+date: 2016-01-01 18:38:54
 categories:
   - DevOps
 tags:

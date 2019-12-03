@@ -1,5 +1,6 @@
 ---
 title: 判断是否为二叉搜索树（BST）
+date: 2018-04-03 20:03:11
 categories:
   - Algorithm
 tags:

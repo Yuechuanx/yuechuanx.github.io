@@ -1,6 +1,6 @@
 ---
 title: GitLab 迁移与升级
-date: 2019-11- 20:16:23
+date: 2019-11-01 20:16:23
 tags:
   - gitlab
 categories:

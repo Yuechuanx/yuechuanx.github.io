@@ -1,5 +1,6 @@
 ---
 title: 求有向图全部拓扑序列
+date: 2018-05-05 18:38:54
 categories:
   - Algorithm
 tags:
@@ -7,7 +8,7 @@ tags:
   - graph
   - topological-sort
 ---
-> **All Topological Sorts**，在前一章中[Topological Sorting](https://yuechuanx.com/2018/05/01/DataStructure/%E6%B1%82%E6%9C%89%E5%90%91%E5%9B%BE%E7%9A%84%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/)，已经讨论了拓扑排序的原理及其实现算法，但只是实现了从单一一个入度为0的节点进行的拓扑排序。本章主要来讨论一下，如何求一个有向无环图的所有拓扑排序序列。
+> **All Topological Sorts**，在前一章中[Topological Sorting](https://yuechuanx.top/2018/05/01/Algorithm/topological-sort/)，已经讨论了拓扑排序的原理及其实现算法，但只是实现了从单一一个入度为0的节点进行的拓扑排序。本章主要来讨论一下，如何求一个有向无环图的所有拓扑排序序列。
 
 ## 问题描述
 

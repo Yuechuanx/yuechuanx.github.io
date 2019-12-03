@@ -1,5 +1,6 @@
 ---
 title: 【剑指offer】从尾到头打印链表
+date: 2018-12-03 20:03:11
 categories:
   - Algorithm
 tags:
