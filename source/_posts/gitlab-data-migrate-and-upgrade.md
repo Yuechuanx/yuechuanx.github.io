@@ -7,19 +7,17 @@ categories:
   - DevOps
 ---
 
-## 关于 GItlab 数据迁移与升级
+> 公司内部的 SDK 版本是通过 GItlab 进行版本管理，而在 SDK 中存在着大量的二进制文件，在进行多次版本发布之后，`.git` 文件越来越大，pull 新版本的时间也越来越长。
 
 ## 背景
 
-公司内部的 SDK 版本是通过 GItlab 进行版本管理，而在 SDK 中存在着大量的二进制文件，在进行多次版本发布之后，`.git` 文件越来越大，pull 新版本的时间也越来越长。
-
 Git LFS 工具可以很好的解决这个问题，通过将二进制文件直接上传的方式，git 只需要保存字符链接，关于 git LFS 的原理可以看这里：
 
+![git-lfs-graphic](https://git-lfs.github.com/images/graphic.gif)
 
+那么问题来了，由于 gitlab 的开始对 LFS 的版本高于目前公司使用的版本，所以我们需要给 gitlab 进行升级。
 
-那么问题来了，由于 gitlab 的开始对 LFS 的版本高于目前公司使用的版本，那么就开始升级采坑之旅吧。
-
-## 问题
+## 思路
 
 之前的 gitlab 的部署是通过 bitnami 的 VM 部署到 host 机器上的，想转到用 docker 来进行部署。
 
@@ -31,7 +29,7 @@ pic
 
 那么换一种思路，先把之前的备份先恢复到对应的 gitlab image 上，在容器内部进行升级，之后再做一个备份，迁移到更高版本的 gitlab image。结论是，这个方法是可行的。
 
-## 踩坑之旅
+## 踩坑
 
 1. 前期准备：
 

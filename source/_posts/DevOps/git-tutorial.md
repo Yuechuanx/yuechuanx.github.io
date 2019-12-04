@@ -69,7 +69,11 @@ tags:
 7. **对文件重命名** ：
 
    ~~~bash
-   `git mv README.md README`(这个命令相当于`mv README.md README`、`git rm README.md`、`git add README` 这三条命令的集合)
+   git mv README.md README 
+   #这个命令相当于 
+   mv README.md README
+   git rm README.md
+   git add README 这三条命令的集合
    ~~~
 
 ## 推送改动到远程仓库
@@ -77,8 +81,6 @@ tags:
 - 将你的仓库连接到某个远程仓库
 
   `git remote add origin <server>`
-
-  比如我们要让本地的一个仓库和 Github 上创建的一个仓库关联可以这样`git remote add origin https://github.com/Snailclimb/test.git` 
 
 - 将这些改动提交到远端仓库
 
