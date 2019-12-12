@@ -4,6 +4,8 @@ toc: true
 comments: true
 tags:
   - docker
+categories:
+  - DevOps
 date: 2019-12-01 16:29:15
 ---
 
@@ -15,9 +17,11 @@ date: 2019-12-01 16:29:15
 >
 > **本文采用意译，版权归原作者所有**
 
+---
+
 我已经使用 Docker 有一段时间了，其中编写 Dockerfile 是非常重要的一部分工作。在这篇博客中，我打算分享一些建议，帮助大家编写更好的 Dockerfile。
 
-### **目标:**
+### **目标**
 
 - 更快的构建速度
 - 更小的 Docker 镜像大小
@@ -65,7 +69,7 @@ CMD mysql & sshd & npm start
 
 构建镜像:
 
-`docker build -t wtf `  
+`docker build -t wtf ` 
 
 ### **编写.dockerignore 文件**
 

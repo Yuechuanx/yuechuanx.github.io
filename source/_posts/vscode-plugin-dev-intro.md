@@ -1,8 +1,10 @@
 ---
 title: VSCode 插件开发入门
-date: 2019-04-02 13:49:04
 tags:
   - vscode
+date: 2019-04-02 13:49:04
+toc: true
+comments: true
 ---
 
 ## 核心组件

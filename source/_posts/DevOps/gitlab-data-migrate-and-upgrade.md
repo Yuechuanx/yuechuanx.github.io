@@ -1,10 +1,10 @@
 ---
 title: GitLab 迁移与升级
-date: 2019-11-01 20:16:23
 tags:
   - gitlab
 categories:
   - DevOps
+date: 2019-11-01 20:16:23
 ---
 
 > 公司内部的 SDK 版本是通过 GItlab 进行版本管理，而在 SDK 中存在着大量的二进制文件，在进行多次版本发布之后，`.git` 文件越来越大，pull 新版本的时间也越来越长。

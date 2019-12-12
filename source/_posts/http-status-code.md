@@ -1,8 +1,10 @@
 ---
 title: HTTP 1.1 状态码分类及解释
+tags:
+  - http
+toc: true
+comments: true
 date: 2019-11-26 19:34:49
-tags: 
-- http
 ---
 
 > HTTP 协议中状态码繁多，本文介绍 HPPT/1.1 协议中各种状态码

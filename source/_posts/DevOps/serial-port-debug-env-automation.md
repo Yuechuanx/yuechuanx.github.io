@@ -1,12 +1,12 @@
 ---
 title: 关于串口调试自动化的解决方案
 toc: true
-date: 2019-11-27 20:16:23
 tags:
   - automation
   - tool
-categories:
-  - DevOps
+categories: 
+- DevOps
+date: 2019-11-27 20:16:23
 ---
 
 ## 问题

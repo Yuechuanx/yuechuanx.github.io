@@ -2,10 +2,12 @@
 title: Markdown 语法总结
 toc: true
 comments: true
+mathjax: true
 date: 2019-12-11 16:03:39
 tags:
+- markdown
 ---
-{:toc}
+
 ---
 ## 斜体和粗体
 ```markdown
@@ -373,54 +375,31 @@ view
 
 ---
 ## LaTeX 公式
-### $ 表示行内公式：
+### `$` 表示行内公式：
 ```markdown
 质能守恒方程可以用一个很简洁的方程式 $E=mc^2$ 来表达。
 ```
 view
 质能守恒方程可以用一个很简洁的方程式 $E=mc^2$ 来表达。
 
-###$$ 表示整行公式：
+### `$$` 表示整行公式：
 ```markdown
 $$\sum_{i=1}^n a_i=0$$
 $$f(x_1,x_x,\ldots,x_n) = x_1^2 + x_2^2 + \cdots + x_n^2 $$
 $$\sum^{j-1}_{k=0}{\widehat{\gamma}_{kj} z_k}$$
 ```
+
+$$\sum_{i=1}^n a_i=0$$
+$$f(x_1,x_x,\ldots,x_n) = x_1^2 + x_2^2 + \cdots + x_n^2 $$
+$$\sum^{j-1}_{k=0}{\widehat{\gamma}_{kj} z_k}$$
+
 访问 [MathJax][] 参考更多使用方法。
 
 [MathJax]:https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference "MathJax basic tutorial and quick reference"
 
 ---
 ## 流程图
-```
-<div>
-<textarea id="code" style="width: 100%;" rows="11">
-st=>start: Start|past:>http://www.google.com[blank]
-e=>end: End:>http://www.google.com
-op1=>operation: My Operation|past
-op2=>operation: Stuff|current
-sub1=>subroutine: My Subroutine|invalid
-cond=>condition: Yes
-or No?|approved:>http://www.google.com
-c2=>condition: Good idea|rejected
-io=>inputoutput: catch something...|request
-
-st->op1(right)->cond
-cond(yes, right)->c2
-cond(no)->sub1(left)->op1
-c2(yes)->io->e
-c2(no)->op2->e
-</textarea>
-</div>
-<div>
-<button id="run" type="button">Run</button>
-</div>
-<div id="canvas"></div>
-```
-you can  try different in textarea,then run .
-
-<div>
-<textarea id="code" style="width: 100%;" rows="11">
+```markdown
 st=>start: Start|past:>https://yuhongjun.github.io[blank]
 e=>end: End:>https://yuhongjun.github.io
 op1=>operation: My Operation|past
@@ -435,17 +414,29 @@ cond(yes, right)->c2
 cond(no)->sub1(left)->op1
 c2(yes)->io->e
 c2(no)->op2->e
-</textarea>
-</div>
+```
 
-<div>
-<button id="run" type="button">Run</button>
-</div>
-<div id="canvas"></div>
+
+```flowchart
+st=>start: Start|past:>https://yuhongjun.github.io[blank]
+e=>end: End:>https://yuhongjun.github.io
+op1=>operation: My Operation|past
+op2=>operation: Stuff|current
+sub1=>subroutine: My Subroutine|invalid
+cond=>condition: Yes
+or No?|approved:>https://yuhongjun.github.io
+c2=>condition: Good idea|rejected
+io=>inputoutput: catch something...|request
+st->op1(right)->cond
+cond(yes, right)->c2
+cond(no)->sub1(left)->op1
+c2(yes)->io->e
+c2(no)->op2->e
+```
+
 更多语法参考：[流程图语法参考][]
 
 [流程图语法参考]:https://flowchart.js.org/ "flowchart"
-
 
 ---
 ## 表格
@@ -558,8 +549,10 @@ view
         printf("Hello world\n");
     }
 
-### 用 ``` 或 \~\~\~ 包裹多行代码
+### 包裹多行代码
+
 ```markdown
+<!-- 用 ``` 或 ~~~ 包裹多行代码 -->
 ` ` `
 #include <stdio.h>
 int main(void)
@@ -582,6 +575,6 @@ int main(void)
 ```
 view
 
-<div class="footer">
+<div class="">
    © 2016 ***
 </div>
