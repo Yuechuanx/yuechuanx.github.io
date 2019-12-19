@@ -1,5 +1,5 @@
 ---
-title: 《流畅的Python》笔记：Python 数据类型
+title: <流畅的Python> 笔记：Python 数据类型
 toc: true
 comments: true
 tags:
