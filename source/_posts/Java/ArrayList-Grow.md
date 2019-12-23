@@ -1,5 +1,5 @@
 ---
-title: 【Java容器】 ArrayList扩容源码分析
+title: <Java容器> ArrayList扩容源码分析
 date: 2019-01-03 20:10:39
 categories:
   - Java
