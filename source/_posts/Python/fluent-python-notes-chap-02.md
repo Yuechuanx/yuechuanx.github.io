@@ -1,5 +1,5 @@
 ---
-title: '<流畅的Python> 笔记:序列构成的数组'
+title: '<流畅的Python> 笔记: 序列构成的数组'
 toc: true
 comments: true
 categories:
