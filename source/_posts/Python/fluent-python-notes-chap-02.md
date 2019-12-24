@@ -2,6 +2,8 @@
 title: '<流畅的Python> 笔记: 序列构成的数组'
 toc: true
 comments: true
+tags:
+  - python
 categories:
   - Python
 date: 2019-12-16 20:27:00

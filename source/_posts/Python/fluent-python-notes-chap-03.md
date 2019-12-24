@@ -2,10 +2,10 @@
 title: ‘<流畅的Python> 笔记：字典和集合'
 toc: true
 comments: true
-tags: 
-- python
+tags:
+  - python
 categories:
-- Python
+  - Python
 date: 2019-12-24 16:08:14
 tags:
 ---
