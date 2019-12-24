@@ -1,5 +1,5 @@
 ---
-title: ‘<流畅的Python> 笔记：字典和集合'
+title: '<流畅的Python> 笔记：字典和集合'
 toc: true
 comments: true
 tags:
@@ -7,7 +7,6 @@ tags:
 categories:
   - Python
 date: 2019-12-24 16:08:14
-tags:
 ---
 > 字典这个数据结构活跃在所有 Python 程序的背后，即便你的源码里并没有直接用到它。  
 > ——A. M. Kuchling 
