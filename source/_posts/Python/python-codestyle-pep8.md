@@ -1,5 +1,5 @@
 ---
-title: ‘PEP 8: Style Guide for Python Code'
+title: ‘Python代码规范 pep8'
 toc: true
 comments: true
 tags:
