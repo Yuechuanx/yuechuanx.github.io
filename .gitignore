@@ -2,3 +2,5 @@ public/
 source/imgs/
 
 db.json
+
+.DS_Store
