@@ -1,5 +1,5 @@
 ---
-title: ‘Python代码规范 pep8'
+title: Python代码规范 pep8
 toc: true
 comments: true
 tags:
