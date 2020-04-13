@@ -11,7 +11,7 @@ date: 2020-04-01 14:12:38
 
 以下所有内容包含在官方 PEP(Python Enhancement Proposals) 链接为 [pep8][https://www.python.org/dev/peps/pep-0008/]
 
-简要版本
+## 简要版本
 
 - 代码编排
 
@@ -202,3 +202,12 @@ date: 2020-04-01 14:12:38
   - 字符串不要以空格收尾。
 
   - 二进制数据判断使用 `if boolvalue`的方式。
+
+
+
+## Reference
+
+- [PEP8][https://www.python.org/dev/peps/pep-0008/]
+
+- [Google Python 开源项目风格指南](https://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/contents/)
+
