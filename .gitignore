@@ -1,6 +1,6 @@
 public/
 source/imgs/
-
+node_modules/
 db.json
 
 .DS_Store
