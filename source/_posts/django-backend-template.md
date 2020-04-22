@@ -4,7 +4,8 @@ toc: true
 comments: true
 date: 2020-02-16 14:55:49
 tags:
-- DevOps
+- web
+- django
 
 ---
 
