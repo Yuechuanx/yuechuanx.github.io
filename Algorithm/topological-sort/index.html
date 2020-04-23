@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  <meta name="google-site-verification" content="6jcyYTEWbkiJxHX-_FPfoG7WGHPZUKpuZWg4B8y6Snc">
+  
+  
+  <title>求图的拓扑排序 | Yuechuanx</title>
+  <meta name="description" content="简介 拓扑排序 （Topological Sorting）  在计算机科学领域，有向图的拓扑排序或拓扑排序是其顶点的线性排序，使得对于从顶点u到顶点v的每个有向边uv，u在排序中都在v之前。例如，图形的顶点可以表示要执行的任务，并且边缘可以表示一个任务必须在另一个任务之前执行的约束；在这个应用中，拓扑排序只是一个有效的任务顺序。如果当图形没有定向循环，即如果它是有向无环图（Directed Ac">
+<meta name="keywords" content="graph,topological-sort">
+<meta property="og:type" content="article">
+<meta property="og:title" content="求图的拓扑排序">
+<meta property="og:url" content="https://yuechuanx.top/Algorithm/topological-sort/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="简介 拓扑排序 （Topological Sorting）  在计算机科学领域，有向图的拓扑排序或拓扑排序是其顶点的线性排序，使得对于从顶点u到顶点v的每个有向边uv，u在排序中都在v之前。例如，图形的顶点可以表示要执行的任务，并且边缘可以表示一个任务必须在另一个任务之前执行的约束；在这个应用中，拓扑排序只是一个有效的任务顺序。如果当图形没有定向循环，即如果它是有向无环图（Directed Ac">
+<meta property="og:locale" content="en-US">
+<meta property="og:image" content="https://i2.wp.com/oq3r70t68.bkt.clouddn.com/20170706-Topological-Sorting.jpg">
+<meta property="og:updated_time" content="2020-04-23T03:36:06.710Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="求图的拓扑排序">
+<meta name="twitter:description" content="简介 拓扑排序 （Topological Sorting）  在计算机科学领域，有向图的拓扑排序或拓扑排序是其顶点的线性排序，使得对于从顶点u到顶点v的每个有向边uv，u在排序中都在v之前。例如，图形的顶点可以表示要执行的任务，并且边缘可以表示一个任务必须在另一个任务之前执行的约束；在这个应用中，拓扑排序只是一个有效的任务顺序。如果当图形没有定向循环，即如果它是有向无环图（Directed Ac">
+<meta name="twitter:image" content="https://i2.wp.com/oq3r70t68.bkt.clouddn.com/20170706-Topological-Sorting.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://yuechuanx.top/Algorithm/topological-sort/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Keep Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="../../css/style.css">
+  
+  
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/yuechuanx" target="_blank">
+          <img class="img-circle img-rotate" src="../../images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Yuechuan Xiao</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">DevOps &amp; Automation</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="../../.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="../../archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="../../categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="../../tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="../../repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../../categories/Algorithm/">Algorithm</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/DevOps/">DevOps</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/Java/">Java</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/Python/">Python</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="../../tags/algorithm/" style="font-size: 14px;">algorithm</a> <a href="../../tags/array/" style="font-size: 13px;">array</a> <a href="../../tags/array-list/" style="font-size: 13.25px;">array-list</a> <a href="../../tags/automation/" style="font-size: 13px;">automation</a> <a href="../../tags/binary-tree/" style="font-size: 13px;">binary-tree</a> <a href="../../tags/command-line/" style="font-size: 13px;">command-line</a> <a href="../../tags/django/" style="font-size: 13.25px;">django</a> <a href="../../tags/docker/" style="font-size: 13.5px;">docker</a> <a href="../../tags/git/" style="font-size: 13px;">git</a> <a href="../../tags/gitlab/" style="font-size: 13px;">gitlab</a> <a href="../../tags/graph/" style="font-size: 13.25px;">graph</a> <a href="../../tags/hashmap/" style="font-size: 13px;">hashmap</a> <a href="../../tags/http/" style="font-size: 13px;">http</a> <a href="../../tags/interview/" style="font-size: 13px;">interview</a> <a href="../../tags/interview-questions/" style="font-size: 13.25px;">interview-questions</a> <a href="../../tags/jenkins/" style="font-size: 13px;">jenkins</a> <a href="../../tags/jvm/" style="font-size: 13px;">jvm</a> <a href="../../tags/linked-list/" style="font-size: 13.25px;">linked-list</a> <a href="../../tags/map/" style="font-size: 13px;">map</a> <a href="../../tags/markdown/" style="font-size: 13px;">markdown</a> <a href="../../tags/multithread/" style="font-size: 13px;">multithread</a> <a href="../../tags/plugin/" style="font-size: 13px;">plugin</a> <a href="../../tags/python/" style="font-size: 13.75px;">python</a> <a href="../../tags/queue/" style="font-size: 13px;">queue</a> <a href="../../tags/recursion/" style="font-size: 13px;">recursion</a> <a href="../../tags/search/" style="font-size: 13px;">search</a> <a href="../../tags/stack/" style="font-size: 13px;">stack</a> <a href="../../tags/string/" style="font-size: 13px;">string</a> <a href="../../tags/testlink/" style="font-size: 13px;">testlink</a> <a href="../../tags/tool/" style="font-size: 13px;">tool</a> <a href="../../tags/topological-sort/" style="font-size: 13.25px;">topological-sort</a> <a href="../../tags/tree/" style="font-size: 13.25px;">tree</a> <a href="../../tags/vscode/" style="font-size: 13px;">vscode</a> <a href="../../tags/web/" style="font-size: 13px;">web</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/04/">April 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/02/">February 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/12/">December 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/11/">November 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/01/">January 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/12/">December 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/05/">May 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled ">
+        
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../Python/fluent-python-notes-chap-05/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../../Python/fluent-python-notes-chap-05/" class="title">&lt;流畅的 Python&gt; 笔记：一等函数</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-22T08:38:39.000Z" itemprop="datePublished">2020-04-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../zen-of-python/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../zen-of-python/" class="title">Zen of Python（Python之禅）</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-15T08:54:29.000Z" itemprop="datePublished">2020-04-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../django-dumpdata-and-loaddata/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../django-dumpdata-and-loaddata/" class="title">Django 导出和导入数据</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-13T10:57:03.000Z" itemprop="datePublished">2020-04-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../Python/python-codestyle-pep8/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../../Python/python-codestyle-pep8/" class="title">Python代码规范 Pep8</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-01T06:12:38.000Z" itemprop="datePublished">2020-04-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../django-backend-template/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../django-backend-template/" class="title">Django 项目后端模板</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-02-16T06:55:49.000Z" itemprop="datePublished">2020-02-16</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Algorithm/topological-sort" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      求图的拓扑排序
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="" class="article-date">
+	  <time datetime="2018-05-01T10:38:54.000Z" itemprop="datePublished">2018-05-01</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="../../categories/Algorithm/">Algorithm</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="../../tags/graph/">graph</a>, <a class="article-tag-link" href="../../tags/topological-sort/">topological-sort</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="" class="leancloud_visitors"  data-flag-title="求图的拓扑排序">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 1.9k(words)</span>
+	
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="简介"><a class="markdownIt-Anchor" href="#简介"></a> 简介</h2>
+<p><a href="https://zh.wikipedia.org/wiki/%E6%8B%93%E6%92%B2%E6%8E%92%E5%BA%8F" target="_blank" rel="noopener"><strong>拓扑排序</strong> （Topological Sorting）</a></p>
+<blockquote>
+<p>在计算机科学领域，有向图的拓扑排序或拓扑排序是其顶点的线性排序，使得对于从顶点u到顶点v的每个有向边uv，u在排序中都在v之前。例如，图形的顶点可以表示要执行的任务，并且边缘可以表示一个任务必须在另一个任务之前执行的约束；在这个应用中，拓扑排序只是一个有效的任务顺序。如果当图形没有定向循环，即如果它是有向无环图（Directed Acyclic Graph，即DAG），则拓扑排序是可能的。任何DAG具有至少一个拓扑排序，并且已知有些算法用于在线性时间内构建任何DAG的拓扑排序。<br>
+在图论中，由一个有向无环图的顶点组成的序列，当且仅当满足下列条件时，称为该图的一个拓扑排序（Topological sorting）。</p>
+<ol>
+<li>每个顶点出现且只出现一次；</li>
+<li>若A在序列中排在B的前面，则在图中不存在从B到A的边。</li>
+</ol>
+<p>也可以定义为：拓扑排序是对有向无环图的顶点的一种排序，它使得如果存在一条从顶点A到顶点B的路径，那么在排序中B出现在A的后面。</p>
+</blockquote>
+<h2 id="问题描述"><a class="markdownIt-Anchor" href="#问题描述"></a> 问题描述</h2>
+<p>一般可以用有向图表示一个工程。在这种有向图中，用顶点表示活动，用弧 &lt;i, j&gt; 表示活动 i 必须在活动 j 开始之前完成。这种有向图叫做用顶点表示活动的网络（<em>Activity on Vertex</em>），记作 <strong>AOV网络</strong>。</p>
+<p>在AOV网络中不能存在有向回路，即有向环。因为如果出现了有向环，意味着某项活动要以自己的完成作为先决条件。显然这是不可能的。所以对给定的AOV网络，必须先判断它是否存在有向环。</p>
+<p>一种方法是对AOV网络构造它的拓扑有序序列。即将所有的顶点能够成一个线性有序的序列，使得AOV网络所有的前驱和后继关系得到满足，这种构造AOV网络全部顶点的拓扑有序序列的运算就叫<strong>拓扑排序</strong>。</p>
+<p>例如，下面有一个有向无环图，“5 4 2 3 1 0”是它的一个拓扑排序。一个有向无环图可以有多个拓扑排序，如下图的另一个拓扑排序为“4 5 2 3 1 0”，拓扑排序中的第一个顶点总是入度为0的顶点（即没有任何一条有向边以它为终点）。<br>
+<img src="https://i2.wp.com/oq3r70t68.bkt.clouddn.com/20170706-Topological-Sorting.jpg" alt="img"></p>
+<h2 id="算法思路"><a class="markdownIt-Anchor" href="#算法思路"></a> 算法思路</h2>
+<ol>
+<li>在AOV网络中选一个没有直接前驱的顶点v，并输出</li>
+<li>从图中删除该顶点，同时删去所有从顶点v发出的弧</li>
+<li>重复步骤1,2. 直到没有直接前驱的顶点全部输出</li>
+</ol>
+<h2 id="算法步骤"><a class="markdownIt-Anchor" href="#算法步骤"></a> 算法步骤</h2>
+<p>用二维list链表存储图的领接表</p>
+<ol>
+<li>建立入度为0的顶点栈</li>
+<li>当入度为0的顶点栈为空时，转到步骤6，否则步骤3</li>
+<li>从入度为0的顶点栈顶元素v出栈，并输出顶点v</li>
+<li>从AOV网络删去顶点v和所有顶点v发出的弧 &lt;v, j&gt;， 并将顶点 j 的入度 -1</li>
+<li>如果顶点 j 的入度 = 0，则将该顶点置入入度为0的顶点栈，转到步骤2</li>
+<li>如果输出顶点个数 &lt; AOV网络顶点数，则图中存在有向环</li>
+</ol>
+<h2 id="复杂度分析"><a class="markdownIt-Anchor" href="#复杂度分析"></a> 复杂度分析</h2>
+<p>Topological Sorting via Depth First Search(DFS)<br>
+在DFS中，我们先打印一个顶点，然后递归的对它的邻接点调用DFS。但是在拓扑排序中，任何一个顶点总要先于它的所有邻接顶点打印，如上面的图，顶点5和4必须先于顶点0打印。所以拓扑排序和DFS是不同的，例如“5 2 3 1 0 4”是上图的一个DFS序列，但是这个序列并不是拓扑排序。</p>
+<p>在DFS中，我们从任意一个顶点出发，打印它然后对它的所有邻接顶点递归调用DFS。而在拓扑排序中，我们同样调用DFS过程，但是在递归调用DFS的过程中，我们不直接打印顶点，而是把顶点 push 到栈里，等到递归完成后，所有顶点就全都在栈里了。注意，在这个过程中当且仅当一个顶点的所有邻接顶点入栈后，才到当前顶点入栈，这就保证它们能满足拓扑排序的次序要求。所以最后栈里的内容，从栈顶到栈底，就是一个拓扑排序序列，我们不断出栈并打印它们即可。</p>
+<p>因为这个算法只是简单的调用了下DFS，并借助栈做为辅助，所以其复杂度和DFS一样是O(V+E)。</p>
+<h2 id="代码实现"><a class="markdownIt-Anchor" href="#代码实现"></a> 代码实现</h2>
+<h3 id="c"><a class="markdownIt-Anchor" href="#c"></a> C++</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;list&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Class to represent a graph</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Graph</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> V;    <span class="comment">// No. of vertices'</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Pointer to an array containing adjacency listsList</span></span><br><span class="line">    <span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt; *adj;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// A function used by topologicalSort</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">topologicalSortUtil</span><span class="params">(<span class="keyword">int</span> v, <span class="keyword">bool</span> visited[], <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; &amp;Stack)</span></span>;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Graph(<span class="keyword">int</span> V);   <span class="comment">// Constructor</span></span><br><span class="line"></span><br><span class="line">     <span class="comment">// function to add an edge to graph</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addEdge</span><span class="params">(<span class="keyword">int</span> v, <span class="keyword">int</span> w)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// prints a Topological Sort of the complete graph</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">topologicalSort</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Graph::Graph(<span class="keyword">int</span> V)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">this</span>-&gt;V = V;</span><br><span class="line">    adj = <span class="keyword">new</span> <span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt;[V];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> Graph::addEdge(<span class="keyword">int</span> v, <span class="keyword">int</span> w)</span><br><span class="line">&#123;</span><br><span class="line">    adj[v].push_back(w); <span class="comment">// Add w to v’s list.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// A recursive function used by topologicalSort</span></span><br><span class="line"><span class="keyword">void</span> Graph::topologicalSortUtil(<span class="keyword">int</span> v, <span class="keyword">bool</span> visited[], </span><br><span class="line">                                <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; &amp;Stack)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Mark the current node as visited.</span></span><br><span class="line">    visited[v] = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Recur for all the vertices adjacent to this vertex</span></span><br><span class="line">    <span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt;::iterator i;</span><br><span class="line">    <span class="keyword">for</span> (i = adj[v].begin(); i != adj[v].end(); ++i)</span><br><span class="line">        <span class="keyword">if</span> (!visited[*i])</span><br><span class="line">            topologicalSortUtil(*i, visited, Stack);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Push current vertex to stack which stores result</span></span><br><span class="line">    Stack.push(v);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// The function to do Topological Sort. It uses recursive </span></span><br><span class="line"><span class="comment">// topologicalSortUtil()</span></span><br><span class="line"><span class="keyword">void</span> Graph::topologicalSort()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; Stack;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Mark all the vertices as not visited</span></span><br><span class="line">    <span class="keyword">bool</span> *visited = <span class="keyword">new</span> <span class="keyword">bool</span>[V];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; V; i++)</span><br><span class="line">        visited[i] = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Call the recursive helper function to store Topological</span></span><br><span class="line">    <span class="comment">// Sort starting from all vertices one by one</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; V; i++)</span><br><span class="line">      <span class="keyword">if</span> (visited[i] == <span class="literal">false</span>)</span><br><span class="line">        topologicalSortUtil(i, visited, Stack);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Print contents of stack</span></span><br><span class="line">    <span class="keyword">while</span> (Stack.empty() == <span class="literal">false</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; Stack.top() &lt;&lt; <span class="string">" "</span>;</span><br><span class="line">        Stack.pop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// Create a graph given in the above diagram</span></span><br><span class="line">    <span class="function">Graph <span class="title">g</span><span class="params">(<span class="number">6</span>)</span></span>;</span><br><span class="line">    g.addEdge(<span class="number">5</span>, <span class="number">2</span>);</span><br><span class="line">    g.addEdge(<span class="number">5</span>, <span class="number">0</span>);</span><br><span class="line">    g.addEdge(<span class="number">4</span>, <span class="number">0</span>);</span><br><span class="line">    g.addEdge(<span class="number">4</span>, <span class="number">1</span>);</span><br><span class="line">    g.addEdge(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">    g.addEdge(<span class="number">3</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Following is a Topological Sort of the given graph n"</span>;</span><br><span class="line">    g.topologicalSort();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="java"><a class="markdownIt-Anchor" href="#java"></a> Java</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">// This class represents a directed graph using adjacency</span></span><br><span class="line"><span class="comment">// list representation</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Graph</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> V;   <span class="comment">// No. of vertices</span></span><br><span class="line">    <span class="keyword">private</span> LinkedList&lt;Integer&gt; adj[]; <span class="comment">// Adjacency List</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//Constructor</span></span><br><span class="line">    Graph(<span class="keyword">int</span> v)</span><br><span class="line">    &#123;</span><br><span class="line">        V = v;</span><br><span class="line">        adj = <span class="keyword">new</span> LinkedList[v];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;v; ++i)</span><br><span class="line">            adj[i] = <span class="keyword">new</span> LinkedList();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Function to add an edge into the graph</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addEdge</span><span class="params">(<span class="keyword">int</span> v,<span class="keyword">int</span> w)</span> </span>&#123; adj[v].add(w); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// A recursive function used by topologicalSort</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">topologicalSortUtil</span><span class="params">(<span class="keyword">int</span> v, <span class="keyword">boolean</span> visited[],</span></span></span><br><span class="line"><span class="function"><span class="params">                             Stack stack)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// Mark the current node as visited.</span></span><br><span class="line">        visited[v] = <span class="keyword">true</span>;</span><br><span class="line">        Integer i;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Recur for all the vertices adjacent to this</span></span><br><span class="line">        <span class="comment">// vertex</span></span><br><span class="line">        Iterator&lt;Integer&gt; it = adj[v].iterator();</span><br><span class="line">        <span class="keyword">while</span> (it.hasNext())</span><br><span class="line">        &#123;</span><br><span class="line">            i = it.next();</span><br><span class="line">            <span class="keyword">if</span> (!visited[i])</span><br><span class="line">                topologicalSortUtil(i, visited, stack);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Push current vertex to stack which stores result</span></span><br><span class="line">        stack.push(<span class="keyword">new</span> Integer(v));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The function to do Topological Sort. It uses</span></span><br><span class="line">    <span class="comment">// recursive topologicalSortUtil()</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">topologicalSort</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Stack stack = <span class="keyword">new</span> Stack();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Mark all the vertices as not visited</span></span><br><span class="line">        <span class="keyword">boolean</span> visited[] = <span class="keyword">new</span> <span class="keyword">boolean</span>[V];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; V; i++)</span><br><span class="line">            visited[i] = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Call the recursive helper function to store</span></span><br><span class="line">        <span class="comment">// Topological Sort starting from all vertices</span></span><br><span class="line">        <span class="comment">// one by one</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; V; i++)</span><br><span class="line">            <span class="keyword">if</span> (visited[i] == <span class="keyword">false</span>)</span><br><span class="line">                topologicalSortUtil(i, visited, stack);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Print contents of stack</span></span><br><span class="line">        <span class="keyword">while</span> (stack.empty()==<span class="keyword">false</span>)</span><br><span class="line">            System.out.print(stack.pop() + <span class="string">" "</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// Create a graph given in the above diagram</span></span><br><span class="line">        Graph g = <span class="keyword">new</span> Graph(<span class="number">6</span>);</span><br><span class="line">        g.addEdge(<span class="number">5</span>, <span class="number">2</span>);</span><br><span class="line">        g.addEdge(<span class="number">5</span>, <span class="number">0</span>);</span><br><span class="line">        g.addEdge(<span class="number">4</span>, <span class="number">0</span>);</span><br><span class="line">        g.addEdge(<span class="number">4</span>, <span class="number">1</span>);</span><br><span class="line">        g.addEdge(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">        g.addEdge(<span class="number">3</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"Following is a Topological "</span> +</span><br><span class="line">                           <span class="string">"sort of the given graph"</span>);</span><br><span class="line">        g.topologicalSort();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://yuechuanx.top/Algorithm/topological-sort/" title="求图的拓扑排序" target="_blank" rel="external">https://yuechuanx.top/Algorithm/topological-sort/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/yuechuanx" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="../../images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/yuechuanx" target="_blank"><span class="text-dark">Yuechuan Xiao</span><small class="ml-1x">DevOps &amp; Automation</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="../topological-sort-all/" title="求有向图全部拓扑序列"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="../isBST/" title="判断是否为二叉搜索树（BST）"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+    
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+        
+        &copy; 2020 Yuechuan Xiao
+        
+        <!-- <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div> -->
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="../../js/plugin.min.js"></script>
+<script src="../../js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '../../content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="../../js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: true,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: true
+  });
+  </script>
+
+     
+
+
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-153687468-1', 'auto');
+ga('send', 'pageview');
+
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+</body>
+</html>

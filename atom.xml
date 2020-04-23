@@ -18,8 +18,8 @@
   
   <entry>
     <title>&lt;流畅的 Python&gt; 笔记：一等函数</title>
-    <link href="https://yuechuanx.top/2020/04/22/Python/fluent-python-notes-chap-05/"/>
-    <id>https://yuechuanx.top/2020/04/22/Python/fluent-python-notes-chap-05/</id>
+    <link href="https://yuechuanx.top/Python/fluent-python-notes-chap-05/"/>
+    <id>https://yuechuanx.top/Python/fluent-python-notes-chap-05/</id>
     <published>2020-04-22T08:38:39.000Z</published>
     <updated>2020-04-23T03:36:06.719Z</updated>
     
@@ -46,8 +46,8 @@
   
   <entry>
     <title>Zen of Python（Python之禅）</title>
-    <link href="https://yuechuanx.top/2020/04/15/zen-of-python/"/>
-    <id>https://yuechuanx.top/2020/04/15/zen-of-python/</id>
+    <link href="https://yuechuanx.top/zen-of-python/"/>
+    <id>https://yuechuanx.top/zen-of-python/</id>
     <published>2020-04-15T08:54:29.000Z</published>
     <updated>2020-04-23T03:36:06.724Z</updated>
     
@@ -70,8 +70,8 @@
   
   <entry>
     <title>Django 导出和导入数据</title>
-    <link href="https://yuechuanx.top/2020/04/13/django-dumpdata-and-loaddata/"/>
-    <id>https://yuechuanx.top/2020/04/13/django-dumpdata-and-loaddata/</id>
+    <link href="https://yuechuanx.top/django-dumpdata-and-loaddata/"/>
+    <id>https://yuechuanx.top/django-dumpdata-and-loaddata/</id>
     <published>2020-04-13T10:57:03.000Z</published>
     <updated>2020-04-23T03:36:06.720Z</updated>
     
@@ -96,8 +96,8 @@
   
   <entry>
     <title>Python代码规范 Pep8</title>
-    <link href="https://yuechuanx.top/2020/04/01/Python/python-codestyle-pep8/"/>
-    <id>https://yuechuanx.top/2020/04/01/Python/python-codestyle-pep8/</id>
+    <link href="https://yuechuanx.top/Python/python-codestyle-pep8/"/>
+    <id>https://yuechuanx.top/Python/python-codestyle-pep8/</id>
     <published>2020-04-01T06:12:38.000Z</published>
     <updated>2020-04-23T03:36:06.720Z</updated>
     
@@ -122,8 +122,8 @@
   
   <entry>
     <title>Django 项目后端模板</title>
-    <link href="https://yuechuanx.top/2020/02/16/django-backend-template/"/>
-    <id>https://yuechuanx.top/2020/02/16/django-backend-template/</id>
+    <link href="https://yuechuanx.top/django-backend-template/"/>
+    <id>https://yuechuanx.top/django-backend-template/</id>
     <published>2020-02-16T06:55:49.000Z</published>
     <updated>2020-04-23T03:36:06.720Z</updated>
     
@@ -150,8 +150,8 @@
   
   <entry>
     <title>如何理解递归</title>
-    <link href="https://yuechuanx.top/2019/12/25/understand-recursion/"/>
-    <id>https://yuechuanx.top/2019/12/25/understand-recursion/</id>
+    <link href="https://yuechuanx.top/understand-recursion/"/>
+    <id>https://yuechuanx.top/understand-recursion/</id>
     <published>2019-12-25T06:19:03.000Z</published>
     <updated>2020-04-23T03:36:06.723Z</updated>
     
@@ -178,8 +178,8 @@
   
   <entry>
     <title>&lt;流畅的Python&gt; 笔记：字典和集合</title>
-    <link href="https://yuechuanx.top/2019/12/24/Python/fluent-python-notes-chap-03/"/>
-    <id>https://yuechuanx.top/2019/12/24/Python/fluent-python-notes-chap-03/</id>
+    <link href="https://yuechuanx.top/Python/fluent-python-notes-chap-03/"/>
+    <id>https://yuechuanx.top/Python/fluent-python-notes-chap-03/</id>
     <published>2019-12-24T08:08:14.000Z</published>
     <updated>2020-04-23T03:36:06.719Z</updated>
     
@@ -209,8 +209,8 @@
   
   <entry>
     <title>Docker 高级特性</title>
-    <link href="https://yuechuanx.top/2019/12/19/DevOps/docker-advanced-feature/"/>
-    <id>https://yuechuanx.top/2019/12/19/DevOps/docker-advanced-feature/</id>
+    <link href="https://yuechuanx.top/DevOps/docker-advanced-feature/"/>
+    <id>https://yuechuanx.top/DevOps/docker-advanced-feature/</id>
     <published>2019-12-19T07:43:32.000Z</published>
     <updated>2020-04-23T03:36:06.711Z</updated>
     
@@ -236,8 +236,8 @@
   
   <entry>
     <title>Docker 基础使用</title>
-    <link href="https://yuechuanx.top/2019/12/19/DevOps/docker-basic/"/>
-    <id>https://yuechuanx.top/2019/12/19/DevOps/docker-basic/</id>
+    <link href="https://yuechuanx.top/DevOps/docker-basic/"/>
+    <id>https://yuechuanx.top/DevOps/docker-basic/</id>
     <published>2019-12-19T07:43:19.000Z</published>
     <updated>2020-04-23T03:36:06.711Z</updated>
     
@@ -263,8 +263,8 @@
   
   <entry>
     <title>&lt;流畅的Python&gt; 笔记: 序列构成的数组</title>
-    <link href="https://yuechuanx.top/2019/12/16/Python/fluent-python-notes-chap-02/"/>
-    <id>https://yuechuanx.top/2019/12/16/Python/fluent-python-notes-chap-02/</id>
+    <link href="https://yuechuanx.top/Python/fluent-python-notes-chap-02/"/>
+    <id>https://yuechuanx.top/Python/fluent-python-notes-chap-02/</id>
     <published>2019-12-16T12:27:00.000Z</published>
     <updated>2020-04-23T03:36:06.719Z</updated>
     
@@ -293,8 +293,8 @@
   
   <entry>
     <title>Markdown 语法总结</title>
-    <link href="https://yuechuanx.top/2019/12/11/markdown-syntax/"/>
-    <id>https://yuechuanx.top/2019/12/11/markdown-syntax/</id>
+    <link href="https://yuechuanx.top/markdown-syntax/"/>
+    <id>https://yuechuanx.top/markdown-syntax/</id>
     <published>2019-12-11T08:03:39.000Z</published>
     <updated>2020-04-23T03:36:06.721Z</updated>
     
@@ -319,8 +319,8 @@
   
   <entry>
     <title>&lt;流畅的Python&gt; 笔记: Python 数据类型</title>
-    <link href="https://yuechuanx.top/2019/12/11/Python/fluent-python-notes-chap-01/"/>
-    <id>https://yuechuanx.top/2019/12/11/Python/fluent-python-notes-chap-01/</id>
+    <link href="https://yuechuanx.top/Python/fluent-python-notes-chap-01/"/>
+    <id>https://yuechuanx.top/Python/fluent-python-notes-chap-01/</id>
     <published>2019-12-11T06:21:56.000Z</published>
     <updated>2020-04-23T03:36:06.718Z</updated>
     
@@ -347,8 +347,8 @@
   
   <entry>
     <title>如何编写最佳的Dockerfile</title>
-    <link href="https://yuechuanx.top/2019/12/01/DevOps/how-to-write-excellent-dockerfile/"/>
-    <id>https://yuechuanx.top/2019/12/01/DevOps/how-to-write-excellent-dockerfile/</id>
+    <link href="https://yuechuanx.top/DevOps/how-to-write-excellent-dockerfile/"/>
+    <id>https://yuechuanx.top/DevOps/how-to-write-excellent-dockerfile/</id>
     <published>2019-12-01T08:29:15.000Z</published>
     <updated>2020-04-23T03:36:06.713Z</updated>
     
@@ -375,8 +375,8 @@
   
   <entry>
     <title>命令行的艺术(转载)</title>
-    <link href="https://yuechuanx.top/2019/11/28/the-art-of-command-line/"/>
-    <id>https://yuechuanx.top/2019/11/28/the-art-of-command-line/</id>
+    <link href="https://yuechuanx.top/the-art-of-command-line/"/>
+    <id>https://yuechuanx.top/the-art-of-command-line/</id>
     <published>2019-11-28T02:58:43.000Z</published>
     <updated>2020-04-23T03:36:06.722Z</updated>
     
@@ -400,8 +400,8 @@
   
   <entry>
     <title>关于串口调试自动化的解决方案</title>
-    <link href="https://yuechuanx.top/2019/11/27/DevOps/serial-port-debug-env-automation/"/>
-    <id>https://yuechuanx.top/2019/11/27/DevOps/serial-port-debug-env-automation/</id>
+    <link href="https://yuechuanx.top/DevOps/serial-port-debug-env-automation/"/>
+    <id>https://yuechuanx.top/DevOps/serial-port-debug-env-automation/</id>
     <published>2019-11-27T12:16:23.000Z</published>
     <updated>2020-04-23T03:36:06.714Z</updated>
     
@@ -430,8 +430,8 @@
   
   <entry>
     <title>HTTP 1.1 状态码分类及解释</title>
-    <link href="https://yuechuanx.top/2019/11/26/http-status-code/"/>
-    <id>https://yuechuanx.top/2019/11/26/http-status-code/</id>
+    <link href="https://yuechuanx.top/http-status-code/"/>
+    <id>https://yuechuanx.top/http-status-code/</id>
     <published>2019-11-26T11:34:49.000Z</published>
     <updated>2020-04-23T03:36:06.721Z</updated>
     
@@ -457,8 +457,8 @@
   
   <entry>
     <title>Git LFS 上手指南</title>
-    <link href="https://yuechuanx.top/2019/11/02/DevOps/git-with-large-file-storage/"/>
-    <id>https://yuechuanx.top/2019/11/02/DevOps/git-with-large-file-storage/</id>
+    <link href="https://yuechuanx.top/DevOps/git-with-large-file-storage/"/>
+    <id>https://yuechuanx.top/DevOps/git-with-large-file-storage/</id>
     <published>2019-11-02T15:43:39.000Z</published>
     <updated>2020-04-23T03:36:06.712Z</updated>
     
@@ -485,8 +485,8 @@
   
   <entry>
     <title>GitLab 迁移与升级</title>
-    <link href="https://yuechuanx.top/2019/11/01/DevOps/gitlab-data-migrate-and-upgrade/"/>
-    <id>https://yuechuanx.top/2019/11/01/DevOps/gitlab-data-migrate-and-upgrade/</id>
+    <link href="https://yuechuanx.top/DevOps/gitlab-data-migrate-and-upgrade/"/>
+    <id>https://yuechuanx.top/DevOps/gitlab-data-migrate-and-upgrade/</id>
     <published>2019-11-01T12:16:23.000Z</published>
     <updated>2020-04-23T03:36:06.712Z</updated>
     
@@ -514,8 +514,8 @@
   
   <entry>
     <title>Jenkins Testlink Plugin 源码笔记</title>
-    <link href="https://yuechuanx.top/2019/10/27/DevOps/jenkins-testlink-plugin-source-code-note/"/>
-    <id>https://yuechuanx.top/2019/10/27/DevOps/jenkins-testlink-plugin-source-code-note/</id>
+    <link href="https://yuechuanx.top/DevOps/jenkins-testlink-plugin-source-code-note/"/>
+    <id>https://yuechuanx.top/DevOps/jenkins-testlink-plugin-source-code-note/</id>
     <published>2019-10-27T12:16:23.000Z</published>
     <updated>2020-04-23T03:36:06.713Z</updated>
     
@@ -545,8 +545,8 @@
   
   <entry>
     <title>VSCode 插件开发入门</title>
-    <link href="https://yuechuanx.top/2019/04/02/vscode-plugin-dev-intro/"/>
-    <id>https://yuechuanx.top/2019/04/02/vscode-plugin-dev-intro/</id>
+    <link href="https://yuechuanx.top/vscode-plugin-dev-intro/"/>
+    <id>https://yuechuanx.top/vscode-plugin-dev-intro/</id>
     <published>2019-04-02T05:49:04.000Z</published>
     <updated>2020-04-23T03:36:06.723Z</updated>
     

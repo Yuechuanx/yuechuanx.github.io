@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  <meta name="google-site-verification" content="6jcyYTEWbkiJxHX-_FPfoG7WGHPZUKpuZWg4B8y6Snc">
+  
+  
+  <title>平衡二叉树（AVLTree）封装+模板实现 | Yuechuanx</title>
+  <meta name="description" content="简介 平衡树（AVLTree）  在计算机科学中，AVL树是最先发明的自平衡二叉查找树。在AVL树中任何节点的两个子树的高度最大差别为1，所以它也被称为高度平衡树。查找、插入和删除在平均和最坏情况下的时间复杂度都是。增加和删除可能需要通过一次或多次树旋转来重新平衡这个树。AVL树得名于它的发明者G. M. Adelson-Velsky和E. M. Landis，他们在1962年的论文《An al">
+<meta name="keywords" content="algorithm,tree">
+<meta property="og:type" content="article">
+<meta property="og:title" content="平衡二叉树（AVLTree）封装+模板实现">
+<meta property="og:url" content="https://yuechuanx.top/Algorithm/avlree-template-implement/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="简介 平衡树（AVLTree）  在计算机科学中，AVL树是最先发明的自平衡二叉查找树。在AVL树中任何节点的两个子树的高度最大差别为1，所以它也被称为高度平衡树。查找、插入和删除在平均和最坏情况下的时间复杂度都是。增加和删除可能需要通过一次或多次树旋转来重新平衡这个树。AVL树得名于它的发明者G. M. Adelson-Velsky和E. M. Landis，他们在1962年的论文《An al">
+<meta property="og:locale" content="en-US">
+<meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/653ab6d6fd99537d220f179d2591955ff4f37b99">
+<meta property="og:image" content="http://7xjnip.com1.z0.glb.clouddn.com/ldw-%E9%80%89%E5%8C%BA_035.png">
+<meta property="og:updated_time" content="2020-04-23T03:36:06.708Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="平衡二叉树（AVLTree）封装+模板实现">
+<meta name="twitter:description" content="简介 平衡树（AVLTree）  在计算机科学中，AVL树是最先发明的自平衡二叉查找树。在AVL树中任何节点的两个子树的高度最大差别为1，所以它也被称为高度平衡树。查找、插入和删除在平均和最坏情况下的时间复杂度都是。增加和删除可能需要通过一次或多次树旋转来重新平衡这个树。AVL树得名于它的发明者G. M. Adelson-Velsky和E. M. Landis，他们在1962年的论文《An al">
+<meta name="twitter:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/653ab6d6fd99537d220f179d2591955ff4f37b99">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://yuechuanx.top/Algorithm/avlree-template-implement/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Keep Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="../../css/style.css">
+  
+  
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/yuechuanx" target="_blank">
+          <img class="img-circle img-rotate" src="../../images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Yuechuan Xiao</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">DevOps &amp; Automation</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="../../.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="../../archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="../../categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="../../tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="../../repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../../categories/Algorithm/">Algorithm</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/DevOps/">DevOps</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/Java/">Java</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/Python/">Python</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="../../tags/algorithm/" style="font-size: 14px;">algorithm</a> <a href="../../tags/array/" style="font-size: 13px;">array</a> <a href="../../tags/array-list/" style="font-size: 13.25px;">array-list</a> <a href="../../tags/automation/" style="font-size: 13px;">automation</a> <a href="../../tags/binary-tree/" style="font-size: 13px;">binary-tree</a> <a href="../../tags/command-line/" style="font-size: 13px;">command-line</a> <a href="../../tags/django/" style="font-size: 13.25px;">django</a> <a href="../../tags/docker/" style="font-size: 13.5px;">docker</a> <a href="../../tags/git/" style="font-size: 13px;">git</a> <a href="../../tags/gitlab/" style="font-size: 13px;">gitlab</a> <a href="../../tags/graph/" style="font-size: 13.25px;">graph</a> <a href="../../tags/hashmap/" style="font-size: 13px;">hashmap</a> <a href="../../tags/http/" style="font-size: 13px;">http</a> <a href="../../tags/interview/" style="font-size: 13px;">interview</a> <a href="../../tags/interview-questions/" style="font-size: 13.25px;">interview-questions</a> <a href="../../tags/jenkins/" style="font-size: 13px;">jenkins</a> <a href="../../tags/jvm/" style="font-size: 13px;">jvm</a> <a href="../../tags/linked-list/" style="font-size: 13.25px;">linked-list</a> <a href="../../tags/map/" style="font-size: 13px;">map</a> <a href="../../tags/markdown/" style="font-size: 13px;">markdown</a> <a href="../../tags/multithread/" style="font-size: 13px;">multithread</a> <a href="../../tags/plugin/" style="font-size: 13px;">plugin</a> <a href="../../tags/python/" style="font-size: 13.75px;">python</a> <a href="../../tags/queue/" style="font-size: 13px;">queue</a> <a href="../../tags/recursion/" style="font-size: 13px;">recursion</a> <a href="../../tags/search/" style="font-size: 13px;">search</a> <a href="../../tags/stack/" style="font-size: 13px;">stack</a> <a href="../../tags/string/" style="font-size: 13px;">string</a> <a href="../../tags/testlink/" style="font-size: 13px;">testlink</a> <a href="../../tags/tool/" style="font-size: 13px;">tool</a> <a href="../../tags/topological-sort/" style="font-size: 13.25px;">topological-sort</a> <a href="../../tags/tree/" style="font-size: 13.25px;">tree</a> <a href="../../tags/vscode/" style="font-size: 13px;">vscode</a> <a href="../../tags/web/" style="font-size: 13px;">web</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/04/">April 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/02/">February 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/12/">December 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/11/">November 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/01/">January 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/12/">December 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/05/">May 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled ">
+        
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../Python/fluent-python-notes-chap-05/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../../Python/fluent-python-notes-chap-05/" class="title">&lt;流畅的 Python&gt; 笔记：一等函数</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-22T08:38:39.000Z" itemprop="datePublished">2020-04-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../zen-of-python/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../zen-of-python/" class="title">Zen of Python（Python之禅）</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-15T08:54:29.000Z" itemprop="datePublished">2020-04-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../django-dumpdata-and-loaddata/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../django-dumpdata-and-loaddata/" class="title">Django 导出和导入数据</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-13T10:57:03.000Z" itemprop="datePublished">2020-04-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../Python/python-codestyle-pep8/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../../Python/python-codestyle-pep8/" class="title">Python代码规范 Pep8</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-01T06:12:38.000Z" itemprop="datePublished">2020-04-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../django-backend-template/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../django-backend-template/" class="title">Django 项目后端模板</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-02-16T06:55:49.000Z" itemprop="datePublished">2020-02-16</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Algorithm/avlree-template-implement" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      平衡二叉树（AVLTree）封装+模板实现
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="" class="article-date">
+	  <time datetime="2018-05-27T03:36:49.000Z" itemprop="datePublished">2018-05-27</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="../../categories/Algorithm/">Algorithm</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="../../tags/algorithm/">algorithm</a>, <a class="article-tag-link" href="../../tags/tree/">tree</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="" class="leancloud_visitors"  data-flag-title="平衡二叉树（AVLTree）封装+模板实现">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 3k(words)</span>
+	
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="简介"><a class="markdownIt-Anchor" href="#简介"></a> 简介</h2>
+<p><a href="https://zh.wikipedia.org/wiki/AVL%E6%A0%91" target="_blank" rel="noopener">平衡树（AVLTree）</a></p>
+<blockquote>
+<p>在<a href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6" target="_blank" rel="noopener">计算机科学</a>中，<strong>AVL树</strong>是最先发明的<a href="https://zh.wikipedia.org/wiki/%E8%87%AA%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91" target="_blank" rel="noopener">自平衡二叉查找树</a>。在AVL树中任何节点的两个子树的高度最大差别为1，所以它也被称为<strong>高度平衡树</strong>。查找、插入和删除在平均和最坏情况下的<a href="https://zh.wikipedia.org/wiki/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6" target="_blank" rel="noopener">时间复杂度</a>都是<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/653ab6d6fd99537d220f179d2591955ff4f37b99" alt="O(\log{n})">。增加和删除可能需要通过一次或多次<a href="https://zh.wikipedia.org/wiki/%E6%A0%91%E6%97%8B%E8%BD%AC" target="_blank" rel="noopener">树旋转</a>来重新平衡这个树。AVL树得名于它的发明者<a href="https://zh.wikipedia.org/wiki/%E6%A0%BC%E5%A5%A5%E5%B0%94%E5%90%89%C2%B7%E9%98%BF%E6%9D%B0%E5%B0%94%E6%9D%BE-%E9%9F%A6%E5%88%A9%E6%96%AF%E5%9F%BA" target="_blank" rel="noopener">G. M. Adelson-Velsky</a>和<a href="https://zh.wikipedia.org/w/index.php?title=Evgenii_Landis&amp;action=edit&amp;redlink=1" target="_blank" rel="noopener">E. M. Landis</a>，他们在1962年的论文《An algorithm for the organization of information》中发表了它。</p>
+<p>节点的<strong>平衡因子</strong>是它的左子树的高度减去它的右子树的高度（有时相反）。带有平衡因子1、0或 -1的节点被认为是平衡的。带有平衡因子 -2或2的节点被认为是不平衡的，并需要重新平衡这个树。平衡因子可以直接存储在每个节点中，或从可能存储在节点中的子树高度计算出来。</p>
+</blockquote>
+<p>二叉查找树给我们带来了很多方便，但是由于其在有序序列插入时就会退化成单链表（时间复杂度退化成 O(n)，AVL-tree就克服了上述困难。AVL-tree是一个“加上了平衡条件的”<strong>二叉搜索树</strong>，平衡条件确保整棵树的深度为O(log n)。</p>
+<p>AVL树是最先发明的自平衡二叉查找树。在AVL树中任何节点的两个子树的高度最大差别为一，所以它也被称为高度平衡树。<strong>查找、插入和删除在平均和最坏情况下都是 O(log n)</strong>。增加和删除可能需要通过一次或多次树旋转来重新平衡这个树。</p>
+<p>AVL树的所有操作都与二叉查找树相同，不同的是，这里AVL树需要做“AVL旋转”。</p>
+<h2 id="avl旋转"><a class="markdownIt-Anchor" href="#avl旋转"></a> AVL旋转</h2>
+<p>AVL树最重要的核心部分就是AVL旋转了，这部分我的感触是，单做旋转还是挺好理解的，只不过写起代码来有点复杂，书中以插入节点为例，删除节点的部分折腾了好久。</p>
+<p>在理解AVL旋转之前，首先得知道以下几个概念：</p>
+<ol>
+<li>AVL 树节点的插入总是在叶子节点。</li>
+<li>AVL 树在插入节点之前总是满足平衡条件的。</li>
+<li>插入新节点后有可能满足平衡条件也有可能不满足。</li>
+<li>当不满足平衡条件后，我们就需要对新的树进行旋转。</li>
+</ol>
+<p>旋转之前，我们首先要找到一个X节点，这个X节点做如下定义：</p>
+<blockquote>
+<p>假如我们在某一个叶子节点处插入一个新的节点后，此时这棵树的某些节点的平衡性会发生变化，那么我们从叶子节点向上到根节点的路径上第一个平衡性发生变化的节点。</p>
+</blockquote>
+<p>基于这个X节点，考虑一件事情：<br>
+这个X节点分为左右子树，左右子树又有左右子树，1分2，2分4，所以以这个X节点为根节点的话，新插入的节点可能出现的位置有：</p>
+<blockquote>
+<p>X的左孩子节点的左子树上**(left-left)**<br>
+X的右孩子节点的右子树上**(right-right)**<br>
+X的左孩子节点的右子树上**(left-right)**<br>
+X的右孩子节点的左子树上**(right-left)**</p>
+</blockquote>
+<p>根据上述情况就延生出了4种旋转：<br>
+<strong>1.left-left Rotation</strong><br>
+<strong>2.right-right Rotation</strong><br>
+<strong>3.left-right Rotation</strong><br>
+<strong>4.right-left Rotation</strong></p>
+<p>前两种属于单旋转，后两种属于双旋转，<strong>双旋转的操作可以由两次单旋转组成。</strong></p>
+<p>PS:AVL树的旋转还是得画图来理解，这里直接贴出书中的图了。</p>
+<p><a href="http://7xjnip.com1.z0.glb.clouddn.com/ldw-%E9%80%89%E5%8C%BA_035.png" target="_blank" rel="noopener"><img src="http://7xjnip.com1.z0.glb.clouddn.com/ldw-%E9%80%89%E5%8C%BA_035.png" alt="avl旋转四种情况"></a></p>
+<p>图片来自 <a href="http://www.cppblog.com/cxiaojia/archive/2012/08/20/187776.html" target="_blank" rel="noopener">C小加的博客</a></p>
+<ol>
+<li>6节点的左子树3节点高度比右子树7节点大2，左子树3节点的左子树1节点高度大于右子树4节点，这种情况成为左左（LL）。</li>
+<li>6节点的左子树2节点高度比右子树7节点大2，左子树2节点的左子树1节点高度小于右子树4节点，这种情况成为左右（LR）。</li>
+<li>2节点的左子树1节点高度比右子树5节点小2，右子树5节点的左子树3节点高度大于右子树6节点，这种情况成为右左（RL）。</li>
+<li>2节点的左子树1节点高度比右子树4节点小2，右子树4节点的左子树3节点高度小于右子树6节点，这种情况成为右右（RR）。</li>
+</ol>
+<p>从图2中可以可以看出，1和4两种情况是对称的，这两种情况的旋转算法是一致的，只需要经过一次旋转就可以达到目标，我们称之为单旋转。2和3两种情况也是对称的，这两种情况的旋转算法也是一致的，需要进行两次旋转，我们称之为双旋转。</p>
+<p>那么为什么需要双旋转呢？</p>
+<p>这里我做出我个人的解释，在 LL 情况中，要达到平衡，是需要将失衡节点划分到右边，失衡节点的左孩子补上失衡节点的位置。这样左子树的高度 -1， 右边的高度 +1，这样左右两边的个数就平衡了。当然根据BST的性质，如果失衡节点存在右孩子的话应该划也要分到右边。RR 情况与 LL 情况对称。</p>
+<p>而在 LR 情况中，我们是需要把失衡节点划到右边，失衡节点的左孩子的右孩子替补失衡节点原来的位置。但我们的节点存储结构有不能获得前驱节点的限制，我们只有后继关系，即我们只能通过失衡节点访问其他节点，所以不能直接把LR孩子放上来，而是分成两步调整。</p>
+<p>// 这里的描述太那啥了，得搞点图说明下</p>
+<h2 id="avl-tree实现"><a class="markdownIt-Anchor" href="#avl-tree实现"></a> AVL-Tree实现</h2>
+<p>AVL-Tree是一个二叉排序树，其基本操作也跟它类似，唯一需要注意的就是在插入，删除节点后，需要对树进行调整，让树的每个节点保持平衡。</p>
+<p>节点的平衡因子是通过计算其左子树和右子树的差得来的，这里有两种考虑方式：</p>
+<ol>
+<li>每次都计算一次（递归求深度）。</li>
+<li>将平衡因子作为一个成员变量保存在节点中，平衡性发生变化的时候更新。</li>
+</ol>
+<p>本文采取的是第一种方式，关于两种方式利弊的比较：</p>
+<p>// 不想写？自己百度吧，反正就是第一种方法从上到下递归存在重复调用增加时间开销，第二种平衡性变化时候需要update 失衡位置 balanceFactor</p>
+<p>另外，这里我用了C++类封装，为了学习还顺便使用了模板，所以类的声明和实现都放在了一个文件中，感觉内容太多，还是分开来比较好。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AVLNode.h</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __AVLNODE_H__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __AVLNODE_H__</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> KeyType&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AVLNode</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    KeyType key;</span><br><span class="line">    AVLNode * left;</span><br><span class="line">    AVLNode * right;</span><br><span class="line">    AVLNode() : key(<span class="number">0</span>), left(<span class="literal">NULL</span>), right(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line">    AVLNode(KeyType k) :key(k), left(<span class="literal">NULL</span>), right(<span class="literal">NULL</span>) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// AVLTree.h</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> AVLTREE_AVLTREE_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AVLTREE_AVLTREE_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"AVLNode.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//AVL树的模板实现</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> KeyType&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AVLTree</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="comment">//类型定义</span></span><br><span class="line">    <span class="keyword">typedef</span> AVLNode&lt;KeyType&gt; AVLNode;</span><br><span class="line">    <span class="keyword">typedef</span> AVLTree&lt;KeyType&gt; AVLTree;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    AVLNode * avlroot;</span><br><span class="line">    <span class="comment">//求树的高度</span></span><br><span class="line">    <span class="keyword">int</span> __height(<span class="keyword">const</span> AVLNode *root);</span><br><span class="line">    <span class="comment">//高度差（平衡因子）</span></span><br><span class="line">    <span class="keyword">int</span> __diff(<span class="keyword">const</span> AVLNode*root);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//AVL4种旋转：左左，左右，右右，右左</span></span><br><span class="line">    <span class="comment">//X定义为插入位置节点到根节点的路径上平衡条件被改变的节点中最深的那个节点</span></span><br><span class="line">    <span class="comment">//X通过递归返回的方式找到</span></span><br><span class="line">    <span class="comment">//左左：插入点位于X的左孩子节点的左子树</span></span><br><span class="line">    <span class="comment">//左右：插入点位于X的左孩子节点的右子树</span></span><br><span class="line">    <span class="comment">//右右：插入点位于X的右孩子节点的右子树</span></span><br><span class="line">    <span class="comment">//右左：插入点位于X的右孩子节点的左子树</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//单旋转</span></span><br><span class="line">    AVLNode * __ll_Rotation(AVLNode *root);<span class="comment">//left-left rotation</span></span><br><span class="line">    AVLNode * __rr_Rotation(AVLNode *root);<span class="comment">//right-right rotation</span></span><br><span class="line">    <span class="comment">//双旋转</span></span><br><span class="line">    AVLNode * __lr_Rotation(AVLNode *root);<span class="comment">//left-right rotation</span></span><br><span class="line">    AVLNode * __rl_Rotation(AVLNode *root);<span class="comment">//right-left rotation</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">//平衡操作</span></span><br><span class="line">    AVLNode * __Balance(AVLNode *root);</span><br><span class="line">    <span class="comment">//插入的内部实现</span></span><br><span class="line">    AVLNode * __Insert(AVLNode *root, <span class="keyword">const</span> KeyType &amp;k);</span><br><span class="line">    <span class="comment">//中序遍历的两种重载</span></span><br><span class="line">    <span class="comment">// 1. 直接输出中序遍历节点</span></span><br><span class="line">    <span class="keyword">void</span> __InorderTraversal(<span class="keyword">const</span> AVLNode* root);</span><br><span class="line">    <span class="comment">// 2. 结果保存到vector中</span></span><br><span class="line">    <span class="keyword">void</span> __InorderTraversal(<span class="keyword">const</span> AVLNode*root, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;KeyType&gt;&amp;vec);</span><br><span class="line">	<span class="comment">//判断是否是叶子节点</span></span><br><span class="line">    <span class="keyword">bool</span> __isLeaf(AVLNode* <span class="keyword">const</span> &amp;node) &#123;<span class="keyword">return</span> (node-&gt;left == <span class="literal">nullptr</span> &amp;&amp; node-&gt;right == <span class="literal">nullptr</span>) ? <span class="literal">true</span> : <span class="literal">false</span>&#125;;</span><br><span class="line">    <span class="comment">//判断是否有两个孩子</span></span><br><span class="line">    <span class="keyword">bool</span> __isNodeWithTwoChild(AVLNode * <span class="keyword">const</span> &amp;node);</span><br><span class="line">	<span class="comment">//查找的内部实现</span></span><br><span class="line">    AVLNode* __search(AVLNode *<span class="keyword">const</span> root, <span class="keyword">const</span> KeyType &amp;k);</span><br><span class="line">	<span class="comment">//删除树的所有节点</span></span><br><span class="line">    <span class="keyword">void</span> __deleteTree(AVLNode * root);</span><br><span class="line">	<span class="comment">//删除节点</span></span><br><span class="line">    AVLNode* __Delete(AVLNode * root, <span class="keyword">const</span> KeyType&amp; k);</span><br><span class="line">	<span class="comment">//求当前根节点最小（一路向左）</span></span><br><span class="line">    AVLNode* __treeMin(AVLNode *root);</span><br><span class="line">    <span class="comment">//求当前根节点的最大（一路向右）</span></span><br><span class="line">    AVLNode* __treeMax(AVLNode *root);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    AVLTree()&#123; avlroot = <span class="literal">nullptr</span>; &#125;<span class="comment">//默认构造函数</span></span><br><span class="line">    ~AVLTree();<span class="comment">//析构函数删除树中所有节点</span></span><br><span class="line">    AVLTree(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;KeyType&gt;&amp;);<span class="comment">//构造函数，容器构造</span></span><br><span class="line">    AVLTree(<span class="keyword">const</span> KeyType * arr, <span class="keyword">size_t</span> len);<span class="comment">//构造函数，数组构造</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">InorderTraversal</span><span class="params">()</span></span>;<span class="comment">//中序遍历外部接口</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">InorderTraversal</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;KeyType&gt;&amp;)</span></span>;<span class="comment">//中序遍历外部接口重载2</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">Delete</span><span class="params">(<span class="keyword">const</span> KeyType &amp;k)</span></span>;<span class="comment">//删除节点的外部接口</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Insert</span><span class="params">(<span class="keyword">const</span> KeyType &amp; k)</span></span>;<span class="comment">//插入节点的外部接口</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">IsEmpty</span><span class="params">()</span></span>&#123; <span class="keyword">return</span> avlroot == <span class="literal">nullptr</span>; &#125; <span class="comment">//树空？</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">search</span><span class="params">(<span class="keyword">const</span> KeyType &amp;k)</span></span>;<span class="comment">//查询外部接口</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">//AVLTREE_AVLTREE_H</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="旋转操作"><a class="markdownIt-Anchor" href="#旋转操作"></a> 旋转操作</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> KeyType&gt;</span><br><span class="line">AVLNode * AVLTree::__ll_Rotation(AVLNode *root)</span><br><span class="line">&#123;</span><br><span class="line">    AVLNode * tmp;</span><br><span class="line">    tmp = root-&gt;left;</span><br><span class="line">    root-&gt;left = tmp-&gt;right;</span><br><span class="line">    tmp-&gt;right = root;</span><br><span class="line">    <span class="keyword">return</span> tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> KeyType&gt;</span><br><span class="line">AVLNode * AVLTree::__rr_Rotation(AVLNode *root)</span><br><span class="line">&#123;</span><br><span class="line">    AVLNode* tmp;</span><br><span class="line">    tmp = root-&gt;right;</span><br><span class="line">    root-&gt;right = tmp-&gt;left;</span><br><span class="line">    tmp-&gt;left = root;</span><br><span class="line">    <span class="keyword">return</span> tmp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> KeyType&gt;</span><br><span class="line">AVLNode * AVLTree::__lr_Rotation(AVLNode *root)</span><br><span class="line">&#123;</span><br><span class="line">    AVLNode * tmp;</span><br><span class="line">    tmp = root-&gt;left;</span><br><span class="line">    root-&gt;left = __rr_Rotation(tmp);</span><br><span class="line">    <span class="keyword">return</span> __ll_Rotation(root);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> KeyType&gt;</span><br><span class="line">AVLNode * AVLTree::__rl_Rotation(AVLNode *root)</span><br><span class="line">&#123;</span><br><span class="line">    AVLNode * tmp;</span><br><span class="line">    tmp = root-&gt;right;</span><br><span class="line">    root-&gt;right = __ll_Rotation(tmp);</span><br><span class="line">    <span class="keyword">return</span> __rr_Rotation(root);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="avltree-插入"><a class="markdownIt-Anchor" href="#avltree-插入"></a> AVLTree 插入</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> KeyType&gt;</span><br><span class="line">AVLNode * AVLTree::__Insert(AVLNode * root, <span class="keyword">const</span> KeyType&amp; k)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">nullptr</span> == root)</span><br><span class="line">    &#123;</span><br><span class="line">        root = <span class="keyword">new</span> AVLNode(k);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;<span class="comment">//递归返回条件</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (k &lt; root-&gt;key)</span><br><span class="line">    &#123;</span><br><span class="line">        root-&gt;left = __Insert(root-&gt;left, k);<span class="comment">//递归左子树</span></span><br><span class="line">        <span class="comment">//balance operation</span></span><br><span class="line">        root = __Balance(root);<span class="comment">//平衡操作包含了四种旋转</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (k&gt;root-&gt;key)</span><br><span class="line">    &#123;</span><br><span class="line">        root-&gt;right = __Insert(root-&gt;right, k);<span class="comment">//递归右子树</span></span><br><span class="line">        <span class="comment">//balance operation</span></span><br><span class="line">        root = __Balance(root);<span class="comment">//平衡操作包含了四种旋转</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="avltree-删除"><a class="markdownIt-Anchor" href="#avltree-删除"></a> AVLTree 删除</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//删除节点的私有成员实现</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> KeyType&gt;</span><br><span class="line">AVLNode * AVLTree::__Delete(AVLNode *root, <span class="keyword">const</span> KeyType&amp; k)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">nullptr</span> == root)</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    <span class="keyword">if</span> (!search(k))<span class="comment">//查找删除元素是否存在</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cerr</span> &lt;&lt; <span class="string">"Delete error , key not find"</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (k == root-&gt;key)<span class="comment">//根节点</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (__isNodeWithTwoChild(root))<span class="comment">//左右子树都非空</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (__diff(root) &gt; <span class="number">0</span>)<span class="comment">//左子树更高，在左边删除</span></span><br><span class="line">            &#123;</span><br><span class="line">                root-&gt;key = __treeMax(root-&gt;left)-&gt;key;<span class="comment">//以左子树的最大值替换当前值</span></span><br><span class="line">                root-&gt;left = __Delete(root-&gt;left, root-&gt;key);<span class="comment">//删除左子树中已经替换上去的节点</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span><span class="comment">//右子树更高，在右边删除</span></span><br><span class="line">            &#123;</span><br><span class="line">                root-&gt;key = __treeMin(root-&gt;right)-&gt;key;</span><br><span class="line">                root-&gt;right = __Delete(root-&gt;right, root-&gt;key);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span><span class="comment">//有一个孩子、叶子节点的情况合并</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//if (!__isLeaf(root))</span></span><br><span class="line">            AVLNode * tmp = root;</span><br><span class="line">            root = (root-&gt;left) ? (root-&gt;left) :( root-&gt;right);</span><br><span class="line">            <span class="keyword">delete</span> tmp;</span><br><span class="line">            tmp = <span class="literal">nullptr</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="comment">//end-if</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (k &lt; root-&gt;key)<span class="comment">//往左边删除</span></span><br><span class="line">    &#123;</span><br><span class="line">        root-&gt;left = __Delete(root-&gt;left, k);<span class="comment">//左子树中递归删除</span></span><br><span class="line">        <span class="comment">//判断平衡的条件与在插入时情况类似</span></span><br><span class="line">        <span class="keyword">if</span> (__diff(root) &lt; <span class="number">-1</span>)<span class="comment">//不满足平衡条件，删除左边的后，右子树变高</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (__diff(root-&gt;right) &gt; <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                root = __rl_Rotation(root);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                root = __rr_Rotation(root);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="comment">//end else if</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        root-&gt;right = __Delete(root-&gt;right, k);</span><br><span class="line">        <span class="keyword">if</span> (__diff(root) &gt; <span class="number">1</span>)<span class="comment">//不满足平衡条件</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (__diff(root-&gt;left) &lt; <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                root = __lr_Rotation(root);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                root = __ll_Rotation(root);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>附：<a href="https://github.com/yuechuanx/Data-Structure/tree/master/Tree/AVLTree" target="_blank" rel="noopener">完整代码</a></p>
+<h2 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h2>
+<p><a href="https://blog.csdn.net/zhangxiao93/article/details/51459743" target="_blank" rel="noopener">STL源码笔记（18）—平衡二叉树AVL（C++封装+模板）</a></p>
+<p><a href="http://www.cnblogs.com/suimeng/p/4560056.html" target="_blank" rel="noopener">平衡二叉树,AVL树之图解篇</a></p>
+<p><a href="http://www.cppblog.com/cxiaojia/archive/2012/08/20/187776.html" target="_blank" rel="noopener">一步一步写平衡二叉树（AVL树）</a></p>
+<p><a href="http://luodw.cc/2015/11/14/avl/" target="_blank" rel="noopener">平衡二叉树(avl)分析与实现</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://yuechuanx.top/Algorithm/avlree-template-implement/" title="平衡二叉树（AVLTree）封装+模板实现" target="_blank" rel="external">https://yuechuanx.top/Algorithm/avlree-template-implement/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/yuechuanx" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="../../images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/yuechuanx" target="_blank"><span class="text-dark">Yuechuan Xiao</span><small class="ml-1x">DevOps &amp; Automation</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="../../Java/implement-function-call-in-c/" title="&lt;深入理解JVM&gt; 函数调用机制"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="../topological-sort-all/" title="求有向图全部拓扑序列"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+    
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+        
+        &copy; 2020 Yuechuan Xiao
+        
+        <!-- <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div> -->
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="../../js/plugin.min.js"></script>
+<script src="../../js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '../../content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="../../js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: true,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: true
+  });
+  </script>
+
+     
+
+
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-153687468-1', 'auto');
+ga('send', 'pageview');
+
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+</body>
+</html>

@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  <meta name="google-site-verification" content="6jcyYTEWbkiJxHX-_FPfoG7WGHPZUKpuZWg4B8y6Snc">
+  
+  
+  <title>Java常见问题汇总-2 | Yuechuanx</title>
+  <meta name="description" content="String和StringBuffer、StringBuilder的区别是什么？String为什么是不可变的？  String和StringBuffer、StringBuilder的区别 可变性 简单的来说：String 类中使用 final 关键字字符数组保存字符串，private　final　char　value[]，所以 String 对象是不可变的。而StringBuilder 与 St">
+<meta name="keywords" content="interview-questions">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java常见问题汇总-2">
+<meta property="og:url" content="https://yuechuanx.top/Java/string/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="String和StringBuffer、StringBuilder的区别是什么？String为什么是不可变的？  String和StringBuffer、StringBuilder的区别 可变性 简单的来说：String 类中使用 final 关键字字符数组保存字符串，private　final　char　value[]，所以 String 对象是不可变的。而StringBuilder 与 St">
+<meta property="og:locale" content="en-US">
+<meta property="og:updated_time" content="2020-04-23T03:36:06.718Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java常见问题汇总-2">
+<meta name="twitter:description" content="String和StringBuffer、StringBuilder的区别是什么？String为什么是不可变的？  String和StringBuffer、StringBuilder的区别 可变性 简单的来说：String 类中使用 final 关键字字符数组保存字符串，private　final　char　value[]，所以 String 对象是不可变的。而StringBuilder 与 St">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://yuechuanx.top/Java/string/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Keep Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="../../css/style.css">
+  
+  
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/yuechuanx" target="_blank">
+          <img class="img-circle img-rotate" src="../../images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Yuechuan Xiao</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">DevOps &amp; Automation</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="../../.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="../../archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="../../categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="../../tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="../../repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../../categories/Algorithm/">Algorithm</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/DevOps/">DevOps</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/Java/">Java</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/Python/">Python</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="../../tags/algorithm/" style="font-size: 14px;">algorithm</a> <a href="../../tags/array/" style="font-size: 13px;">array</a> <a href="../../tags/array-list/" style="font-size: 13.25px;">array-list</a> <a href="../../tags/automation/" style="font-size: 13px;">automation</a> <a href="../../tags/binary-tree/" style="font-size: 13px;">binary-tree</a> <a href="../../tags/command-line/" style="font-size: 13px;">command-line</a> <a href="../../tags/django/" style="font-size: 13.25px;">django</a> <a href="../../tags/docker/" style="font-size: 13.5px;">docker</a> <a href="../../tags/git/" style="font-size: 13px;">git</a> <a href="../../tags/gitlab/" style="font-size: 13px;">gitlab</a> <a href="../../tags/graph/" style="font-size: 13.25px;">graph</a> <a href="../../tags/hashmap/" style="font-size: 13px;">hashmap</a> <a href="../../tags/http/" style="font-size: 13px;">http</a> <a href="../../tags/interview/" style="font-size: 13px;">interview</a> <a href="../../tags/interview-questions/" style="font-size: 13.25px;">interview-questions</a> <a href="../../tags/jenkins/" style="font-size: 13px;">jenkins</a> <a href="../../tags/jvm/" style="font-size: 13px;">jvm</a> <a href="../../tags/linked-list/" style="font-size: 13.25px;">linked-list</a> <a href="../../tags/map/" style="font-size: 13px;">map</a> <a href="../../tags/markdown/" style="font-size: 13px;">markdown</a> <a href="../../tags/multithread/" style="font-size: 13px;">multithread</a> <a href="../../tags/plugin/" style="font-size: 13px;">plugin</a> <a href="../../tags/python/" style="font-size: 13.75px;">python</a> <a href="../../tags/queue/" style="font-size: 13px;">queue</a> <a href="../../tags/recursion/" style="font-size: 13px;">recursion</a> <a href="../../tags/search/" style="font-size: 13px;">search</a> <a href="../../tags/stack/" style="font-size: 13px;">stack</a> <a href="../../tags/string/" style="font-size: 13px;">string</a> <a href="../../tags/testlink/" style="font-size: 13px;">testlink</a> <a href="../../tags/tool/" style="font-size: 13px;">tool</a> <a href="../../tags/topological-sort/" style="font-size: 13.25px;">topological-sort</a> <a href="../../tags/tree/" style="font-size: 13.25px;">tree</a> <a href="../../tags/vscode/" style="font-size: 13px;">vscode</a> <a href="../../tags/web/" style="font-size: 13px;">web</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/04/">April 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2020/02/">February 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/12/">December 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/11/">November 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2019/01/">January 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/12/">December 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/05/">May 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled ">
+        
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../Python/fluent-python-notes-chap-05/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../../Python/fluent-python-notes-chap-05/" class="title">&lt;流畅的 Python&gt; 笔记：一等函数</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-22T08:38:39.000Z" itemprop="datePublished">2020-04-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../zen-of-python/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../zen-of-python/" class="title">Zen of Python（Python之禅）</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-15T08:54:29.000Z" itemprop="datePublished">2020-04-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../django-dumpdata-and-loaddata/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../django-dumpdata-and-loaddata/" class="title">Django 导出和导入数据</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-13T10:57:03.000Z" itemprop="datePublished">2020-04-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../Python/python-codestyle-pep8/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../../Python/python-codestyle-pep8/" class="title">Python代码规范 Pep8</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-01T06:12:38.000Z" itemprop="datePublished">2020-04-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../django-backend-template/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../django-backend-template/" class="title">Django 项目后端模板</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-02-16T06:55:49.000Z" itemprop="datePublished">2020-02-16</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Java/string" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java常见问题汇总-2
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="" class="article-date">
+	  <time datetime="2019-01-03T12:10:39.000Z" itemprop="datePublished">2019-01-03</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="../../categories/Java/">Java</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="../../tags/interview-questions/">interview-questions</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="" class="leancloud_visitors"  data-flag-title="Java常见问题汇总-2">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 3.1k(words)</span>
+	
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="string和stringbuffer-stringbuilder的区别是什么string为什么是不可变的"><a class="markdownIt-Anchor" href="#string和stringbuffer-stringbuilder的区别是什么string为什么是不可变的"></a> String和StringBuffer、StringBuilder的区别是什么？String为什么是不可变的？</h3>
+<h4 id="string和stringbuffer-stringbuilder的区别"><a class="markdownIt-Anchor" href="#string和stringbuffer-stringbuilder的区别"></a> String和StringBuffer、StringBuilder的区别</h4>
+<p><strong>可变性</strong></p>
+<p>简单的来说：String 类中使用 final 关键字字符数组保存字符串，<code>private　final　char　value[]</code>，所以 String 对象是不可变的。而StringBuilder 与 StringBuffer 都继承自 AbstractStringBuilder 类，在 AbstractStringBuilder 中也是使用字符数组保存字符串<code>char[]value</code> 但是没有用 final 关键字修饰，所以这两种对象都是可变的。</p>
+<p>StringBuilder 与 StringBuffer 的构造方法都是调用父类构造方法也就是 AbstractStringBuilder 实现的，大家可以自行查阅源码。</p>
+<p>AbstractStringBuilder.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractStringBuilder</span> <span class="keyword">implements</span> <span class="title">Appendable</span>, <span class="title">CharSequence</span> </span>&#123;</span><br><span class="line">    <span class="keyword">char</span>[] value;</span><br><span class="line">    <span class="keyword">int</span> count;</span><br><span class="line">    AbstractStringBuilder() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    AbstractStringBuilder(<span class="keyword">int</span> capacity) &#123;</span><br><span class="line">        value = <span class="keyword">new</span> <span class="keyword">char</span>[capacity];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>线程安全性</strong></p>
+<p>String 中的对象是不可变的，也就可以理解为常量，线程安全。AbstractStringBuilder 是 StringBuilder 与 StringBuffer 的公共父类，定义了一些字符串的基本操作，如 expandCapacity、append、insert、indexOf 等公共方法。StringBuffer 对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的。StringBuilder 并没有对方法进行加同步锁，所以是非线程安全的。</p>
+<p><strong>性能</strong></p>
+<p>每次对 String 类型进行改变的时候，都会生成一个新的 String 对象，然后将指针指向新的 String 对象。StringBuffer 每次都会对 StringBuffer 对象本身进行操作，而不是生成新的对象并改变对象引用。相同情况下使用 StirngBuilder 相比使用 StringBuffer 仅能获得 10%~15% 左右的性能提升，但却要冒多线程不安全的风险。</p>
+<p><strong>对于三者使用的总结：</strong></p>
+<ol>
+<li>操作少量的数据 = String</li>
+<li>单线程操作字符串缓冲区下操作大量数据 = StringBuilder</li>
+<li>多线程操作字符串缓冲区下操作大量数据 = StringBuffer</li>
+</ol>
+<h4 id="string为什么是不可变的吗"><a class="markdownIt-Anchor" href="#string为什么是不可变的吗"></a> String为什么是不可变的吗？</h4>
+<p>简单来说就是String类利用了final修饰的char类型数组存储字符，源码如下图所以：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** The value is used for character storage. */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];</span><br></pre></td></tr></table></figure>
+<h4 id="string真的是不可变的吗"><a class="markdownIt-Anchor" href="#string真的是不可变的吗"></a> String真的是不可变的吗？</h4>
+<p>我觉得如果别人问这个问题的话，回答不可变就可以了。<br>
+下面只是给大家看两个有代表性的例子：</p>
+<p><strong>1) String不可变但不代表引用不可以变</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"Hello"</span>;</span><br><span class="line">str = str + <span class="string">" World"</span>;</span><br><span class="line">System.out.println(<span class="string">"str="</span> + str);</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str=Hello World</span><br></pre></td></tr></table></figure>
+<p>解析：</p>
+<p>实际上，原来String的内容是不变的，只是str由原来指向&quot;Hello&quot;的内存地址转为指向&quot;Hello World&quot;的内存地址而已，也就是说多开辟了一块内存区域给&quot;Hello World&quot;字符串。</p>
+<p><strong>2) 通过反射是可以修改所谓的“不可变”对象</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建字符串"Hello World"， 并赋给引用s</span></span><br><span class="line">String s = <span class="string">"Hello World"</span>;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"s = "</span> + s); <span class="comment">// Hello World</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取String类中的value字段</span></span><br><span class="line">Field valueFieldOfString = String.class.getDeclaredField(<span class="string">"value"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 改变value属性的访问权限</span></span><br><span class="line">valueFieldOfString.setAccessible(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取s对象上的value属性的值</span></span><br><span class="line"><span class="keyword">char</span>[] value = (<span class="keyword">char</span>[]) valueFieldOfString.get(s);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 改变value所引用的数组中的第5个字符</span></span><br><span class="line">value[<span class="number">5</span>] = <span class="string">'_'</span>;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"s = "</span> + s); <span class="comment">// Hello_World</span></span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s = Hello World</span><br><span class="line">s = Hello_World</span><br></pre></td></tr></table></figure>
+<p>解析：</p>
+<p>用反射可以访问私有成员， 然后反射出String对象中的value属性， 进而改变通过获得的value引用改变数组的结构。但是一般我们不会这么做，这里只是简单提一下有这个东西。</p>
+<h3 id="什么是反射机制反射机制的应用场景有哪些"><a class="markdownIt-Anchor" href="#什么是反射机制反射机制的应用场景有哪些"></a> 什么是反射机制？反射机制的应用场景有哪些？</h3>
+<h4 id="反射机制介绍"><a class="markdownIt-Anchor" href="#反射机制介绍"></a> 反射机制介绍</h4>
+<p>JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。</p>
+<h4 id="静态编译和动态编译"><a class="markdownIt-Anchor" href="#静态编译和动态编译"></a> 静态编译和动态编译</h4>
+<ul>
+<li>**静态编译：**在编译时确定类型，绑定对象</li>
+<li>**动态编译：**运行时确定类型，绑定对象</li>
+</ul>
+<h4 id="反射机制优缺点"><a class="markdownIt-Anchor" href="#反射机制优缺点"></a> 反射机制优缺点</h4>
+<ul>
+<li><strong>优点：</strong> 运行期类型的判断，动态加载类，提高代码灵活度。</li>
+<li><strong>缺点：</strong> 性能瓶颈：反射相当于一系列解释操作，通知 JVM 要做的事情，性能比直接的java代码要慢很多。</li>
+</ul>
+<h4 id="反射的应用场景"><a class="markdownIt-Anchor" href="#反射的应用场景"></a> 反射的应用场景</h4>
+<p>反射是框架设计的灵魂。</p>
+<p>在我们平时的项目开发过程中，基本上很少会直接使用到反射机制，但这不能说明反射机制没有用，实际上有很多设计、开发都与反射机制有关，例如模块化的开发，通过反射去调用对应的字节码；动态代理设计模式也采用了反射机制，还有我们日常使用的 Spring／Hibernate 等框架也大量使用到了反射机制。</p>
+<p>举例：①我们在使用JDBC连接数据库时使用Class.forName()通过反射加载数据库的驱动程序；②Spring框架也用到很多反射机制，最经典的就是xml的配置模式。Spring 通过 XML 配置模式装载 Bean 的过程：1) 将程序内所有 XML 或 Properties 配置文件加载入内存中;<br>
+2)Java类里面解析xml或properties里面的内容，得到对应实体类的字节码字符串以及相关的属性信息; 3)使用反射机制，根据这个字符串获得某个类的Class实例; 4)动态配置实例的属性</p>
+<p><strong>推荐阅读：</strong></p>
+<ul>
+<li><a href="https://segmentfault.com/a/1190000010162647?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="noopener">Reflection：Java反射机制的应用场景</a></li>
+<li><a href="https://blog.csdn.net/sinat_38259539/article/details/71799078" target="_blank" rel="noopener">Java基础之—反射（非常重要）</a></li>
+</ul>
+<h3 id="什么是jdk什么是jre什么是jvm三者之间的联系与区别"><a class="markdownIt-Anchor" href="#什么是jdk什么是jre什么是jvm三者之间的联系与区别"></a> 什么是JDK?什么是JRE？什么是JVM？三者之间的联系与区别</h3>
+<p>这几个是Java中很基本很基本的东西，但是我相信一定还有很多人搞不清楚！为什么呢？因为我们大多数时候在使用现成的编译工具以及环境的时候，并没有去考虑这些东西。</p>
+<p><strong>JDK:</strong>  顾名思义它是给开发者提供的开发工具箱,是给程序开发者用的。它除了包括完整的JRE（Java Runtime Environment），Java运行环境，还包含了其他供开发者使用的工具包。</p>
+<p><strong>JRE:</strong> 普通用户而只需要安装JRE（Java Runtime Environment）来运行Java程序。而程序开发者必须安装JDK来编译、调试程序。</p>
+<p><strong>JVM：</strong> 当我们运行一个程序时，JVM负责将字节码转换为特定机器代码，JVM提供了内存管理/垃圾回收和安全机制等。这种独立于硬件和操作系统，正是java程序可以一次编写多处执行的原因。</p>
+<p><strong>区别与联系：</strong></p>
+<ol>
+<li>JDK用于开发，JRE用于运行java程序 ；</li>
+<li>JDK和JRE中都包含JVM ；</li>
+<li>JVM是java编程语言的核心并且具有平台独立性。</li>
+</ol>
+<h3 id="什么是字节码采用字节码的最大好处是什么"><a class="markdownIt-Anchor" href="#什么是字节码采用字节码的最大好处是什么"></a> 什么是字节码？采用字节码的最大好处是什么？</h3>
+<p><strong>先看下java中的编译器和解释器：</strong></p>
+<p>Java中引入了虚拟机的概念，即在机器和编译程序之间加入了一层抽象的虚拟的机器。这台虚拟的机器在任何平台上都提供给编译程序一个的共同的接口。编译程序只需要面向虚拟机，生成虚拟机能够理解的代码，然后由解释器来将虚拟机代码转换为特定系统的机器码执行。在Java中，这种供虚拟机理解的代码叫做<code>字节码</code>（即扩展名为<code>.class</code>的文件），它不面向任何特定的处理器，只面向虚拟机。每一种平台的解释器是不同的，但是实现的虚拟机是相同的。Java源程序经过编译器编译后变成字节码，字节码由虚拟机解释执行，虚拟机将每一条要执行的字节码送给解释器，解释器将其翻译成特定机器上的机器码，然后在特定的机器上运行。这也就是解释了Java的编译与解释并存的特点。</p>
+<p>Java源代码----&gt;编译器----&gt;jvm可执行的Java字节码(即虚拟指令)----&gt;jvm----&gt;jvm中解释器-----&gt;机器可执行的二进制机器码----&gt;程序运行。</p>
+<p><strong>采用字节码的好处：</strong></p>
+<p>Java语言通过字节码的方式，在一定程度上解决了传统解释型语言执行效率低的问题，同时又保留了解释型语言可移植的特点。所以Java程序运行时比较高效，而且，由于字节码并不专对一种特定的机器，因此，Java程序无须重新编译便可在多种不同的计算机上运行。</p>
+<h3 id="java和c的区别"><a class="markdownIt-Anchor" href="#java和c的区别"></a> Java和C++的区别</h3>
+<p>我知道很多人没学过C++，但是面试官就是没事喜欢拿咱们Java和C<ins>比呀！没办法！！！就算没学过C</ins>，也要记下来！</p>
+<ul>
+<li>都是面向对象的语言，都支持封装、继承和多态</li>
+<li>Java不提供指针来直接访问内存，程序内存更加安全</li>
+<li>Java的类是单继承的，C++支持多重继承；虽然Java的类不可以多继承，但是接口可以多继承。</li>
+<li>Java有自动内存管理机制，不需要程序员手动释放无用内存</li>
+</ul>
+<h3 id="接口和抽象类的区别是什么"><a class="markdownIt-Anchor" href="#接口和抽象类的区别是什么"></a> 接口和抽象类的区别是什么？</h3>
+<ol>
+<li>接口的方法默认是public，所有方法在接口中不能有实现，抽象类可以有非抽象的方法</li>
+<li>接口中的实例变量默认是final类型的，而抽象类中则不一定</li>
+<li>一个类可以实现多个接口，但最多只能实现一个抽象类</li>
+<li>一个类实现接口的话要实现接口的所有方法，而抽象类不一定</li>
+<li>接口不能用new实例化，但可以声明，但是必须引用一个实现该接口的对象 从设计层面来说，抽象是对类的抽象，是一种模板设计，接口是行为的抽象，是一种行为的规范。</li>
+</ol>
+<p>注意：Java8 后接口可以有默认实现( default )。</p>
+<h3 id="成员变量与局部变量的区别有那些"><a class="markdownIt-Anchor" href="#成员变量与局部变量的区别有那些"></a> 成员变量与局部变量的区别有那些？</h3>
+<ol>
+<li>从语法形式上，看成员变量是属于类的，而局部变量是在方法中定义的变量或是方法的参数；成员变量可以被public,private,static等修饰符所修饰，而局部变量不能被访问控制修饰符及static所修饰；但是，成员变量和局部变量都能被final所修饰；</li>
+<li>从变量在内存中的存储方式来看，成员变量是对象的一部分，而对象存在于堆内存，局部变量存在于栈内存</li>
+<li>从变量在内存中的生存时间上看，成员变量是对象的一部分，它随着对象的创建而存在，而局部变量随着方法的调用而自动消失。</li>
+<li>成员变量如果没有被赋初值，则会自动以类型的默认值而赋值（一种情况例外被final修饰但没有被static修饰的成员变量必须显示地赋值）；而局部变量则不会自动赋值。</li>
+</ol>
+<h3 id="重载和重写的区别"><a class="markdownIt-Anchor" href="#重载和重写的区别"></a> 重载和重写的区别</h3>
+<p><strong>重载：</strong> 发生在同一个类中，方法名必须相同，参数类型不同、个数不同、顺序不同，方法返回值和访问修饰符可以不同，发生在编译时。</p>
+<p><strong>重写：</strong> 发生在父子类中，方法名、参数列表必须相同，返回值范围小于等于父类，抛出的异常范围小于等于父类，访问修饰符范围大于等于父类；如果父类方法访问修饰符为private则子类就不能重写该方法。</p>
+<h3 id="字符型常量和字符串常量的区别"><a class="markdownIt-Anchor" href="#字符型常量和字符串常量的区别"></a> 字符型常量和字符串常量的区别</h3>
+<ol>
+<li>形式上:<br>
+字符常量是单引号引起的一个字符<br>
+字符串常量是双引号引起的若干个字符</li>
+<li>含义上:<br>
+字符常量相当于一个整形值(ASCII值),可以参加表达式运算<br>
+字符串常量代表一个地址值(该字符串在内存中存放位置)</li>
+<li>占内存大小<br>
+字符常量只占一个字节<br>
+字符串常量占若干个字节(至少一个字符结束标志)</li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://yuechuanx.top/Java/string/" title="Java常见问题汇总-2" target="_blank" rel="external">https://yuechuanx.top/Java/string/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/yuechuanx" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="../../images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/yuechuanx" target="_blank"><span class="text-dark">Yuechuan Xiao</span><small class="ml-1x">DevOps &amp; Automation</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="../questiones-multithread-in-java/" title="问题梳理-Java多线程"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="../common-questions/" title="Java常见问题汇总-1"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+    
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+        
+        &copy; 2020 Yuechuan Xiao
+        
+        <!-- <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div> -->
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="../../js/plugin.min.js"></script>
+<script src="../../js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '../../content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="../../js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: true,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: true
+  });
+  </script>
+
+     
+
+
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-153687468-1', 'auto');
+ga('send', 'pageview');
+
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+</body>
+</html>
