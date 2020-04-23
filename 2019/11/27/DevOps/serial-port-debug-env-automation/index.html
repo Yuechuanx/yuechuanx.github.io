@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  <meta name="google-site-verification" content="6jcyYTEWbkiJxHX-_FPfoG7WGHPZUKpuZWg4B8y6Snc">
+  
+  
+  <title>关于串口调试自动化的解决方案 | Yuechuanx</title>
+  <meta name="description" content="问题 在使用串口调试过程中，需要手动输入执行命令，交互性输入，以及等待执行结果。基本所有的信息都在 tty 中串行的进行显示。痛点有下面几个  重复命令手动输入执行 交互性输入 等待执行信息，不能自动保存到文件 串口调试环境本身edit 便利性  基于以上的问题，需要存在需求：  可以将执行命令存放脚本中，而且可以去调用执行 可处理交互性输入 对于执行命令输出可以保存到 log 文件   基本方">
+<meta name="keywords" content="automation,tool">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于串口调试自动化的解决方案">
+<meta property="og:url" content="https://yuechuanx.top/2019/11/27/DevOps/serial-port-debug-env-automation/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="问题 在使用串口调试过程中，需要手动输入执行命令，交互性输入，以及等待执行结果。基本所有的信息都在 tty 中串行的进行显示。痛点有下面几个  重复命令手动输入执行 交互性输入 等待执行信息，不能自动保存到文件 串口调试环境本身edit 便利性  基于以上的问题，需要存在需求：  可以将执行命令存放脚本中，而且可以去调用执行 可处理交互性输入 对于执行命令输出可以保存到 log 文件   基本方">
+<meta property="og:locale" content="en-US">
+<meta property="og:updated_time" content="2020-04-23T03:36:06.714Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于串口调试自动化的解决方案">
+<meta name="twitter:description" content="问题 在使用串口调试过程中，需要手动输入执行命令，交互性输入，以及等待执行结果。基本所有的信息都在 tty 中串行的进行显示。痛点有下面几个  重复命令手动输入执行 交互性输入 等待执行信息，不能自动保存到文件 串口调试环境本身edit 便利性  基于以上的问题，需要存在需求：  可以将执行命令存放脚本中，而且可以去调用执行 可处理交互性输入 对于执行命令输出可以保存到 log 文件   基本方">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://yuechuanx.top/2019/11/27/DevOps/serial-port-debug-env-automation/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Keep Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="../../../../../css/style.css">
+  
+  
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/yuechuanx" target="_blank">
+          <img class="img-circle img-rotate" src="../../../../../images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Yuechuan Xiao</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">DevOps &amp; Automation</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="../../../../../.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="../../../../../archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="../../../../../categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="../../../../../tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="../../../../../repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../../../../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../../../../../categories/Algorithm/">Algorithm</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="../../../../../categories/DevOps/">DevOps</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../../../../../categories/Java/">Java</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../../../../../categories/Python/">Python</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="../../../../../tags/algorithm/" style="font-size: 14px;">algorithm</a> <a href="../../../../../tags/array/" style="font-size: 13px;">array</a> <a href="../../../../../tags/array-list/" style="font-size: 13.25px;">array-list</a> <a href="../../../../../tags/automation/" style="font-size: 13px;">automation</a> <a href="../../../../../tags/binary-tree/" style="font-size: 13px;">binary-tree</a> <a href="../../../../../tags/command-line/" style="font-size: 13px;">command-line</a> <a href="../../../../../tags/django/" style="font-size: 13.25px;">django</a> <a href="../../../../../tags/docker/" style="font-size: 13.5px;">docker</a> <a href="../../../../../tags/git/" style="font-size: 13px;">git</a> <a href="../../../../../tags/gitlab/" style="font-size: 13px;">gitlab</a> <a href="../../../../../tags/graph/" style="font-size: 13.25px;">graph</a> <a href="../../../../../tags/hashmap/" style="font-size: 13px;">hashmap</a> <a href="../../../../../tags/http/" style="font-size: 13px;">http</a> <a href="../../../../../tags/interview/" style="font-size: 13px;">interview</a> <a href="../../../../../tags/interview-questions/" style="font-size: 13.25px;">interview-questions</a> <a href="../../../../../tags/jenkins/" style="font-size: 13px;">jenkins</a> <a href="../../../../../tags/jvm/" style="font-size: 13px;">jvm</a> <a href="../../../../../tags/linked-list/" style="font-size: 13.25px;">linked-list</a> <a href="../../../../../tags/map/" style="font-size: 13px;">map</a> <a href="../../../../../tags/markdown/" style="font-size: 13px;">markdown</a> <a href="../../../../../tags/multithread/" style="font-size: 13px;">multithread</a> <a href="../../../../../tags/plugin/" style="font-size: 13px;">plugin</a> <a href="../../../../../tags/python/" style="font-size: 13.75px;">python</a> <a href="../../../../../tags/queue/" style="font-size: 13px;">queue</a> <a href="../../../../../tags/recursion/" style="font-size: 13px;">recursion</a> <a href="../../../../../tags/search/" style="font-size: 13px;">search</a> <a href="../../../../../tags/stack/" style="font-size: 13px;">stack</a> <a href="../../../../../tags/string/" style="font-size: 13px;">string</a> <a href="../../../../../tags/testlink/" style="font-size: 13px;">testlink</a> <a href="../../../../../tags/tool/" style="font-size: 13px;">tool</a> <a href="../../../../../tags/topological-sort/" style="font-size: 13.25px;">topological-sort</a> <a href="../../../../../tags/tree/" style="font-size: 13.25px;">tree</a> <a href="../../../../../tags/vscode/" style="font-size: 13px;">vscode</a> <a href="../../../../../tags/web/" style="font-size: 13px;">web</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2020/04/">April 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2020/02/">February 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2019/12/">December 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2019/11/">November 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2019/01/">January 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2018/12/">December 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2018/05/">May 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled ">
+        
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../../../../2020/04/22/Python/fluent-python-notes-chap-05/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../../../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../../../../../2020/04/22/Python/fluent-python-notes-chap-05/" class="title">&lt;流畅的 Python&gt; 笔记：一等函数</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-22T08:38:39.000Z" itemprop="datePublished">2020-04-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../../../../2020/04/15/zen-of-python/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../../2020/04/15/zen-of-python/" class="title">Zen of Python（Python之禅）</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-15T08:54:29.000Z" itemprop="datePublished">2020-04-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../../../../2020/04/13/django-dumpdata-and-loaddata/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../../2020/04/13/django-dumpdata-and-loaddata/" class="title">Django 导出和导入数据</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-13T10:57:03.000Z" itemprop="datePublished">2020-04-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../../../../2020/04/01/Python/python-codestyle-pep8/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../../../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../../../../../2020/04/01/Python/python-codestyle-pep8/" class="title">Python代码规范 Pep8</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-01T06:12:38.000Z" itemprop="datePublished">2020-04-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../../../../2020/02/16/django-backend-template/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../../2020/02/16/django-backend-template/" class="title">Django 项目后端模板</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-02-16T06:55:49.000Z" itemprop="datePublished">2020-02-16</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">1.</span> <span class="toc-text"> 问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本方案"><span class="toc-number">2.</span> <span class="toc-text"> 基本方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">3.</span> <span class="toc-text"> 参考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-number">4.</span> <span class="toc-text"> 注意</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-DevOps/serial-port-debug-env-automation" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      关于串口调试自动化的解决方案
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="" class="article-date">
+	  <time datetime="2019-11-27T12:16:23.000Z" itemprop="datePublished">2019-11-27</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="../../../../../categories/DevOps/">DevOps</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="../../../../../tags/automation/">automation</a>, <a class="article-tag-link" href="../../../../../tags/tool/">tool</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="" class="leancloud_visitors"  data-flag-title="关于串口调试自动化的解决方案">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 827(words)</span>
+	
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="问题"><a class="markdownIt-Anchor" href="#问题"></a> 问题</h2>
+<p>在使用串口调试过程中，需要手动输入执行命令，交互性输入，以及等待执行结果。基本所有的信息都在 tty 中串行的进行显示。痛点有下面几个</p>
+<ul>
+<li>重复命令手动输入执行</li>
+<li>交互性输入</li>
+<li>等待执行信息，不能自动保存到文件</li>
+<li>串口调试环境本身edit 便利性</li>
+</ul>
+<p>基于以上的问题，需要存在需求：</p>
+<ul>
+<li>可以将执行命令存放脚本中，而且可以去调用执行</li>
+<li>可处理交互性输入</li>
+<li>对于执行命令输出可以保存到 log 文件</li>
+</ul>
+<h2 id="基本方案"><a class="markdownIt-Anchor" href="#基本方案"></a> 基本方案</h2>
+<ol>
+<li>
+<p>基于 SecureCRT</p>
+<p>SecureCRT 脚本，使用 python 语言</p>
+<p>优点：</p>
+<ul>
+<li>GUI 界面，操作直观</li>
+<li>python syntax 语法特性支持强大</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>SecureCRT 过重，本身安装麻烦</li>
+<li>仍然需要基本交互，SecureCRT 内调用脚本</li>
+<li>与 jenkins 的集成</li>
+</ul>
+</li>
+<li>
+<p>基于 Terminal 环境</p>
+<p>首先要解决的是串口环境，这里使用 picocom 命令行工具，类似的有 minicom 等。</p>
+<p>其次，针对需要交互行输入，使用 Expect 处理，Expect 基于 TCL (Tool control language）</p>
+<p>最后，得到的 .expect 脚本可以通过 Jenkins pipeline 进行调用。</p>
+<p>优点：</p>
+<ul>
+<li>轻量化，可通过命令行安装</li>
+<li>所有过程都在 Terminal 操作</li>
+<li>集成到 Jenkins，完全支持自动化流程</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>picocom 在功能性方面较弱</li>
+</ul>
+</li>
+</ol>
+<p>##实际解决</p>
+<p>针对上面两种方案，如果是非重复性调试，使用前者上手更快。</p>
+<p>如果有需要多次重复性，或者自动化测试需求，选择后者。</p>
+<p>下面给出使用 Expect 的一个 demo：</p>
+<figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/expect </span></span><br><span class="line"><span class="comment"># -d: debug mode</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># expect config</span></span><br><span class="line"><span class="keyword">set</span> timeout <span class="number">30</span></span><br><span class="line">log_file test-expect.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># picocom config</span></span><br><span class="line"><span class="keyword">set</span> baudrate <span class="string">"115200"</span></span><br><span class="line"><span class="keyword">set</span> device <span class="string">"/dev/ttyUSB0"</span></span><br><span class="line"><span class="keyword">set</span> prompt <span class="string">"=&gt;"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># function define</span></span><br><span class="line"><span class="keyword">set</span> interval <span class="number">5</span></span><br><span class="line"><span class="keyword">set</span> iter_cnt <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">proc</span><span class="title"> start_xvr_debug</span> &#123; prompt &#125; &#123;</span><br><span class="line">    send <span class="string">"xvr_client_dbus\r"</span></span><br><span class="line">    expect $prompt</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">proc test_switch_channel_display &#123; iter_cnt interval prompt &#125; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> &#123; <span class="keyword">set</span> i <span class="number">1</span> &#125;  &#123; $i &lt; $iter_cnt &#125; &#123; <span class="keyword">incr</span> i <span class="number">1</span> &#125; &#123;</span><br><span class="line">        send <span class="string">"switch_channel_display -cam 0 -ch 0 -onoff 1\r"</span></span><br><span class="line">        expect $prompt</span><br><span class="line">        <span class="keyword">exec</span> sleep $interval</span><br><span class="line"></span><br><span class="line">        send <span class="string">"switch_channel_display -cam 0 -ch 0 -onoff 0\r"</span></span><br><span class="line">        expect $prompt</span><br><span class="line">        <span class="keyword">exec</span> sleep $interval</span><br><span class="line"></span><br><span class="line">        send <span class="string">"switch_channel_display -cam 0 -ch 1 -onoff 1\r"</span></span><br><span class="line">        expect $prompt</span><br><span class="line">        <span class="keyword">exec</span> sleep $interval</span><br><span class="line"></span><br><span class="line">        send <span class="string">"switch_channel_display -cam 0 -ch 1 -onoff 0\r"</span></span><br><span class="line">        expect $prompt</span><br><span class="line">        <span class="keyword">exec</span> sleep $interval</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">proc</span><span class="title"> test_start_stop_pipeline</span> &#123; iter_cnt interval prompt &#125; &#123;</span><br><span class="line">    <span class="keyword">for</span> &#123; <span class="keyword">set</span> i <span class="number">1</span> &#125; &#123; $i &lt; $iter_cnt &#125; &#123; <span class="keyword">incr</span> i <span class="number">1</span> &#125; &#123;</span><br><span class="line">        send <span class="string">"stop_pipeline  /dev/xvr_pipeline-0\r"</span></span><br><span class="line">        expect $prompt</span><br><span class="line">        <span class="keyword">exec</span> sleep $interval</span><br><span class="line"></span><br><span class="line">        send <span class="string">"stop_pipeline  /dev/xvr_pipeline-1\r"</span></span><br><span class="line">        expect $prompt</span><br><span class="line">        <span class="keyword">exec</span> sleep $interval</span><br><span class="line"></span><br><span class="line">        send <span class="string">"start_pipeline  /dev/xvr_pipeline-0\r"</span></span><br><span class="line">        expect $prompt</span><br><span class="line">        <span class="keyword">exec</span> sleep $interval</span><br><span class="line"></span><br><span class="line">        send <span class="string">"start_pipeline  /dev/xvr_pipeline-1\r"</span></span><br><span class="line">        expect $prompt</span><br><span class="line">        <span class="keyword">exec</span> sleep $interval</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">spawn picocom -b $baudrate $device</span><br><span class="line">expect <span class="string">"Terminal ready\r"</span></span><br><span class="line">send <span class="string">"\r"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># send "xvr_client_dbus\r" </span></span><br><span class="line"><span class="comment"># expect $prompt</span></span><br><span class="line"></span><br><span class="line">start_xvr_debug $prompt</span><br><span class="line">test_switch_channel_display $iter_cnt $interval $prompt </span><br><span class="line"><span class="comment"># test_start_stop_pipeline $iter_cnt $interval $prompt </span></span><br><span class="line"></span><br><span class="line">expect <span class="keyword">eof</span></span><br><span class="line"><span class="comment"># interact</span></span><br><span class="line">wait</span><br></pre></td></tr></table></figure>
+<p>在具体使用中遇到的有几个小坑:</p>
+<ol>
+<li>集成到 jenkins 时，jenkins 用户无法获得 <code>/dev/ttyUSB0</code> 权限。</li>
+<li><code>sudo</code> 执行 Expect 脚本进程 kill</li>
+</ol>
+<p>详情见尾注意小节。</p>
+<h2 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h2>
+<ul>
+<li><a href="https://blog.csdn.net/qq_14935437/article/details/78043904" target="_blank" rel="noopener">SecureCRT-python-scripts</a></li>
+<li><a href="https://linux.die.net/man/1/expect" target="_blank" rel="noopener">Expect manual</a></li>
+<li><a href="https://www.cnblogs.com/arlenhou/p/learn_expect.html" target="_blank" rel="noopener">Expect 使用教程</a></li>
+<li><a href="https://blog.csdn.net/qq_20745901/article/details/54692610" target="_blank" rel="noopener">Expect interact &amp; expect eof</a></li>
+</ul>
+<h2 id="注意"><a class="markdownIt-Anchor" href="#注意"></a> 注意</h2>
+<ol>
+<li>
+<p>关于 jenkins 用户无法获取 <code>/dev/ttyUSB0</code> 权限</p>
+<p>在这里最好不要直接使用 <code>sudo</code> ，使用 root 权限执行的坏处在于，当你想要中断 expect 脚本时，也必须使用 root 权限。并且在集成到 Jenkins 时，jenkins 用户起了 root 权限的进程，在中断 job 的时候。expect 任然在 jenkins node 上继续执行。</p>
+<p>解决的方案是将 jenkins 用户加入拥有 dev 设备权限的用户组。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod aG dialout jenkins</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>sudo 执行的 expect 进程kill</p>
+<p><code>sudo killall -u USER expect</code></p>
+</li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://yuechuanx.top/2019/11/27/DevOps/serial-port-debug-env-automation/" title="关于串口调试自动化的解决方案" target="_blank" rel="external">https://yuechuanx.top/2019/11/27/DevOps/serial-port-debug-env-automation/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/yuechuanx" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="../../../../../images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/yuechuanx" target="_blank"><span class="text-dark">Yuechuan Xiao</span><small class="ml-1x">DevOps &amp; Automation</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="../../../28/the-art-of-command-line/" title="命令行的艺术(转载)"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="../../../26/http-status-code/" title="HTTP 1.1 状态码分类及解释"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+    
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../../../../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+        
+        &copy; 2020 Yuechuan Xiao
+        
+        <!-- <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div> -->
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="../../../../../js/plugin.min.js"></script>
+<script src="../../../../../js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '../../../../../content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="../../../../../js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: true,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: true
+  });
+  </script>
+
+     
+
+
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-153687468-1', 'auto');
+ga('send', 'pageview');
+
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+</body>
+</html>

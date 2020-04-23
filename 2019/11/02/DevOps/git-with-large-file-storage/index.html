@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  <meta name="google-site-verification" content="6jcyYTEWbkiJxHX-_FPfoG7WGHPZUKpuZWg4B8y6Snc">
+  
+  
+  <title>Git LFS 上手指南 | Yuechuanx</title>
+  <meta name="description" content="毫无疑问, git 是一个伟大的工具. 但 git 适合管理文件类型是文本类型. 在处理二进制文件的时候就相对乏力了. 如何解决 git 对于二进制文件的处理, 需要介绍 git-lfs 工具   Git LFS 简介  Git LFS（Large File Storage, 大文件存储）是 Github 开发的一个 Git 的扩展，用于实现 Git 对大文件的支持。 Git LFS可以把音乐、">
+<meta name="keywords" content="blog, devops">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git LFS 上手指南">
+<meta property="og:url" content="https://yuechuanx.top/2019/11/02/DevOps/git-with-large-file-storage/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="毫无疑问, git 是一个伟大的工具. 但 git 适合管理文件类型是文本类型. 在处理二进制文件的时候就相对乏力了. 如何解决 git 对于二进制文件的处理, 需要介绍 git-lfs 工具   Git LFS 简介  Git LFS（Large File Storage, 大文件存储）是 Github 开发的一个 Git 的扩展，用于实现 Git 对大文件的支持。 Git LFS可以把音乐、">
+<meta property="og:locale" content="en-US">
+<meta property="og:image" content="https://git-lfs.github.com/images/graphic.gif">
+<meta property="og:updated_time" content="2020-04-23T03:36:06.712Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git LFS 上手指南">
+<meta name="twitter:description" content="毫无疑问, git 是一个伟大的工具. 但 git 适合管理文件类型是文本类型. 在处理二进制文件的时候就相对乏力了. 如何解决 git 对于二进制文件的处理, 需要介绍 git-lfs 工具   Git LFS 简介  Git LFS（Large File Storage, 大文件存储）是 Github 开发的一个 Git 的扩展，用于实现 Git 对大文件的支持。 Git LFS可以把音乐、">
+<meta name="twitter:image" content="https://git-lfs.github.com/images/graphic.gif">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://yuechuanx.top/2019/11/02/DevOps/git-with-large-file-storage/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Keep Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="../../../../../css/style.css">
+  
+  
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/yuechuanx" target="_blank">
+          <img class="img-circle img-rotate" src="../../../../../images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Yuechuan Xiao</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">DevOps &amp; Automation</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="../../../../../.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="../../../../../archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="../../../../../categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="../../../../../tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="../../../../../repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../../../../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../../../../../categories/Algorithm/">Algorithm</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="../../../../../categories/DevOps/">DevOps</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../../../../../categories/Java/">Java</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../../../../../categories/Python/">Python</a><span class="category-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="../../../../../tags/algorithm/" style="font-size: 14px;">algorithm</a> <a href="../../../../../tags/array/" style="font-size: 13px;">array</a> <a href="../../../../../tags/array-list/" style="font-size: 13.25px;">array-list</a> <a href="../../../../../tags/automation/" style="font-size: 13px;">automation</a> <a href="../../../../../tags/binary-tree/" style="font-size: 13px;">binary-tree</a> <a href="../../../../../tags/command-line/" style="font-size: 13px;">command-line</a> <a href="../../../../../tags/django/" style="font-size: 13.25px;">django</a> <a href="../../../../../tags/docker/" style="font-size: 13.5px;">docker</a> <a href="../../../../../tags/git/" style="font-size: 13px;">git</a> <a href="../../../../../tags/gitlab/" style="font-size: 13px;">gitlab</a> <a href="../../../../../tags/graph/" style="font-size: 13.25px;">graph</a> <a href="../../../../../tags/hashmap/" style="font-size: 13px;">hashmap</a> <a href="../../../../../tags/http/" style="font-size: 13px;">http</a> <a href="../../../../../tags/interview/" style="font-size: 13px;">interview</a> <a href="../../../../../tags/interview-questions/" style="font-size: 13.25px;">interview-questions</a> <a href="../../../../../tags/jenkins/" style="font-size: 13px;">jenkins</a> <a href="../../../../../tags/jvm/" style="font-size: 13px;">jvm</a> <a href="../../../../../tags/linked-list/" style="font-size: 13.25px;">linked-list</a> <a href="../../../../../tags/map/" style="font-size: 13px;">map</a> <a href="../../../../../tags/markdown/" style="font-size: 13px;">markdown</a> <a href="../../../../../tags/multithread/" style="font-size: 13px;">multithread</a> <a href="../../../../../tags/plugin/" style="font-size: 13px;">plugin</a> <a href="../../../../../tags/python/" style="font-size: 13.75px;">python</a> <a href="../../../../../tags/queue/" style="font-size: 13px;">queue</a> <a href="../../../../../tags/recursion/" style="font-size: 13px;">recursion</a> <a href="../../../../../tags/search/" style="font-size: 13px;">search</a> <a href="../../../../../tags/stack/" style="font-size: 13px;">stack</a> <a href="../../../../../tags/string/" style="font-size: 13px;">string</a> <a href="../../../../../tags/testlink/" style="font-size: 13px;">testlink</a> <a href="../../../../../tags/tool/" style="font-size: 13px;">tool</a> <a href="../../../../../tags/topological-sort/" style="font-size: 13.25px;">topological-sort</a> <a href="../../../../../tags/tree/" style="font-size: 13.25px;">tree</a> <a href="../../../../../tags/vscode/" style="font-size: 13px;">vscode</a> <a href="../../../../../tags/web/" style="font-size: 13px;">web</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2020/04/">April 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2020/02/">February 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2019/12/">December 2019</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2019/11/">November 2019</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2019/10/">October 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2019/01/">January 2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2018/12/">December 2018</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2018/05/">May 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2018/04/">April 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="../../../../../archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled ">
+        
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../../../../2020/04/22/Python/fluent-python-notes-chap-05/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../../../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../../../../../2020/04/22/Python/fluent-python-notes-chap-05/" class="title">&lt;流畅的 Python&gt; 笔记：一等函数</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-22T08:38:39.000Z" itemprop="datePublished">2020-04-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../../../../2020/04/15/zen-of-python/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../../2020/04/15/zen-of-python/" class="title">Zen of Python（Python之禅）</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-15T08:54:29.000Z" itemprop="datePublished">2020-04-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../../../../2020/04/13/django-dumpdata-and-loaddata/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../../2020/04/13/django-dumpdata-and-loaddata/" class="title">Django 导出和导入数据</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-13T10:57:03.000Z" itemprop="datePublished">2020-04-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../../../../2020/04/01/Python/python-codestyle-pep8/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../../../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../../../../../2020/04/01/Python/python-codestyle-pep8/" class="title">Python代码规范 Pep8</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-01T06:12:38.000Z" itemprop="datePublished">2020-04-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../../../../2020/02/16/django-backend-template/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../../../../2020/02/16/django-backend-template/" class="title">Django 项目后端模板</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-02-16T06:55:49.000Z" itemprop="datePublished">2020-02-16</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#git-lfs-简介"><span class="toc-number">1.</span> <span class="toc-text"> Git LFS 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#git-lfs-下载和安装"><span class="toc-number">2.</span> <span class="toc-text"> Git LFS 下载和安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#windows-系统"><span class="toc-number">2.1.</span> <span class="toc-text"> Windows 系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bsd-linux-系统"><span class="toc-number">2.2.</span> <span class="toc-text"> BSD / Linux 系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#macos-系统"><span class="toc-number">2.3.</span> <span class="toc-text"> macOS 系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#git-lfs-配置"><span class="toc-number">3.</span> <span class="toc-text"> Git LFS 配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常用-git-lfs-命令"><span class="toc-number">4.</span> <span class="toc-text"> 常用 Git LFS 命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#git-lfs-进阶使用"><span class="toc-number">5.</span> <span class="toc-text"> Git LFS 进阶使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见问题"><span class="toc-number">6.</span> <span class="toc-text"> 常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gitlfs-参考文章"><span class="toc-number">7.</span> <span class="toc-text"> GitLFS 参考文章</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-DevOps/git-with-large-file-storage" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Git LFS 上手指南
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="" class="article-date">
+	  <time datetime="2019-11-02T15:43:39.000Z" itemprop="datePublished">2019-11-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="../../../../../categories/DevOps/">DevOps</a>
+  </span>
+
+        
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="" class="leancloud_visitors"  data-flag-title="Git LFS 上手指南">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 2.1k(words)</span>
+	
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>毫无疑问, git 是一个伟大的工具. 但 git 适合管理文件类型是文本类型. 在处理二进制文件的时候就相对乏力了.<br>
+如何解决 git 对于二进制文件的处理, 需要介绍 git-lfs 工具</p>
+</blockquote>
+<h2 id="git-lfs-简介"><a class="markdownIt-Anchor" href="#git-lfs-简介"></a> Git LFS 简介</h2>
+<p><img src="https://git-lfs.github.com/images/graphic.gif" alt="git-lfs"></p>
+<p>Git LFS（Large File Storage, 大文件存储）是 Github 开发的一个 Git 的扩展，用于实现 Git 对大文件的支持。</p>
+<p>Git LFS可以把音乐、图片、视频等指定的任意文件存在 Git 仓库之外，而在 Git 仓库中用一个占用空间 1KB 不到的文本指针来代替文件的存在。</p>
+<p>通过把大文件存储在 Git 仓库之外，可以减小 Git 仓库本身的体积，使克隆 Git 仓库的速度加快，也使得 Git 不会因为仓库中充满大文件而损失性能。</p>
+<p>使用 Git LFS，在默认情况下，只有当前签出的 commit 下的 LFS 对象的当前版本会被下载。此外，我们也可以做配置，只取由 Git LFS 管理的某些特定文件的实际内容，而对于其他由 Git LFS 管理的文件则只保留文件指针，从而节省带宽，加快克隆仓库的速度；也可以配置一次获取大文件的最近版本，从而能方便地检查大文件的近期变动。详见后文进阶使用。</p>
+<p>要使用 Git LFS 只需要经过一次下载安装后，指定需要由 Git LFS 管理的文件即可。</p>
+<h2 id="git-lfs-下载和安装"><a class="markdownIt-Anchor" href="#git-lfs-下载和安装"></a> Git LFS 下载和安装</h2>
+<blockquote>
+<p>注意：安装 Git LFS 需要 Git 的版本不低于 1.8.5</p>
+</blockquote>
+<h3 id="windows-系统"><a class="markdownIt-Anchor" href="#windows-系统"></a> Windows 系统</h3>
+<ul>
+<li>通过<a href="https://github.com/git-lfs/git-lfs/releases/" target="_blank" rel="noopener">官方地址</a>下载 Git LFS 安装包 <a href="https://github.com/git-lfs/git-lfs/releases/download/v2.9.2/git-lfs-windows-v2.9.2.exe" target="_blank" rel="noopener">Windows Installer</a>.</li>
+<li>双击安装包，打开安装 git-lfs</li>
+<li>在命令行中执行 git lfs install（需要确认 git-lfs 命令已经被包含在环境变量中）</li>
+</ul>
+<h3 id="bsd-linux-系统"><a class="markdownIt-Anchor" href="#bsd-linux-系统"></a> BSD / Linux 系统</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash</span><br><span class="line"></span><br><span class="line">sudo apt-get install git-lfs</span><br><span class="line"></span><br><span class="line">git lfs install</span><br></pre></td></tr></table></figure>
+<h3 id="macos-系统"><a class="markdownIt-Anchor" href="#macos-系统"></a> macOS 系统</h3>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">brew install git-lfs</span><br><span class="line"></span><br><span class="line">git lfs install</span><br></pre></td></tr></table></figure>
+<h2 id="git-lfs-配置"><a class="markdownIt-Anchor" href="#git-lfs-配置"></a> Git LFS 配置</h2>
+<p>使用 git lfs track 追踪需要使用 Git LFS 管理的文件。如：</p>
+<p><code>git lfs track &quot;*.psd”</code></p>
+<p>也可以手动编辑 Git 仓库根目录下的 .gitattributes 文件，如：</p>
+<p><code>*.psd filter=lfs diff=lfs merge=lfs -text</code></p>
+<h2 id="常用-git-lfs-命令"><a class="markdownIt-Anchor" href="#常用-git-lfs-命令"></a> 常用 Git LFS 命令</h2>
+<p>查看当前使用 Git LFS 管理的匹配列表</p>
+<p><code>git lfs track</code></p>
+<p>使用 Git LFS 管理指定的文件</p>
+<p><code>git lfs track &quot;*.psd”</code></p>
+<p>不再使用 Git LFS 管理指定的文件</p>
+<p><code>git lfs untrack &quot;*.psd”</code></p>
+<p>类似 <code>git status</code>，查看当前 Git LFS 对象的状态</p>
+<p><code>git lfs status</code></p>
+<p>枚举目前所有被 Git LFS 管理的具体文件</p>
+<p><code>git lfs ls-files</code></p>
+<p>检查当前所用 Git LFS 的版本</p>
+<p><code>git lfs version</code></p>
+<blockquote>
+<p>针对使用了 LFS 的仓库进行了特别优化的 clone 命令，显著提升获取LFS 对象的速度，接受和 git clone 一样的参数。</p>
+</blockquote>
+<p>git lfs clone <a href="https://gitee.com/user/repo.git" target="_blank" rel="noopener">https://gitee.com/user/repo.git</a></p>
+<blockquote>
+<ul>
+<li>git lfs clone 通过合并获取 LFS 对象的请求，减少了 LFS API 的调用，并行化 LFS 对象的下载，从而达到显著的速度提升。git lfs clone 命令同样也兼容没有使用 LFS 的仓库。即无论要克隆的仓库是否使用 LFS，都可以使用 git lfs clone 命令来进行克隆。</li>
+<li>目前最新版本的 git clone 已经能够提供与 git lfs clone 一致的性能，因此自 Git LFS 2.3.0 版本起，git lfs clone 已不再推荐使用。</li>
+</ul>
+</blockquote>
+<h2 id="git-lfs-进阶使用"><a class="markdownIt-Anchor" href="#git-lfs-进阶使用"></a> Git LFS 进阶使用</h2>
+<p>使用 Git LFS 的核心思想就是把需要进行版本管理、但又占用很大空间的那部分文件独立于 Git 仓库进行管理。从而加快克隆仓库本身的速度，同时获得灵活的管理 LFS 对象的能力。</p>
+<p>默认情况下，只有当前 commit 下的 LFS 对象的当前版本才会被获取。</p>
+<ul>
+<li>只获取仓库本身，而不获取任何 LFS 对象</li>
+</ul>
+<p>如果自己的相关工作不涉及到被 Git LFS 所管理的文件的话，可以选择只获取 Git 仓库自身的内容，而完全跳过 LFS 对象的获取。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GIT_LFS_SKIP_SMUDGE=1 git <span class="built_in">clone</span> https://gitee.com/user/repo.git</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line">git -c filter.lfs.smudge= -c filter.lfs.required=<span class="literal">false</span> <span class="built_in">clone</span> https://gitee.com/user/repo.git</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：GIT_LFS_SKIP_SMUDGE=1 及 git -c filter.lfs.smudge= -c filter.lfs.required=false 同样使用于其他 git 命令，如 checkout, reset 等。</p>
+</blockquote>
+<ul>
+<li>获取当前 commit 下包含的 LFS 对象的当前版本</li>
+</ul>
+<p>如果起初获取代码时，没有一并获取 LFS 对象，而随后又需要这些被 LFS 管理的文件时，可以单独执行 LFS 命令来获取并签出 LFS 对象：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git lfs fetch</span><br><span class="line">git lfs checkout</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line">git lfs pull</span><br></pre></td></tr></table></figure>
+<ul>
+<li>仅获取指定目录下的 LFS 对象</li>
+</ul>
+<p>比如说，我们有一仓库，里面包含了许多源代码文件，以及一些图像、视频等资源文件，其目录结构如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">zzz.buzz</span><br><span class="line">├── images</span><br><span class="line">│ ├── cat.png</span><br><span class="line">│ ├── dog.gif</span><br><span class="line">│ └── rabbit.webp</span><br><span class="line">├── src</span><br><span class="line">│ ├── buzz.css</span><br><span class="line">│ ├── index.html</span><br><span class="line">│ └── zzz.js</span><br><span class="line">└── videos</span><br><span class="line">├── chameleon.mp4</span><br><span class="line">└── iguana.webm</span><br></pre></td></tr></table></figure>
+<p>其中的 images/** 以及 videos/** 是被 LFS 所管理的。</p>
+<p>但是，如果只想取 images 文件夹，而不想获取 videos 文件夹下的文件的话，我们就可以选择配置 LFS 下载对象时仅包含 images 文件夹：</p>
+<p><code>git config lfs.fetchinclude 'images/**’</code></p>
+<p>随后，git checkout, git reset, git lfs fetch, git lfs pull 等命令就都会只处理所指定的文件夹。</p>
+<p>类似地，我们也可以选择仅排除指定的文件夹：</p>
+<p><code>git config lfs.fetchexclude 'videos/**’</code></p>
+<p>也可以同时使用黑白名单规则，这样只有同时满足 include 规则和 exclude 规则的大文件才会被获取：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config lfs.fetchinclude <span class="string">'videos/**'</span></span><br><span class="line">git config lfs.fetchexclude <span class="string">'videos/chameleon.mp4'</span></span><br><span class="line"><span class="comment"># 在此例中，如此配置将只会获取 videos/iguana.webm 一个文件。</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>一次获取 LFS 对象的最近版本</p>
+<p>Git LFS 相关命令在获取 LFS 对象时，默认仅会获取该对象当前被引用的版本，如果想要一次获取 LFS 对象的当前及最近版本的话，我们首先需要对最近进行定义：</p>
+</li>
+</ul>
+<p><code>git config lfs.fetchrecentcommitsdays 7</code></p>
+<p>7 表示同时下载过去 7 天内的版本（相对于获取的 LFS 对象的时间），该项配置默认值为 0，即不获取过去的版本，而仅获取指定的版本。</p>
+<p>有了对最近的定义后，我们可以选择在执行 git lfs fetch 命令时，加上 --recent 参数以同时获取最近版本；</p>
+<p>或者配置</p>
+<p><code>git config lfs.fetchrecentalways true</code></p>
+<p>从而总是同时获取 LFS 对象的最近版本。</p>
+<h2 id="常见问题"><a class="markdownIt-Anchor" href="#常见问题"></a> 常见问题</h2>
+<p>在安装 Git LFS 之前，克隆了使用 Git LFS 的仓库，则被 Git LFS 管理的文件会被显示为文本指针，而非具体的文件。</p>
+<p>查看这些文件指针，会发现类似如下内容：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">version https://git-lfs.gitee.com/spec/v1oid sha256:4b99dbe6fe6f646b2026de93481045bbf34f995559db15fce34d192f1f320ef4</span><br><span class="line">size 156154</span><br></pre></td></tr></table></figure>
+<p>解决办法就是，手动执行获取 Git LFS 对象的命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git lfs fetch</span><br><span class="line">git lfs checkout</span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line">git lfs pull</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Git LFS 对象在本地仓库的存放位置？</li>
+</ul>
+<p>通过 Git LFS 所管理的对象实际在本地的存储位置是在 .git/lfs/objects 目录下，该目录根据对象的 sha256 值来组织。</p>
+<p>作为对比，Git 自身所管理的对象则是存储在 .git/objects 目录下，根据 commit, tree, blob, tag 的 sha1 值来组织。</p>
+<p>已经使用 <code>git lfs track somefile</code> 追踪了某个文件，但该文件并未以 LFS 存储。</p>
+<p>如果被 LFS 追踪管理的文件的大小为 0 的话，则该文件不会以 LFS 的形式存储起来。</p>
+<p>只有当一个文件至少有 1 个字节时，其才会以 LFS 的形式存储。</p>
+<blockquote>
+<p>注：一般使用 LFS 时，我们也不会用其追踪空文件，即使追踪了空文件，对于使用也没有任何影响。提到这点主要是为了消除在测试使用 LFS 时可能遇到的困惑。</p>
+</blockquote>
+<ul>
+<li>执行 <code>git lfs fetch</code> 或 <code>git lfs pull</code> 时报错</li>
+</ul>
+<p><code>batch request: exit status 255: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).</code></p>
+<p>如果在克隆仓库时使用了 SSH 协议，而本地的 SSH 私钥又有密码保护，那么向服务器获取文件时就会报错，因为目前 Git LFS 不会向用户请求密码，从而导致认证失败。</p>
+<p>解决办法是使用 ssh-add 命令，预先加载好本地的 SSH 私钥，从而使得 Git LFS 能够访问到私钥。</p>
+<h2 id="gitlfs-参考文章"><a class="markdownIt-Anchor" href="#gitlfs-参考文章"></a> GitLFS 参考文章</h2>
+<p><a href="https://zzz.buzz/zh/2016/04/19/the-guide-to-git-lfs/" target="_blank" rel="noopener">https://zzz.buzz/zh/2016/04/19/the-guide-to-git-lfs/</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://yuechuanx.top/2019/11/02/DevOps/git-with-large-file-storage/" title="Git LFS 上手指南" target="_blank" rel="external">https://yuechuanx.top/2019/11/02/DevOps/git-with-large-file-storage/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/yuechuanx" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="../../../../../images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/yuechuanx" target="_blank"><span class="text-dark">Yuechuan Xiao</span><small class="ml-1x">DevOps &amp; Automation</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="../../../26/http-status-code/" title="HTTP 1.1 状态码分类及解释"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="../../../01/DevOps/gitlab-data-migrate-and-upgrade/" title="GitLab 迁移与升级"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+    
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../../../../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+        
+        &copy; 2020 Yuechuan Xiao
+        
+        <!-- <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div> -->
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="../../../../../js/plugin.min.js"></script>
+<script src="../../../../../js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '../../../../../content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="../../../../../js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: true,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: true
+  });
+  </script>
+
+     
+
+
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-153687468-1', 'auto');
+ga('send', 'pageview');
+
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+</body>
+</html>
