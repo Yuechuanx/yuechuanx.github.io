@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://yuechuanx.top/zen-of-python/</loc>
+    <loc>https://yuechuanx.top/Python/fluent-python-notes-chap-07/</loc>
+    <lastmod>2020-04-29</lastmod>
+  </url>  <url>
+    <loc>https://yuechuanx.top/Python/zen-of-python/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
     <loc>https://yuechuanx.top/vscode-plugin-dev-intro/</loc>
@@ -22,16 +25,16 @@
     <loc>https://yuechuanx.top/django-backend-template/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
-    <loc>https://yuechuanx.top/Python/python-codestyle-pep8/</loc>
-    <lastmod>2020-04-23</lastmod>
-  </url>  <url>
     <loc>https://yuechuanx.top/django-dumpdata-and-loaddata/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
-    <loc>https://yuechuanx.top/Python/fluent-python-notes-chap-03/</loc>
+    <loc>https://yuechuanx.top/Python/python-codestyle-pep8/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
     <loc>https://yuechuanx.top/Python/fluent-python-notes-chap-05/</loc>
+    <lastmod>2020-04-23</lastmod>
+  </url>  <url>
+    <loc>https://yuechuanx.top/Python/fluent-python-notes-chap-03/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
     <loc>https://yuechuanx.top/Python/fluent-python-notes-chap-02/</loc>
@@ -43,13 +46,13 @@
     <loc>https://yuechuanx.top/Java/string/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
+    <loc>https://yuechuanx.top/Java/implement-function-call-in-c/</loc>
+    <lastmod>2020-04-23</lastmod>
+  </url>  <url>
     <loc>https://yuechuanx.top/Java/questiones-multithread-in-java/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
     <loc>https://yuechuanx.top/Java/common-questions/</loc>
-    <lastmod>2020-04-23</lastmod>
-  </url>  <url>
-    <loc>https://yuechuanx.top/Java/implement-function-call-in-c/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
     <loc>https://yuechuanx.top/Java/LinkedList/</loc>
@@ -67,10 +70,10 @@
     <loc>https://yuechuanx.top/DevOps/serial-port-debug-env-automation/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
-    <loc>https://yuechuanx.top/DevOps/how-to-write-excellent-dockerfile/</loc>
+    <loc>https://yuechuanx.top/DevOps/jenkins-testlink-plugin-source-code-note/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
-    <loc>https://yuechuanx.top/DevOps/jenkins-testlink-plugin-source-code-note/</loc>
+    <loc>https://yuechuanx.top/DevOps/how-to-write-excellent-dockerfile/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
     <loc>https://yuechuanx.top/DevOps/git-tutorial/</loc>
@@ -91,31 +94,31 @@
     <loc>https://yuechuanx.top/Algorithm/replace-sapce/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
-    <loc>https://yuechuanx.top/Algorithm/topological-sort-all/</loc>
-    <lastmod>2020-04-23</lastmod>
-  </url>  <url>
     <loc>https://yuechuanx.top/Algorithm/topological-sort/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
-    <loc>https://yuechuanx.top/Algorithm/print-list-from-tail-to-head/</loc>
-    <lastmod>2020-04-23</lastmod>
-  </url>  <url>
-    <loc>https://yuechuanx.top/Algorithm/isBST/</loc>
+    <loc>https://yuechuanx.top/Algorithm/topological-sort-all/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
     <loc>https://yuechuanx.top/Algorithm/min-number-in-rotate-array/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
+    <loc>https://yuechuanx.top/Algorithm/print-list-from-tail-to-head/</loc>
+    <lastmod>2020-04-23</lastmod>
+  </url>  <url>
     <loc>https://yuechuanx.top/Algorithm/reconstruct-binary-tree/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
-    <loc>https://yuechuanx.top/Algorithm/avlree-template-implement/</loc>
+    <loc>https://yuechuanx.top/Algorithm/isBST/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
     <loc>https://yuechuanx.top/Algorithm/implement-queue-with-stack/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>  <url>
     <loc>https://yuechuanx.top/Algorithm/find-in-two-dimensional-array/</loc>
+    <lastmod>2020-04-23</lastmod>
+  </url>  <url>
+    <loc>https://yuechuanx.top/Algorithm/avlree-template-implement/</loc>
     <lastmod>2020-04-23</lastmod>
   </url>
 </urlset>
