@@ -60,7 +60,7 @@ widgets:
   - category
   # - tag
   - tagcloud
-  - archive
+  # - archive
   - recent_posts
 
 # display widgets at the bottom of index pages (pagination == 2)
@@ -211,12 +211,11 @@ markdown_it_plus:
   plugins:
     - plugin:
         name: markdown-it-katex
-        enable: true
+        enable: false
     - plugin:
         name: markdown-it-mark
         enable: false
 
-# profile
 profile:
   enabled: true # Whether to show profile bar
   avatar: images/avatar.jpg
