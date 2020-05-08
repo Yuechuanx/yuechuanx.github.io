@@ -2,9 +2,10 @@
 title: Zen of Python（Python之禅）
 toc: true
 comments: true
+categories:
+  - Python
 date: 2020-04-15 16:54:29
 tags:
-
 ---
 
 
