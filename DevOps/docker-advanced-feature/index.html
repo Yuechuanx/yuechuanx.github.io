@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  <meta name="google-site-verification" content="6jcyYTEWbkiJxHX-_FPfoG7WGHPZUKpuZWg4B8y6Snc" />
+  
+  
+  <title>Docker 高级特性 | Yuechuanx</title>
+  <meta name="description" content="本次分享给大家介绍Docker 的高级特性与相应的工具。 它们就是Docker 三剑客，Compose、Machine和Swarm  Compose  介绍 Docker Compose 是Docker 官方编排（Orchestration）项目之一，负责快速的部署分布式应用。 Compose 定位是 「定义和运行多个Docker 容器的应用（Defining and running multi-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 高级特性">
+<meta property="og:url" content="https://yuechuanx.top/DevOps/docker-advanced-feature/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="本次分享给大家介绍Docker 的高级特性与相应的工具。 它们就是Docker 三剑客，Compose、Machine和Swarm  Compose  介绍 Docker Compose 是Docker 官方编排（Orchestration）项目之一，负责快速的部署分布式应用。 Compose 定位是 「定义和运行多个Docker 容器的应用（Defining and running multi-">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/073759.png">
+<meta property="og:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/wudoe.png">
+<meta property="og:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/073839.png">
+<meta property="og:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/073845.png">
+<meta property="og:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/073854.png">
+<meta property="og:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/0bct6.png">
+<meta property="og:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/gbw2f.png">
+<meta property="og:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/dgvi9.png">
+<meta property="og:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/73kns.png">
+<meta property="og:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/u74f8.png">
+<meta property="og:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/jv19u.png">
+<meta property="og:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/w64b8.png">
+<meta property="og:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/wycws.png">
+<meta property="og:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/odmm7.png">
+<meta property="article:published_time" content="2019-12-19T07:43:32.000Z">
+<meta property="article:modified_time" content="2019-12-19T07:43:32.000Z">
+<meta property="article:author" content="Yuechuan Xiao">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/073759.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://yuechuanx.top/DevOps/docker-advanced-feature/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Keep Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+  
+  
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
+  
+  
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/yuechuanx" target="_blank">
+          <img class="img-circle img-rotate" src="../../images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Yuechuan Xiao</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">DevOps &amp; Automation</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="../../.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="../../archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="../../categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="../../tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="../../repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="../../https:/github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../../categories/Algorithm/">Algorithm</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/DevOps/">DevOps</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/Java/">Java</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/Python/">Python</a><span class="category-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="../../tags/algorithm/" style="font-size: 14px;">algorithm</a> <a href="../../tags/array/" style="font-size: 13px;">array</a> <a href="../../tags/array-list/" style="font-size: 13.25px;">array-list</a> <a href="../../tags/automation/" style="font-size: 13px;">automation</a> <a href="../../tags/binary-tree/" style="font-size: 13px;">binary-tree</a> <a href="../../tags/command-line/" style="font-size: 13px;">command-line</a> <a href="../../tags/django/" style="font-size: 13.25px;">django</a> <a href="../../tags/docker/" style="font-size: 13.5px;">docker</a> <a href="../../tags/git/" style="font-size: 13px;">git</a> <a href="../../tags/gitlab/" style="font-size: 13px;">gitlab</a> <a href="../../tags/graph/" style="font-size: 13.25px;">graph</a> <a href="../../tags/hashmap/" style="font-size: 13px;">hashmap</a> <a href="../../tags/http/" style="font-size: 13px;">http</a> <a href="../../tags/interview/" style="font-size: 13px;">interview</a> <a href="../../tags/interview-questions/" style="font-size: 13.25px;">interview-questions</a> <a href="../../tags/jenkins/" style="font-size: 13px;">jenkins</a> <a href="../../tags/jvm/" style="font-size: 13px;">jvm</a> <a href="../../tags/linked-list/" style="font-size: 13.25px;">linked-list</a> <a href="../../tags/map/" style="font-size: 13px;">map</a> <a href="../../tags/markdown/" style="font-size: 13px;">markdown</a> <a href="../../tags/multithread/" style="font-size: 13px;">multithread</a> <a href="../../tags/plugin/" style="font-size: 13px;">plugin</a> <a href="../../tags/python/" style="font-size: 13.75px;">python</a> <a href="../../tags/queue/" style="font-size: 13px;">queue</a> <a href="../../tags/recursion/" style="font-size: 13px;">recursion</a> <a href="../../tags/search/" style="font-size: 13px;">search</a> <a href="../../tags/stack/" style="font-size: 13px;">stack</a> <a href="../../tags/string/" style="font-size: 13px;">string</a> <a href="../../tags/testlink/" style="font-size: 13px;">testlink</a> <a href="../../tags/tool/" style="font-size: 13px;">tool</a> <a href="../../tags/topological-sort/" style="font-size: 13.25px;">topological-sort</a> <a href="../../tags/tree/" style="font-size: 13.25px;">tree</a> <a href="../../tags/vscode/" style="font-size: 13px;">vscode</a> <a href="../../tags/web/" style="font-size: 13px;">web</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled ">
+        
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../Python/fluent-python-notes-chap-07/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../../Python/fluent-python-notes-chap-07/" class="title">&lt;流畅的Python&gt; 笔记：函数装饰器与闭包</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-29T08:14:34.000Z" itemprop="datePublished">2020-04-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../Python/fluent-python-notes-chap-05/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../../Python/fluent-python-notes-chap-05/" class="title">&lt;流畅的 Python&gt; 笔记：一等函数</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-22T08:38:39.000Z" itemprop="datePublished">2020-04-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../Python/zen-of-python/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../../Python/zen-of-python/" class="title">Zen of Python（Python之禅）</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-15T08:54:29.000Z" itemprop="datePublished">2020-04-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../django-dumpdata-and-loaddata/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../django-dumpdata-and-loaddata/" class="title">Django 导出和导入数据</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-13T10:57:03.000Z" itemprop="datePublished">2020-04-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../Python/python-codestyle-pep8/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../../Python/python-codestyle-pep8/" class="title">Python代码规范 Pep8</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-01T06:12:38.000Z" itemprop="datePublished">2020-04-01</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#compose"><span class="toc-number">1.</span> <span class="toc-text"> Compose</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍"><span class="toc-number">1.1.</span> <span class="toc-text"> 介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">1.2.</span> <span class="toc-text"> 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用"><span class="toc-number">1.3.</span> <span class="toc-text"> 使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令说明"><span class="toc-number">1.4.</span> <span class="toc-text"> 命令说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#machine"><span class="toc-number">2.</span> <span class="toc-text"> Machine</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍-2"><span class="toc-number">2.1.</span> <span class="toc-text"> 介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-2"><span class="toc-number">2.2.</span> <span class="toc-text"> 使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令说明-2"><span class="toc-number">2.3.</span> <span class="toc-text"> 命令说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#swarm"><span class="toc-number">3.</span> <span class="toc-text"> Swarm</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-3"><span class="toc-number">3.1.</span> <span class="toc-text"> 使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令说明-docker-swarm-commands"><span class="toc-number">3.2.</span> <span class="toc-text"> 命令说明 </span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#疑难解答"><span class="toc-number">4.</span> <span class="toc-text"> 疑难解答</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-DevOps/docker-advanced-feature" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Docker 高级特性
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="" class="article-date">
+	  <time datetime="2019-12-19T07:43:32.000Z" itemprop="datePublished">2019-12-19</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="../../categories/DevOps/">DevOps</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="../../tags/docker/" rel="tag">docker</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="" class="leancloud_visitors"  data-flag-title="Docker 高级特性">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 911(words)</span>
+	
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p>本次分享给大家介绍Docker 的高级特性与相应的工具。 它们就是Docker 三剑客，Compose、Machine和Swarm</p>
+<h2 id="compose"><a class="markdownIt-Anchor" href="#compose"></a> Compose</h2>
+<h3 id="介绍"><a class="markdownIt-Anchor" href="#介绍"></a> 介绍</h3>
+<p>Docker Compose 是Docker 官方编排（Orchestration）项目之一，负责快速的部署分布式应用。</p>
+<p>Compose 定位是 「定义和运行多个Docker 容器的应用（Defining and running multi-container Docker applications）」</p>
+<p>其前身是开源项目Fig。其代码目前在https://github.com/docker/compose 上开源。</p>
+<h3 id="安装"><a class="markdownIt-Anchor" href="#安装"></a> 安装</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -U docker-compose</span><br></pre></td></tr></table></figure>
+<p>或</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -L <span class="string">"https://github.com/docker/compose/releases/download/1.24.1/docker-compose-<span class="variable">$(uname -s)</span>-<span class="variable">$(uname -m)</span>"</span> -o /usr/<span class="built_in">local</span>/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="使用"><a class="markdownIt-Anchor" href="#使用"></a> 使用</h3>
+<p><code>Dockerfile</code></p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> python:<span class="number">3.7</span>-slim</span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /app</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> . /app</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> pip install flask -i https://mirrors.aliyun.com/pypi/simple  --trusted-host mirrors.aliyun.com </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">80</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> NAME World</span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">"python"</span>, <span class="string">"app.py"</span>]</span></span><br></pre></td></tr></table></figure>
+<p><code>app.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route("/")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    html = <span class="string">"&lt;h3&gt;Hello &#123;name&#125;!&lt;/h3&gt;"</span> \</span><br><span class="line">           <span class="string">"&lt;b&gt;Hostname:&lt;/b&gt; &#123;hostname&#125;"</span></span><br><span class="line">    <span class="keyword">return</span> html.format(name=os.getenv(<span class="string">"NAME"</span>, <span class="string">"world"</span>),</span><br><span class="line">               hostname=socket.gethostname())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    app.run(host=<span class="string">'0.0.0.0'</span>, port=<span class="number">80</span>)</span><br></pre></td></tr></table></figure>
+<p><code>docker-compose.yml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">"3"</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  myapp:</span></span><br><span class="line">    <span class="comment"># build: .</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">friendlyhello:v2</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">myapp</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"5000:80"</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="attr">      NAME:</span> <span class="string">World</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  redis:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">redis</span></span><br><span class="line"><span class="attr">    container_name:</span> <span class="string">web</span></span><br></pre></td></tr></table></figure>
+<p>执行 <code>docker-compose build</code> 可生成镜像</p>
+<p>执行 <code>docker-compose up</code> 启动容器运行</p>
+<p>浏览器访问</p>
+<img src="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/073759.png" alt="local-access" style="zoom:50%;" />
+<h3 id="命令说明"><a class="markdownIt-Anchor" href="#命令说明"></a> 命令说明</h3>
+<div align="center">
+<img src="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/wudoe.png" alt="docker-compose-commands" style="zoom: 50%; " />
+</div>
+<h2 id="machine"><a class="markdownIt-Anchor" href="#machine"></a> Machine</h2>
+<h3 id="介绍-2"><a class="markdownIt-Anchor" href="#介绍-2"></a> 介绍</h3>
+<p>Docker Machine 是<code>Docker</code> 官方编排（Orchestration）项目之一，负责在多种平台上快速安装<code>Docker</code>环境。</p>
+<div align="center">
+<img src="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/073839.png" alt="docker-machine-architecture" style="zoom:100%">
+</div>
+<h3 id="使用-2"><a class="markdownIt-Anchor" href="#使用-2"></a> 使用</h3>
+<p>使用 <code>virtualbox</code> 类型的驱动，创建一台<code>Docker</code> 主机，命名为 <code>manager</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create -d virtualbox manager</span><br></pre></td></tr></table></figure>
+<p><img src="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/073845.png" alt="create-manager" /></p>
+<p>可以在创建时加上如下参数，来配置主机或者主机上的<code>Docker</code>。</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">--engine-opt dns=114.114.114.114 配置Docker 的默认DNS</span><br><span class="line"></span><br><span class="line">--engine-registry-mirror https://registry.docker-cn.com 配置Docker 的仓库镜像</span><br><span class="line"></span><br><span class="line">--virtualbox-memory 2048 配置主机内存</span><br><span class="line"></span><br><span class="line">--virtualbox-cpu-count 2 配置主机CPU</span><br></pre></td></tr></table></figure>
+<p>更多参数请使用 <code>docker-machine create —help</code> 命令查看。</p>
+<p><code>docker-machine ls</code> 查看主机</p>
+<p><img src="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/073854.png" alt="docker-machine-ls" /></p>
+<p><code>docker-machine env manager</code> 查看环境变量</p>
+<p><img src="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/0bct6.png" alt="docker-machine-env-manager" /></p>
+<p>切换 <code>docker</code> 主机 <code>manager</code> 为操作对象</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span> $(docker-machine env manager)</span><br></pre></td></tr></table></figure>
+<p>或者可以 <code>ssh</code> 登录到 <code>docker</code> 主机</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-machine ssh manager</span><br></pre></td></tr></table></figure>
+<p><img src="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/gbw2f.png" alt="docker-machine-ssh-manager" /></p>
+<h3 id="命令说明-2"><a class="markdownIt-Anchor" href="#命令说明-2"></a> 命令说明</h3>
+<p><img src="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/dgvi9.png" alt="docker-machine-commands" /></p>
+<h2 id="swarm"><a class="markdownIt-Anchor" href="#swarm"></a> Swarm</h2>
+<p><code>Swarm</code> 是使用<code>SwarmKit</code> 构建的<code>Docker</code> 引擎内置（原生）的集群管理和编排工具。</p>
+<p><img src="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/73kns.png" alt="docker-swarm-architecture" /></p>
+<h3 id="使用-3"><a class="markdownIt-Anchor" href="#使用-3"></a> 使用</h3>
+<p>初始化集群</p>
+<p>在上节介绍 <code>docker-machine</code> 的时候，我们创建了<code>manager</code>节点，而初始化集群需要在管理节点内执行</p>
+<p><code>docker swarm init --advertise-addr=IP_ADDR</code> <img src="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/u74f8.png" alt="docker-swarm-init" /></p>
+<p>现在来创建两个工作节点<code>worker1</code>, <code>worker2</code>并加入集群</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker-machine create -d virtualbox worker1</span><br><span class="line"></span><br><span class="line"><span class="built_in">eval</span> $(docker-machine env worker1)</span><br><span class="line"></span><br><span class="line">docker swarm join --token SWMTKN-1-59qol34ustn06wtqs6bnsgar4j170k5aj24weu5yegq8qp66cb-26aroyxll4zh9pl8cdwuo7vm4 192.168.99.101:2377</span><br></pre></td></tr></table></figure>
+<p><img src="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/jv19u.png" alt="docker-swarm-join" /></p>
+<p>同理<code>worker2</code> 节点</p>
+<p>进入<code>manager</code> 节点执行</p>
+<p><code>docker node ls</code></p>
+<p><img src="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/w64b8.png" alt="docker-node-ls" /></p>
+<p>由此，我们就得到了一个最小化的集群。</p>
+<h3 id="命令说明-docker-swarm-commands"><a class="markdownIt-Anchor" href="#命令说明-docker-swarm-commands"></a> 命令说明 <img src="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/wycws.png" alt="docker-swarm-commands" /></h3>
+<h2 id="疑难解答"><a class="markdownIt-Anchor" href="#疑难解答"></a> 疑难解答</h2>
+<ul>
+<li>在<code>docker stack deploy –c docker-compose.yml</code> 后，在<code>docker ps</code> 中无法看到端口映射？</li>
+</ul>
+<p><img src="https://blog-1252790741.cos.ap-shanghai.myqcloud.com/imgs/odmm7.png" alt="Q1" /></p>
+<p>关于docker swarm mode 部署后端口的问题，可以使用<code>docker service ls</code>来查看端口是否正确暴露，因为此时是通过service来暴露的，并不是直接在container上暴露，所以此时用<code>docker ps</code>是看不到的，但暴露的端口依旧可以访问，这样实现和k8s里的service实现是有些相似的。</p>
+<ul>
+<li>执行<code>docker-compose -f docker-compose.yml up -d</code>,返回</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Pulling myapp (friendlyhello:v2)...</span><br><span class="line"></span><br><span class="line">ERROR: Get https:&#x2F;&#x2F;registry-1.docker.i... net&#x2F;http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)</span><br></pre></td></tr></table></figure>
+<p>​	compose文件中如果已经build过，就用image直接指定这个image，注释掉build的指令。如果没有build过，就放开build指令，执行<code>docker-compose</code>的build它，当然也可以使用<code>docker build</code>来构建它。因为这一块在上一章节已经提到过，所以对于部分这次直接切入的同学可能会有疑惑。而到了docker stack时，已经不支持<code>docker stack</code>来build它了，需要统一使用docker build来构建镜像。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://yuechuanx.top/DevOps/docker-advanced-feature/" title="Docker 高级特性" target="_blank" rel="external">https://yuechuanx.top/DevOps/docker-advanced-feature/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/yuechuanx" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="../../images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/yuechuanx" target="_blank"><span class="text-dark">Yuechuan Xiao</span><small class="ml-1x">DevOps &amp; Automation</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="../../Python/fluent-python-notes-chap-03/" title="&lt;流畅的Python&gt; 笔记：字典和集合"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="../docker-basic/" title="Docker 基础使用"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+    
+	
+    <ul class="social-links">
+    	
+        <li><a href="../../https:/github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+        
+        &copy; 2020 Yuechuan Xiao
+        
+        <!-- <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div> -->
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="../../js/plugin.min.js"></script>
+
+
+<script src="../../js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '../../content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="../../js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: true,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: true
+  });
+  </script>
+
+     
+
+
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-153687468-1', 'auto');
+ga('send', 'pageview');
+
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+</body>
+</html>

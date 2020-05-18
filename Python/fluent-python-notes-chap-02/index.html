@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  <meta name="google-site-verification" content="6jcyYTEWbkiJxHX-_FPfoG7WGHPZUKpuZWg4B8y6Snc" />
+  
+  
+  <title>&lt;流畅的Python&gt; 笔记: 序列构成的数组 | Yuechuanx</title>
+  <meta name="description" content="你可能注意到了，之前提到的几个操作可以无差别地应用于文本、列表和表格上。 我们把文本、列表和表格叫作数据火车……FOR 命令通常能作用于数据火车上。 ——Geurts、Meertens 和 Pemberton ABC Programmer’s Handbook   内置序列类型概览  容器序列 list、tuple 和 collections.deque 这些序列能存放不同类型的数据。 扁平序列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="&lt;流畅的Python&gt; 笔记: 序列构成的数组">
+<meta property="og:url" content="https://yuechuanx.top/Python/fluent-python-notes-chap-02/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="你可能注意到了，之前提到的几个操作可以无差别地应用于文本、列表和表格上。 我们把文本、列表和表格叫作数据火车……FOR 命令通常能作用于数据火车上。 ——Geurts、Meertens 和 Pemberton ABC Programmer’s Handbook   内置序列类型概览  容器序列 list、tuple 和 collections.deque 这些序列能存放不同类型的数据。 扁平序列">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-12-16T12:27:00.000Z">
+<meta property="article:modified_time" content="2019-12-16T12:27:00.000Z">
+<meta property="article:author" content="Yuechuan Xiao">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://yuechuanx.top/Python/fluent-python-notes-chap-02/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Keep Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="../../css/style.css">
+
+  
+  
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
+  
+  
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/yuechuanx" target="_blank">
+          <img class="img-circle img-rotate" src="../../images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Yuechuan Xiao</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">DevOps &amp; Automation</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="../../.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="../../archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="../../categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="../../tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="../../repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="../../https:/github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../../categories/Algorithm/">Algorithm</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/DevOps/">DevOps</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/Java/">Java</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../../categories/Python/">Python</a><span class="category-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="../../tags/algorithm/" style="font-size: 14px;">algorithm</a> <a href="../../tags/array/" style="font-size: 13px;">array</a> <a href="../../tags/array-list/" style="font-size: 13.25px;">array-list</a> <a href="../../tags/automation/" style="font-size: 13px;">automation</a> <a href="../../tags/binary-tree/" style="font-size: 13px;">binary-tree</a> <a href="../../tags/command-line/" style="font-size: 13px;">command-line</a> <a href="../../tags/django/" style="font-size: 13.25px;">django</a> <a href="../../tags/docker/" style="font-size: 13.5px;">docker</a> <a href="../../tags/git/" style="font-size: 13px;">git</a> <a href="../../tags/gitlab/" style="font-size: 13px;">gitlab</a> <a href="../../tags/graph/" style="font-size: 13.25px;">graph</a> <a href="../../tags/hashmap/" style="font-size: 13px;">hashmap</a> <a href="../../tags/http/" style="font-size: 13px;">http</a> <a href="../../tags/interview/" style="font-size: 13px;">interview</a> <a href="../../tags/interview-questions/" style="font-size: 13.25px;">interview-questions</a> <a href="../../tags/jenkins/" style="font-size: 13px;">jenkins</a> <a href="../../tags/jvm/" style="font-size: 13px;">jvm</a> <a href="../../tags/linked-list/" style="font-size: 13.25px;">linked-list</a> <a href="../../tags/map/" style="font-size: 13px;">map</a> <a href="../../tags/markdown/" style="font-size: 13px;">markdown</a> <a href="../../tags/multithread/" style="font-size: 13px;">multithread</a> <a href="../../tags/plugin/" style="font-size: 13px;">plugin</a> <a href="../../tags/python/" style="font-size: 13.75px;">python</a> <a href="../../tags/queue/" style="font-size: 13px;">queue</a> <a href="../../tags/recursion/" style="font-size: 13px;">recursion</a> <a href="../../tags/search/" style="font-size: 13px;">search</a> <a href="../../tags/stack/" style="font-size: 13px;">stack</a> <a href="../../tags/string/" style="font-size: 13px;">string</a> <a href="../../tags/testlink/" style="font-size: 13px;">testlink</a> <a href="../../tags/tool/" style="font-size: 13px;">tool</a> <a href="../../tags/topological-sort/" style="font-size: 13.25px;">topological-sort</a> <a href="../../tags/tree/" style="font-size: 13.25px;">tree</a> <a href="../../tags/vscode/" style="font-size: 13px;">vscode</a> <a href="../../tags/web/" style="font-size: 13px;">web</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled ">
+        
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../fluent-python-notes-chap-07/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../fluent-python-notes-chap-07/" class="title">&lt;流畅的Python&gt; 笔记：函数装饰器与闭包</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-29T08:14:34.000Z" itemprop="datePublished">2020-04-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../fluent-python-notes-chap-05/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../fluent-python-notes-chap-05/" class="title">&lt;流畅的 Python&gt; 笔记：一等函数</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-22T08:38:39.000Z" itemprop="datePublished">2020-04-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../zen-of-python/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../zen-of-python/" class="title">Zen of Python（Python之禅）</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-15T08:54:29.000Z" itemprop="datePublished">2020-04-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../../django-dumpdata-and-loaddata/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="../../django-dumpdata-and-loaddata/" class="title">Django 导出和导入数据</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-13T10:57:03.000Z" itemprop="datePublished">2020-04-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../python-codestyle-pep8/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../python-codestyle-pep8/" class="title">Python代码规范 Pep8</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-01T06:12:38.000Z" itemprop="datePublished">2020-04-01</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内置序列类型概览"><span class="toc-number">1.</span> <span class="toc-text"> 内置序列类型概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列表推导和生成器表达式"><span class="toc-number">2.</span> <span class="toc-text"> 列表推导和生成器表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#列表推导和可读性"><span class="toc-number">2.1.</span> <span class="toc-text"> 列表推导和可读性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列表推导同-filter-和-map-的比较"><span class="toc-number">2.2.</span> <span class="toc-text"> 列表推导同 filter 和 map 的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#笛卡尔积"><span class="toc-number">2.3.</span> <span class="toc-text"> 笛卡尔积</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成器表达式"><span class="toc-number">2.4.</span> <span class="toc-text"> 生成器表达式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#元祖不仅仅是不可变的列表"><span class="toc-number">3.</span> <span class="toc-text"> 元祖不仅仅是不可变的列表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#元祖与记录"><span class="toc-number">3.1.</span> <span class="toc-text"> 元祖与记录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#元祖拆包"><span class="toc-number">3.2.</span> <span class="toc-text"> 元祖拆包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#嵌套元祖拆包"><span class="toc-number">3.3.</span> <span class="toc-text"> 嵌套元祖拆包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#具名元祖numedtuple"><span class="toc-number">3.4.</span> <span class="toc-text"> 具名元祖(numedtuple)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#作为不可变列表的元祖"><span class="toc-number">3.5.</span> <span class="toc-text"> 作为不可变列表的元祖</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#切片"><span class="toc-number">4.</span> <span class="toc-text"> 切片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么切片的区间会忽略最后一个元素"><span class="toc-number">4.1.</span> <span class="toc-text"> 为什么切片的区间会忽略最后一个元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多维切片和省略"><span class="toc-number">4.2.</span> <span class="toc-text"> 多维切片和省略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#给切片赋值"><span class="toc-number">4.3.</span> <span class="toc-text"> 给切片赋值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对序列使用-和"><span class="toc-number">5.</span> <span class="toc-text"> 对序列使用 + 和 *</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#建立由列表组成的列表"><span class="toc-number">5.1.</span> <span class="toc-text"> 建立由列表组成的列表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#序列的增量赋值"><span class="toc-number">6.</span> <span class="toc-text"> 序列的增量赋值 +&#x3D;、*&#x3D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#listsort方法和内置函数sorted"><span class="toc-number">7.</span> <span class="toc-text"> list.sort方法和内置函数sorted</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用bisect管理已排序的序列"><span class="toc-number">8.</span> <span class="toc-text"> 用bisect管理已排序的序列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用-bisect-来搜索"><span class="toc-number">8.1.</span> <span class="toc-text"> 用 bisect 来搜索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#array"><span class="toc-number">8.2.</span> <span class="toc-text"> Array</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#memoryview"><span class="toc-number">8.3.</span> <span class="toc-text"> memoryview</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deque"><span class="toc-number">8.4.</span> <span class="toc-text"> Deque</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Python/fluent-python-notes-chap-02" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      &lt;流畅的Python&gt; 笔记: 序列构成的数组
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="" class="article-date">
+	  <time datetime="2019-12-16T12:27:00.000Z" itemprop="datePublished">2019-12-16</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="../../categories/Python/">Python</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="../../tags/python/" rel="tag">python</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="" class="leancloud_visitors"  data-flag-title="&lt;流畅的Python&gt; 笔记: 序列构成的数组">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 3.1k(words)</span>
+	
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>你可能注意到了，之前提到的几个操作可以无差别地应用于文本、列表和表格上。<br />
+我们把文本、列表和表格叫作数据火车……FOR 命令通常能作用于数据火车上。<br />
+——Geurts、Meertens 和 Pemberton<br />
+<em>ABC Programmer’s Handbook</em></p>
+</blockquote>
+<h2 id="内置序列类型概览"><a class="markdownIt-Anchor" href="#内置序列类型概览"></a> 内置序列类型概览</h2>
+<ul>
+<li>容器序列<br />
+<code>list</code>、<code>tuple</code> 和 <code>collections.deque</code> 这些序列能存放不同类型的数据。</li>
+<li>扁平序列<br />
+<code>str</code>、<code>bytes</code>、<code>bytearray</code>、<code>memoryview</code> 和 <code>array.array</code>，这类序列只能容纳一种类型。</li>
+</ul>
+<p>容器序列存放的是它们所包含的任意类型的对象的<strong>引用</strong>，而扁平序列里存放的<strong>是值而不是引用</strong>。换句话说，扁平序列其实是一段连续的内存空间。由此可见扁平序列其实更加紧凑，但是它里面只能存放诸如字符、字节和数值这种基础类型。</p>
+<p>序列类型还能按照能否被修改来分类。</p>
+<ul>
+<li>可变序列<br />
+<code>list</code>、<code>bytearray</code>、<code>array.array</code>、<code>collections.deque</code> 和 <code>memoryview</code>。</li>
+<li>不可变序列<br />
+<code>tuple</code>、<code>str</code> 和 <code>bytes</code></li>
+</ul>
+<h2 id="列表推导和生成器表达式"><a class="markdownIt-Anchor" href="#列表推导和生成器表达式"></a> 列表推导和生成器表达式</h2>
+<h3 id="列表推导和可读性"><a class="markdownIt-Anchor" href="#列表推导和可读性"></a> 列表推导和可读性</h3>
+<p>列表推导是构建列表(list)的快捷方式，生成器表达式用来穿件其他任何类型的序列。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 比较两段代码</span></span><br><span class="line">symbols = <span class="string">'abcde'</span></span><br><span class="line"><span class="comment"># 1</span></span><br><span class="line">codes = []</span><br><span class="line"><span class="keyword">for</span> symbol <span class="keyword">in</span> symbols:</span><br><span class="line">    codes.append(ord(symbol))    </span><br><span class="line">print(codes)</span><br><span class="line"><span class="comment"># 2</span></span><br><span class="line">codes = [ord(symbol) <span class="keyword">for</span> symbol <span class="keyword">in</span> symbols]</span><br><span class="line">print(codes)</span><br></pre></td></tr></table></figure>
+<p>列表推导能够提升可读性。<br />
+只用列表推导来创建新的列表，并尽量保持简短（不要超过一行）</p>
+<h3 id="列表推导同-filter-和-map-的比较"><a class="markdownIt-Anchor" href="#列表推导同-filter-和-map-的比较"></a> 列表推导同 filter 和 map 的比较</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">symbols = <span class="string">'abcde'</span></span><br><span class="line"></span><br><span class="line">beyond_ascii = [ord(s) <span class="keyword">for</span> s <span class="keyword">in</span> symbols <span class="keyword">if</span> ord(s) &gt; <span class="number">100</span>]</span><br><span class="line">print(beyond_ascii)</span><br><span class="line"></span><br><span class="line">beyond_ascii = list(filter(<span class="keyword">lambda</span> c: c &gt; <span class="number">100</span>, map(ord, symbols)))</span><br><span class="line">print(beyond_ascii)</span><br></pre></td></tr></table></figure>
+<pre><code>[101]
+[101]
+</code></pre>
+<h3 id="笛卡尔积"><a class="markdownIt-Anchor" href="#笛卡尔积"></a> 笛卡尔积</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">colors = [<span class="string">'black'</span>, <span class="string">'white'</span>] </span><br><span class="line">sizes = [<span class="string">'S'</span>, <span class="string">'M'</span>, <span class="string">'L'</span>]</span><br><span class="line"></span><br><span class="line">tshirts = [(color, size) <span class="keyword">for</span> color <span class="keyword">in</span> colors </span><br><span class="line">                         <span class="keyword">for</span> size <span class="keyword">in</span> sizes]</span><br><span class="line">print(tshirts)</span><br><span class="line"></span><br><span class="line">tshirts = [(color, size) <span class="keyword">for</span> size <span class="keyword">in</span> sizes</span><br><span class="line">                         <span class="keyword">for</span> color <span class="keyword">in</span> colors]</span><br><span class="line">print(tshirts)</span><br><span class="line"><span class="comment"># 注意顺序是依照 for-loop</span></span><br></pre></td></tr></table></figure>
+<pre><code>[('black', 'S'), ('black', 'M'), ('black', 'L'), ('white', 'S'), ('white', 'M'), ('white', 'L')]
+[('black', 'S'), ('white', 'S'), ('black', 'M'), ('white', 'M'), ('black', 'L'), ('white', 'L')]
+</code></pre>
+<h3 id="生成器表达式"><a class="markdownIt-Anchor" href="#生成器表达式"></a> 生成器表达式</h3>
+<p>列表推导与生成器表达式的区别：</p>
+<ul>
+<li>生成器表达式遵守实现了迭代器接口，可以逐个地产出元素。列表推导是先建立一个完整的列表，再将这个列表传递到构造函数里。</li>
+<li>语法上近似，方括号换成圆括号</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># symbols = 'abcde'</span></span><br><span class="line">print(tuple(ord(symbol) <span class="keyword">for</span> symbol <span class="keyword">in</span> symbols))</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> array</span><br><span class="line">print(array.array(<span class="string">'I'</span>, (ord(symbol) <span class="keyword">for</span> symbol <span class="keyword">in</span> symbols)))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果生成器表达式是一个函数调用过程中的唯一参数，则不需要额外括号</li>
+<li>生成器会在 for-loop 运行时才生成一个组合。逐个产出元素</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">colors = [<span class="string">'black'</span>, <span class="string">'white'</span>] </span><br><span class="line">sizes = [<span class="string">'S'</span>, <span class="string">'M'</span>, <span class="string">'L'</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> tshirt <span class="keyword">in</span> (<span class="string">'%s %s'</span> %(c, s) <span class="keyword">for</span> c <span class="keyword">in</span> colors <span class="keyword">for</span> s <span class="keyword">in</span> sizes):</span><br><span class="line">    print(tshirt)</span><br></pre></td></tr></table></figure>
+<pre><code>black S
+black M
+black L
+white S
+white M
+white L
+</code></pre>
+<h2 id="元祖不仅仅是不可变的列表"><a class="markdownIt-Anchor" href="#元祖不仅仅是不可变的列表"></a> 元祖不仅仅是不可变的列表</h2>
+<h3 id="元祖与记录"><a class="markdownIt-Anchor" href="#元祖与记录"></a> 元祖与记录</h3>
+<ul>
+<li>元祖是对数据的记录</li>
+<li>元祖的位置信息为数据赋予了意义。对元祖内元素排序，位置信息将丢失</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># LA 国际机场经纬度</span></span><br><span class="line">lax_coordinates = (<span class="number">33.9425</span>, <span class="number">-118.408056</span>)</span><br><span class="line"><span class="comment"># 城市，年份，人口（单位：百万），人口变化（单位：百分比），面积</span></span><br><span class="line">city, year, pop, chg, area = (<span class="string">'Tokyo'</span>, <span class="number">2003</span>, <span class="number">32450</span>, <span class="number">0.66</span>, <span class="number">8014</span>)</span><br><span class="line"><span class="comment"># country_code, passport number</span></span><br><span class="line">traveler_ids = [(<span class="string">'USA'</span>, <span class="string">'31195855'</span>), (<span class="string">'BBA'</span>, <span class="string">'CE342567'</span>), (<span class="string">'ESP'</span>, <span class="string">'XDA205856'</span>)]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> passport <span class="keyword">in</span> sorted(traveler_ids):</span><br><span class="line">    print(<span class="string">'%s%s'</span> % passport)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拆包（unpacking）</span></span><br><span class="line"><span class="keyword">for</span> country, _ <span class="keyword">in</span> traveler_ids:</span><br><span class="line">    print(country)</span><br></pre></td></tr></table></figure>
+<pre><code>BBACE342567
+ESPXDA205856
+USA31195855
+USA
+BBA
+ESP
+</code></pre>
+<h3 id="元祖拆包"><a class="markdownIt-Anchor" href="#元祖拆包"></a> 元祖拆包</h3>
+<ul>
+<li>平行赋值</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lax_coordinates = (<span class="number">33.9425</span>, <span class="number">-118.408056</span>)</span><br><span class="line"><span class="comment"># 元祖拆包</span></span><br><span class="line">latitude, longtitude = lax_coordinates</span><br><span class="line">print(latitude)</span><br><span class="line">print(longtitude)</span><br></pre></td></tr></table></figure>
+<pre><code>33.9425
+-118.408056
+</code></pre>
+<ul>
+<li>交换变量值，不使用中间变量</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">3</span></span><br><span class="line">b = <span class="number">4</span></span><br><span class="line">b, a = a, b</span><br><span class="line">print(a)</span><br><span class="line">print(b)</span><br></pre></td></tr></table></figure>
+<pre><code>4
+3
+</code></pre>
+<ul>
+<li><code>*</code> 运算符，把一个可迭代对象拆开作为函数参数</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">divmod(<span class="number">20</span>, <span class="number">8</span>)</span><br><span class="line"></span><br><span class="line">t = (<span class="number">20</span>, <span class="number">8</span>)</span><br><span class="line">divmod(*t)</span><br><span class="line"></span><br><span class="line">quotient, remainder = divmod(*t)</span><br><span class="line">print(quotient)</span><br><span class="line">print(remainder)</span><br></pre></td></tr></table></figure>
+<pre><code>2
+4
+</code></pre>
+<ul>
+<li>函数用元祖形式返回多个值</li>
+</ul>
+<blockquote>
+<p>_ 用作占位符，可以用来处理不需要的数据</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">_, filename = os.path.split(<span class="string">'/home/xiao/.ssh/id_rsa.pub'</span>)</span><br><span class="line">print(filename)</span><br></pre></td></tr></table></figure>
+<pre><code>id_rsa.pub
+</code></pre>
+<ul>
+<li>用<code>*</code> 处理省下的元素</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">a, b, *rest = range(<span class="number">5</span>)</span><br><span class="line">print(a, b, rest)</span><br><span class="line"></span><br><span class="line">a, b, *rest = range(<span class="number">3</span>)</span><br><span class="line">print(a, b, rest)</span><br><span class="line"></span><br><span class="line">a, b, *rest = range(<span class="number">2</span>)</span><br><span class="line">print(a, b, rest)</span><br><span class="line"></span><br><span class="line"><span class="comment"># * 前缀只能用在一个变量前，该变量可出现在赋值表达式中任意位置</span></span><br><span class="line">a, *body, c, d = range(<span class="number">5</span>)</span><br><span class="line">print(a, body, c, d)</span><br><span class="line"></span><br><span class="line">*head, b, c, d = range(<span class="number">5</span>)</span><br><span class="line">print(head, b, c, d)</span><br></pre></td></tr></table></figure>
+<pre><code>0 1 [2, 3, 4]
+0 1 [2]
+0 1 []
+0 [1, 2] 3 4
+[0, 1] 2 3 4
+</code></pre>
+<h3 id="嵌套元祖拆包"><a class="markdownIt-Anchor" href="#嵌套元祖拆包"></a> 嵌套元祖拆包</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">metro_areas = [</span><br><span class="line">    (<span class="string">'Tokyo'</span>, <span class="string">'JP'</span>, <span class="number">36.933</span>, (<span class="number">35.689722</span>, <span class="number">139.691667</span>)),   <span class="comment"># &lt;1&gt;</span></span><br><span class="line">    (<span class="string">'Delhi NCR'</span>, <span class="string">'IN'</span>, <span class="number">21.935</span>, (<span class="number">28.613889</span>, <span class="number">77.208889</span>)),</span><br><span class="line">    (<span class="string">'Mexico City'</span>, <span class="string">'MX'</span>, <span class="number">20.142</span>, (<span class="number">19.433333</span>, <span class="number">-99.133333</span>)),</span><br><span class="line">    (<span class="string">'New York-Newark'</span>, <span class="string">'US'</span>, <span class="number">20.104</span>, (<span class="number">40.808611</span>, <span class="number">-74.020386</span>)),</span><br><span class="line">    (<span class="string">'Sao Paulo'</span>, <span class="string">'BR'</span>, <span class="number">19.649</span>, (<span class="number">-23.547778</span>, <span class="number">-46.635833</span>)),</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">print(<span class="string">'&#123;:15&#125; | &#123;:^9&#125; | &#123;:^9&#125;'</span>.format(<span class="string">''</span>, <span class="string">'lat.'</span>, <span class="string">'long.'</span>))</span><br><span class="line">fmt = <span class="string">'&#123;:15&#125; | &#123;:9.4f&#125; | &#123;:9.4f&#125;'</span></span><br><span class="line"><span class="keyword">for</span> name, cc, pop, (latitude, longitude) <span class="keyword">in</span> metro_areas:  <span class="comment"># &lt;2&gt;</span></span><br><span class="line">    <span class="keyword">if</span> longitude &lt;= <span class="number">0</span>:  <span class="comment"># &lt;3&gt;</span></span><br><span class="line">        print(fmt.format(name, latitude, longitude))</span><br></pre></td></tr></table></figure>
+<pre><code>                |   lat.    |   long.  
+Mexico City     |   19.4333 |  -99.1333
+New York-Newark |   40.8086 |  -74.0204
+Sao Paulo       |  -23.5478 |  -46.6358
+</code></pre>
+<p>将元祖作为记录仍缺少一个功能：字段命名</p>
+<h3 id="具名元祖numedtuple"><a class="markdownIt-Anchor" href="#具名元祖numedtuple"></a> 具名元祖(numedtuple)</h3>
+<p><code>collections.namedtuple</code> 是一个工厂函数，用来构建带字段名的元祖和一个有名字的</p>
+<blockquote>
+<p>namedtuple 构建的类的实例所消耗的内存和元祖是一样的，因为字段名都存在对应的类里。<br />
+实例和普通的对象实例小一点，因为 Python 不会用 <code>__dict__</code> 存放实例的属性</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line"></span><br><span class="line"><span class="comment"># 需要两个参数，类名和类各个字段的名字</span></span><br><span class="line">City = namedtuple(<span class="string">'City'</span>, <span class="string">'name country population coordinates'</span>)</span><br><span class="line">tokyo = City(<span class="string">'Tokyo'</span>, <span class="string">'JP'</span>, <span class="number">36.933</span>, (<span class="number">35.689722</span>, <span class="number">129.691667</span>))</span><br><span class="line">print(tokyo)</span><br><span class="line">print(tokyo.population)</span><br><span class="line">print(tokyo.coordinates)</span><br></pre></td></tr></table></figure>
+<pre><code>City(name='Tokyo', country='JP', population=36.933, coordinates=(35.689722, 129.691667))
+36.933
+(35.689722, 129.691667)
+</code></pre>
+<p><code>namedtuple</code> 除了从普通元祖继承的属性外，还有一些专有属性。<br />
+常用的有：</p>
+<ul>
+<li><code>_fields</code> 类属性</li>
+<li><code>_make(iterable)</code> 类方法</li>
+<li><code>_asdict()</code> 实例方法</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">print(City._fields)</span><br><span class="line">LatLong = namedtuple(<span class="string">'LatLong'</span>, <span class="string">'lat long'</span>)</span><br><span class="line">delhi_data = (<span class="string">'Delhi NCR'</span>, <span class="string">'IN'</span>, <span class="number">21.935</span>, LatLong(<span class="number">28.613889</span>, <span class="number">77.208889</span>))</span><br><span class="line">delhi = City._make(delhi_data)</span><br><span class="line">print(delhi._asdict())</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> key, value <span class="keyword">in</span> delhi._asdict().items():</span><br><span class="line">    print(key + <span class="string">':'</span>, value)</span><br></pre></td></tr></table></figure>
+<pre><code>('name', 'country', 'population', 'coordinates')
+OrderedDict([('name', 'Delhi NCR'), ('country', 'IN'), ('population', 21.935), ('coordinates', LatLong(lat=28.613889, long=77.208889))])
+name: Delhi NCR
+country: IN
+population: 21.935
+coordinates: LatLong(lat=28.613889, long=77.208889)
+</code></pre>
+<h3 id="作为不可变列表的元祖"><a class="markdownIt-Anchor" href="#作为不可变列表的元祖"></a> 作为不可变列表的元祖</h3>
+<p>对比列表和元祖的方法<br />
+// 插入表格</p>
+<p>结论：</p>
+<ul>
+<li>除了增减元素相关的方法和<code>__reversed__</code> 外，元祖支持列表的其他所有方法。</li>
+</ul>
+<h2 id="切片"><a class="markdownIt-Anchor" href="#切片"></a> 切片</h2>
+<p>在 Python 里, 列表（list），元祖（tuple）和字符串（str）这类序列类型都支持切片操作</p>
+<h3 id="为什么切片的区间会忽略最后一个元素"><a class="markdownIt-Anchor" href="#为什么切片的区间会忽略最后一个元素"></a> 为什么切片的区间会忽略最后一个元素</h3>
+<ul>
+<li>Python 以0 作为起始下标</li>
+<li>当只有后一个位置信息时，可以快速导出切片和区间的元素数量</li>
+<li>当起止位置信息课件是，可以快速计算出切片和区间的长度 （stop - start）</li>
+<li>可利用任意一个下标把序列分割成不重叠的两部分。<code>my_list[:x]</code> <code>my_list[x:]</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### 对对象进行切片</span></span><br><span class="line"></span><br><span class="line">- 可以通过 s[a:b:c] 的形式对 s 在 a 和 b 区间以 c 为间隔取值</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">'bicycle'</span></span><br><span class="line">print(s[::<span class="number">3</span>])</span><br><span class="line">print(s[::<span class="number">-1</span>])</span><br><span class="line">print(s[::<span class="number">-2</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>bye
+elcycib
+eccb
+</code></pre>
+<h3 id="多维切片和省略"><a class="markdownIt-Anchor" href="#多维切片和省略"></a> 多维切片和省略</h3>
+<p><code>[]</code> 运算符可以使用以逗号分开的多个索引或切片。</p>
+<p>如 <code>a[i, j]</code>，<code>a[m:n, k:1]</code>得到二维切片</p>
+<p>要正确处理<code>[]</code> 运算符，对象的特殊方法 <code>__getitem__</code>，<code>__setitem__</code> 需要以元祖的形式来接受 <code>a[i, j]</code>的索引。</p>
+<h3 id="给切片赋值"><a class="markdownIt-Anchor" href="#给切片赋值"></a> 给切片赋值</h3>
+<p>切片放在赋值语句左边，或作为 del 操作对象，可以对序列进行嫁接、切除或就地修改</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">l = list(range(<span class="number">10</span>))</span><br><span class="line">print(l)</span><br><span class="line"></span><br><span class="line">l[<span class="number">2</span>:<span class="number">5</span>] = [<span class="number">20</span>, <span class="number">30</span>]</span><br><span class="line">print(l)</span><br><span class="line"></span><br><span class="line"><span class="keyword">del</span> l[<span class="number">5</span>:<span class="number">7</span>]</span><br><span class="line">print(l)</span><br><span class="line"></span><br><span class="line">l[<span class="number">3</span>::<span class="number">2</span>] = [<span class="number">11</span>, <span class="number">22</span>]</span><br><span class="line">print(l)</span><br><span class="line"></span><br><span class="line"><span class="comment"># l[2:5] = 100 WRONG</span></span><br></pre></td></tr></table></figure>
+<pre><code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[0, 1, 20, 30, 5, 6, 7, 8, 9]
+[0, 1, 20, 30, 5, 8, 9]
+[0, 1, 20, 11, 5, 22, 9]
+</code></pre>
+<h2 id="对序列使用-和"><a class="markdownIt-Anchor" href="#对序列使用-和"></a> 对序列使用 + 和 *</h2>
+<ul>
+<li><code>+</code> 和 <code>*</code> 不修改原有的操作对象，而是构建一个新的序列</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">l = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">print(l * <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="number">5</span> * <span class="string">'abcd'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>[1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3]
+abcdabcdabcdabcdabcd
+</code></pre>
+<h3 id="建立由列表组成的列表"><a class="markdownIt-Anchor" href="#建立由列表组成的列表"></a> 建立由列表组成的列表</h3>
+<blockquote>
+<p>a * n，如果在序列 a 中存在对其他可变变量的引用的话，得到的序列中包含的是 n 个对指向同一地址的引用</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">board = [[<span class="string">'_'</span>] * <span class="number">3</span> <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>)]</span><br><span class="line"><span class="comment"># 换一种形式</span></span><br><span class="line"><span class="comment"># board = []</span></span><br><span class="line"><span class="comment"># for i in range(3):</span></span><br><span class="line"><span class="comment">#     row = ['_'] * 3</span></span><br><span class="line"><span class="comment">#     board.append(row)</span></span><br><span class="line">print(board)</span><br><span class="line">board[<span class="number">1</span>][<span class="number">2</span>] = <span class="string">'X'</span></span><br><span class="line">print(board)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"><span class="comment"># weird_board = [['_'] * 3] * 3</span></span><br><span class="line"><span class="comment"># 换一种形式</span></span><br><span class="line">weird_board = []</span><br><span class="line">row = [<span class="string">'_'</span>] * <span class="number">3</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</span><br><span class="line">    weird_board.append(row)</span><br><span class="line">weird_board[<span class="number">1</span>][<span class="number">2</span>] = <span class="string">'O'</span></span><br><span class="line"><span class="comment"># 会发现 3 个指向同一列表的引用</span></span><br><span class="line">print(weird_board)</span><br></pre></td></tr></table></figure>
+<pre><code>[['_', '_', '_'], ['_', '_', '_'], ['_', '_', '_']]
+[['_', '_', '_'], ['_', '_', 'X'], ['_', '_', '_']]
+[['_', '_', 'O'], ['_', '_', 'O'], ['_', '_', 'O']]
+</code></pre>
+<h2 id="序列的增量赋值"><a class="markdownIt-Anchor" href="#序列的增量赋值"></a> 序列的增量赋值 +=、*=</h2>
+<ul>
+<li><code>+=</code> 背后的特殊方法是 <code>__iadd__</code> 方法，没有则退一步调用 <code>__add__</code></li>
+<li>同理 <code>*=</code> 的特殊方法是 <code>__imul__</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">l = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">print(id(l))</span><br><span class="line"></span><br><span class="line">l *= <span class="number">2</span></span><br><span class="line">print(l)</span><br><span class="line"><span class="comment"># 列表ID 无改变</span></span><br><span class="line">print(id(l))</span><br><span class="line"></span><br><span class="line">t = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">print(id(t))</span><br><span class="line">t *= <span class="number">2</span></span><br><span class="line">print(t)</span><br><span class="line"><span class="comment"># 新元祖被创建</span></span><br><span class="line">print(id(t))</span><br></pre></td></tr></table></figure>
+<pre><code>4534358344
+[1, 2, 3, 1, 2, 3]
+4534358344
+4536971408
+(1, 2, 3, 1, 2, 3)
+4546754024
+</code></pre>
+<h2 id="listsort方法和内置函数sorted"><a class="markdownIt-Anchor" href="#listsort方法和内置函数sorted"></a> list.sort方法和内置函数sorted</h2>
+<ul>
+<li>list.sort 会就地排序列表，方法返回值为 None</li>
+<li>sorted 会新建一个列表作为返回值</li>
+<li>两个方法都有 reverse 和 key 作为可选的关键字参数<br />
+reserve 为 True 时，降序输出。默认为 false<br />
+key 只有一个参数的函数，将被用在序列的每一个元素上，其结果作为排序算法依赖的对比关键字</li>
+</ul>
+<h2 id="用bisect管理已排序的序列"><a class="markdownIt-Anchor" href="#用bisect管理已排序的序列"></a> 用bisect管理已排序的序列</h2>
+<p>bisect 模块有两个主要函数：</p>
+<ul>
+<li>bisect</li>
+<li>insort<br />
+都利用二分查找法来在有序序列中查找或插入人元素</li>
+</ul>
+<h3 id="用-bisect-来搜索"><a class="markdownIt-Anchor" href="#用-bisect-来搜索"></a> 用 bisect 来搜索</h3>
+<p>bisect(haystack, needle) 默认为升序，haystack 需要保持有序。<br />
+使用方法：<br />
+bisect(index, needle) 查找位置 index，再使用 haystack.insert(index, needle) 插入新值</p>
+<p>也可以用 insort 来一步到位，且后者速度更快</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># BEGIN BISECT_DEMO</span></span><br><span class="line"><span class="keyword">import</span> bisect</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">HAYSTACK = [<span class="number">1</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">12</span>, <span class="number">15</span>, <span class="number">20</span>, <span class="number">21</span>, <span class="number">23</span>, <span class="number">23</span>, <span class="number">26</span>, <span class="number">29</span>, <span class="number">30</span>]</span><br><span class="line">NEEDLES = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">10</span>, <span class="number">22</span>, <span class="number">23</span>, <span class="number">29</span>, <span class="number">30</span>, <span class="number">31</span>]</span><br><span class="line"></span><br><span class="line">ROW_FMT = <span class="string">'&#123;0:2d&#125; @ &#123;1:2d&#125;    &#123;2&#125;&#123;0:&lt;2d&#125;'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">demo</span><span class="params">(bisect_fn)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> needle <span class="keyword">in</span> reversed(NEEDLES):</span><br><span class="line">        position = bisect_fn(HAYSTACK, needle)  <span class="comment"># &lt;1&gt;</span></span><br><span class="line">        offset = position * <span class="string">'  |'</span>  <span class="comment"># &lt;2&gt;</span></span><br><span class="line">        print(ROW_FMT.format(needle, position, offset))  <span class="comment"># &lt;3&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> sys.argv[<span class="number">-1</span>] == <span class="string">'left'</span>:    <span class="comment"># &lt;4&gt;</span></span><br><span class="line">        bisect_fn = bisect.bisect_left</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        bisect_fn = bisect.bisect</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'DEMO:'</span>, bisect_fn.__name__)  <span class="comment"># &lt;5&gt;</span></span><br><span class="line">    print(<span class="string">'haystack -&gt;'</span>, <span class="string">' '</span>.join(<span class="string">'%2d'</span> % n <span class="keyword">for</span> n <span class="keyword">in</span> HAYSTACK))</span><br><span class="line">    demo(bisect_fn)</span><br><span class="line"></span><br><span class="line"><span class="comment"># END BISECT_DEMO</span></span><br></pre></td></tr></table></figure>
+<pre><code>DEMO: bisect_right
+haystack -&gt;  1  4  5  6  8 12 15 20 21 23 23 26 29 30
+31 @ 14      |  |  |  |  |  |  |  |  |  |  |  |  |  |31
+30 @ 14      |  |  |  |  |  |  |  |  |  |  |  |  |  |30
+29 @ 13      |  |  |  |  |  |  |  |  |  |  |  |  |29
+23 @ 11      |  |  |  |  |  |  |  |  |  |  |23
+22 @  9      |  |  |  |  |  |  |  |  |22
+10 @  5      |  |  |  |  |10
+ 8 @  5      |  |  |  |  |8 
+ 5 @  3      |  |  |5 
+ 2 @  1      |2 
+ 1 @  1      |1 
+ 0 @  0    0 
+</code></pre>
+<h3 id="array"><a class="markdownIt-Anchor" href="#array"></a> Array</h3>
+<blockquote>
+<p>虽然列表既灵活又简单，但面对各类需求时，我们可能会有更好的选择。比如，要存放 1000 万个浮点数的话，数组（array）的效率要高得多，因为数组在背后存的并不是 float 对象，而是数字的机器翻译，也就是字节表述。这一点就跟 C 语言中的数组一样。再比如说，如果需要频繁对序列做先进先出的操作，deque（双端队列）的速度应该会更快。</p>
+</blockquote>
+<p><code>array.tofile</code> 和 <code>fromfile</code> 可以将数组以二进制格式写入文件，速度要比写入文本文件快很多，文件的体积也小。</p>
+<blockquote>
+<p>另外一个快速序列化数字类型的方法是使用 pickle（<a href="https://docs.python.org/3/library/pickle.html%EF%BC%89%E6%A8%A1%E5%9D%97%E3%80%82pickle.dump" target="_blank" rel="noopener">https://docs.python.org/3/library/pickle.html）模块。pickle.dump</a> 处理浮点数组的速度几乎跟array.tofile 一样快。不过前者可以处理几乎所有的内置数字类型，包含复数、嵌套集合，甚至用户自定义的类。前提是这些类没有什么特别复杂的实现。</p>
+</blockquote>
+<p>array 具有 <code>type code</code> 来表示数组类型：具体可见 <a href="https://docs.python.org/3/library/array.html" target="_blank" rel="noopener">array 文档</a>.</p>
+<h3 id="memoryview"><a class="markdownIt-Anchor" href="#memoryview"></a> memoryview</h3>
+<blockquote>
+<p>memoryview.cast 的概念跟数组模块类似，能用不同的方式读写同一块内存数据，而且内容字节不会随意移动。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> array</span><br><span class="line"></span><br><span class="line">arr = array.array(<span class="string">'h'</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">memv_arr = memoryview(arr)</span><br><span class="line"><span class="comment"># 把 signed short 的内存使用 char 来呈现</span></span><br><span class="line">memv_char = memv_arr.cast(<span class="string">'B'</span>) </span><br><span class="line">print(<span class="string">'Short'</span>, memv_arr.tolist())</span><br><span class="line">print(<span class="string">'Char'</span>, memv_char.tolist())</span><br><span class="line">memv_char[<span class="number">1</span>] = <span class="number">2</span>  <span class="comment"># 更改 array 第一个数的高位字节</span></span><br><span class="line"><span class="comment"># 0x1000000001</span></span><br><span class="line">print(memv_arr.tolist(), arr)</span><br><span class="line">print(<span class="string">'-'</span> * <span class="number">10</span>)</span><br><span class="line">bytestr = <span class="string">b'123'</span></span><br><span class="line"><span class="comment"># bytes 是不允许更改的</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    bytestr[<span class="number">1</span>] = <span class="string">'3'</span></span><br><span class="line"><span class="keyword">except</span> TypeError <span class="keyword">as</span> e:</span><br><span class="line">    print(repr(e))</span><br><span class="line">memv_byte = memoryview(bytestr)</span><br><span class="line">print(<span class="string">'Memv_byte'</span>, memv_byte.tolist())</span><br><span class="line"><span class="comment"># 同样这块内存也是只读的</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    memv_byte[<span class="number">1</span>] = <span class="number">1</span></span><br><span class="line"><span class="keyword">except</span> TypeError <span class="keyword">as</span> e:</span><br><span class="line">    print(repr(e))</span><br></pre></td></tr></table></figure>
+<h3 id="deque"><a class="markdownIt-Anchor" href="#deque"></a> Deque</h3>
+<p><code>collections.deque</code> 是比 <code>list</code> 效率更高，且<strong>线程安全</strong>的双向队列实现。</p>
+<p>除了 collections 以外，以下 Python 标准库也有对队列的实现：</p>
+<ul>
+<li>queue.Queue (可用于线程间通信)</li>
+<li>multiprocessing.Queue (可用于进程间通信)</li>
+<li>asyncio.Queue</li>
+<li>heapq</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://yuechuanx.top/Python/fluent-python-notes-chap-02/" title="&lt;流畅的Python&gt; 笔记: 序列构成的数组" target="_blank" rel="external">https://yuechuanx.top/Python/fluent-python-notes-chap-02/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/yuechuanx" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="../../images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/yuechuanx" target="_blank"><span class="text-dark">Yuechuan Xiao</span><small class="ml-1x">DevOps &amp; Automation</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="../../DevOps/docker-basic/" title="Docker 基础使用"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="../../markdown-syntax/" title="Markdown 语法总结"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+    
+	
+    <ul class="social-links">
+    	
+        <li><a href="../../https:/github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+        
+        &copy; 2020 Yuechuan Xiao
+        
+        <!-- <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div> -->
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="../../js/plugin.min.js"></script>
+
+
+<script src="../../js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '../../content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="../../js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: true,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: true
+  });
+  </script>
+
+     
+
+
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-153687468-1', 'auto');
+ga('send', 'pageview');
+
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+</body>
+</html>
