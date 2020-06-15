@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  <meta name="google-site-verification" content="6jcyYTEWbkiJxHX-_FPfoG7WGHPZUKpuZWg4B8y6Snc" />
+  
+  
+  <title>使用Graphviz创建图表 | Yuechuanx</title>
+  <meta name="description" content="转载自：https:&#x2F;&#x2F;ncona.com&#x2F;2020&#x2F;06&#x2F;create-diagrams-with-code-using-graphviz&#x2F;  您是否曾为绘制过架构图时重复的单击和拖动而感到乏味？ 您是否需要对该图进行修改发现改动却很复杂？ Graphviz 是一个开源的图形可视化软件，它使我们能够使用代码描述图表，并为我们自动绘制。如果将来需要修改该图，我们只需要修改描述代码，节点和边将自动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Graphviz创建图表">
+<meta property="og:url" content="https://yuechuanx.top/create-diagrams-with-code-using-graphviz/index.html">
+<meta property="og:site_name" content="Keep Coding">
+<meta property="og:description" content="转载自：https:&#x2F;&#x2F;ncona.com&#x2F;2020&#x2F;06&#x2F;create-diagrams-with-code-using-graphviz&#x2F;  您是否曾为绘制过架构图时重复的单击和拖动而感到乏味？ 您是否需要对该图进行修改发现改动却很复杂？ Graphviz 是一个开源的图形可视化软件，它使我们能够使用代码描述图表，并为我们自动绘制。如果将来需要修改该图，我们只需要修改描述代码，节点和边将自动">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-basic.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-directed-graph.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-bidirectional-arrow.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-shapes.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-shapes-styles.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-arrows.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-arrows-styles.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-labels.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-vertix-label.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-label-styles.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-cluster.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-clusters-nested.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-html.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-html-style.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-images.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-top-bottom.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-left-right.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-rank-same.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-rank-cluster.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-constraint.png">
+<meta property="og:image" content="https://ncona.com/images/posts/graphviz-ranksep.png">
+<meta property="article:published_time" content="2020-06-15T06:53:31.000Z">
+<meta property="article:modified_time" content="2020-06-15T06:53:31.000Z">
+<meta property="article:author" content="Yuechuan Xiao">
+<meta property="article:tag" content="graph">
+<meta property="article:tag" content="tool">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ncona.com/images/posts/graphviz-basic.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://yuechuanx.top/create-diagrams-with-code-using-graphviz/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Keep Coding" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="../css/style.css">
+
+  
+  
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
+  
+  
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/yuechuanx" target="_blank">
+          <img class="img-circle img-rotate" src="../images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Yuechuan Xiao</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">DevOps &amp; Automation</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="../.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="../archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="../categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="../tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="../repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="../https:/github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="../categories/Algorithm/">Algorithm</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/DevOps/">DevOps</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/Java/">Java</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="../categories/Python/">Python</a><span class="category-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="../tags/algorithm/" style="font-size: 14px;">algorithm</a> <a href="../tags/array/" style="font-size: 13px;">array</a> <a href="../tags/array-list/" style="font-size: 13.25px;">array-list</a> <a href="../tags/automation/" style="font-size: 13px;">automation</a> <a href="../tags/binary-tree/" style="font-size: 13px;">binary-tree</a> <a href="../tags/command-line/" style="font-size: 13px;">command-line</a> <a href="../tags/django/" style="font-size: 13.25px;">django</a> <a href="../tags/docker/" style="font-size: 13.5px;">docker</a> <a href="../tags/git/" style="font-size: 13px;">git</a> <a href="../tags/gitlab/" style="font-size: 13px;">gitlab</a> <a href="../tags/graph/" style="font-size: 13.5px;">graph</a> <a href="../tags/hashmap/" style="font-size: 13px;">hashmap</a> <a href="../tags/http/" style="font-size: 13px;">http</a> <a href="../tags/interview/" style="font-size: 13px;">interview</a> <a href="../tags/interview-questions/" style="font-size: 13.25px;">interview-questions</a> <a href="../tags/jenkins/" style="font-size: 13px;">jenkins</a> <a href="../tags/jvm/" style="font-size: 13px;">jvm</a> <a href="../tags/linked-list/" style="font-size: 13.25px;">linked-list</a> <a href="../tags/linux/" style="font-size: 13px;">linux</a> <a href="../tags/map/" style="font-size: 13px;">map</a> <a href="../tags/markdown/" style="font-size: 13px;">markdown</a> <a href="../tags/multithread/" style="font-size: 13px;">multithread</a> <a href="../tags/plugin/" style="font-size: 13px;">plugin</a> <a href="../tags/python/" style="font-size: 13.75px;">python</a> <a href="../tags/queue/" style="font-size: 13px;">queue</a> <a href="../tags/recursion/" style="font-size: 13px;">recursion</a> <a href="../tags/search/" style="font-size: 13px;">search</a> <a href="../tags/stack/" style="font-size: 13px;">stack</a> <a href="../tags/string/" style="font-size: 13px;">string</a> <a href="../tags/testlink/" style="font-size: 13px;">testlink</a> <a href="../tags/tool/" style="font-size: 13.25px;">tool</a> <a href="../tags/topological-sort/" style="font-size: 13.25px;">topological-sort</a> <a href="../tags/tree/" style="font-size: 13.25px;">tree</a> <a href="../tags/vscode/" style="font-size: 13px;">vscode</a> <a href="../tags/web/" style="font-size: 13px;">web</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled ">
+        
+          <li>
+            
+            <div class="item-thumb">
+              <a href="" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="" class="title">使用Graphviz创建图表</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-06-15T06:53:31.000Z" itemprop="datePublished">2020-06-15</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../Python/prettytable/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../Python/prettytable/" class="title">用 Prettytable 在终端输出漂亮的表格</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-06-05T07:07:28.000Z" itemprop="datePublished">2020-06-05</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../Python/fluent-python-notes-chap-07/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../Python/fluent-python-notes-chap-07/" class="title">&lt;流畅的Python&gt; 笔记：函数装饰器与闭包</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-29T08:14:34.000Z" itemprop="datePublished">2020-04-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../Python/fluent-python-notes-chap-05/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../Python/fluent-python-notes-chap-05/" class="title">&lt;流畅的 Python&gt; 笔记：一等函数</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-22T08:38:39.000Z" itemprop="datePublished">2020-04-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-thumb">
+              <a href="../Python/zen-of-python/" class="thumb">
+    
+    
+        <span class="thumb-image thumb-none"></span>
+    
+</a>
+
+            </div>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="../categories/Python/">Python</a>
+              </p>
+              <p class="item-title">
+                <a href="../Python/zen-of-python/" class="title">Zen of Python（Python之禅）</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-15T08:54:29.000Z" itemprop="datePublished">2020-04-15</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#绘制图形"><span class="toc-number">1.</span> <span class="toc-text"> 绘制图形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dot"><span class="toc-number">2.</span> <span class="toc-text"> DOT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本"><span class="toc-number">2.1.</span> <span class="toc-text"> 基本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#形状"><span class="toc-number">2.2.</span> <span class="toc-text"> 形状</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#箭头"><span class="toc-number">2.3.</span> <span class="toc-text"> 箭头</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标签"><span class="toc-number">2.4.</span> <span class="toc-text"> 标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集群"><span class="toc-number">2.5.</span> <span class="toc-text"> 集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#html"><span class="toc-number">2.6.</span> <span class="toc-text"> HTML</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图片"><span class="toc-number">2.7.</span> <span class="toc-text"> 图片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rank"><span class="toc-number">2.8.</span> <span class="toc-text"> Rank</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text"> 总结</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-create-diagrams-with-code-using-graphviz" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用Graphviz创建图表
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="" class="article-date">
+	  <time datetime="2020-06-15T06:53:31.000Z" itemprop="datePublished">2020-06-15</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="../tags/graph/" rel="tag">graph</a>, <a class="article-tag-link" href="../tags/tool/" rel="tag">tool</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="" class="leancloud_visitors"  data-flag-title="使用Graphviz创建图表">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="#comments" class="article-comment-link">Comments</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 2.1k(words)</span>
+	
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <blockquote>
+<p>转载自：<a href="https://ncona.com/2020/06/create-diagrams-with-code-using-graphviz/" target="_blank" rel="noopener">https://ncona.com/2020/06/create-diagrams-with-code-using-graphviz/</a></p>
+</blockquote>
+<p>您是否曾为绘制过架构图时重复的单击和拖动而感到乏味？</p>
+<p>您是否需要对该图进行修改发现改动却很复杂？</p>
+<p><a href="https://www.graphviz.org/" target="_blank" rel="noopener">Graphviz</a> 是一个开源的图形可视化软件，它使我们能够使用代码描述图表，并为我们自动绘制。如果将来需要修改该图，我们只需要修改描述代码，节点和边将自动为我们重新定位。</p>
+<h2 id="绘制图形"><a class="markdownIt-Anchor" href="#绘制图形"></a> 绘制图形</h2>
+<p>在开始编写图形之前，我们需要学习如何将代码转换为图像，以便可以测试正在做的事情。</p>
+<p><a href="http://www.webgraphviz.com/" target="_blank" rel="noopener">Webgraphviz.com</a> 可用于从浏览器绘制图形。</p>
+<p>我们可以使用 apt 在 Ubuntu 中安装命令行工具：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 sudo apt install graphviz</span><br></pre></td></tr></table></figure>
+<p>在 macOS 环境 使用 brew 安装</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install graphviz</span><br></pre></td></tr></table></figure>
+<p>除其他外，这将安装 <code>dot</code> CLI，该CLI可用于从文本文件生成图像：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 dot -Tpng input.gv -o output.png</span><br></pre></td></tr></table></figure>
+<p>在上面的示例中，我们将 png 指定为output（<code>-Tpng</code>），但是有许多<a href="https://www.graphviz.org/doc/info/output.html" target="_blank" rel="noopener">可用的选项</a>。如我们所见，输入文件通常使用<code>gv</code>扩展名。</p>
+<h2 id="dot"><a class="markdownIt-Anchor" href="#dot"></a> DOT</h2>
+<p>DOT是用于描述要由Graphviz解析的图形的最常见格式。</p>
+<h3 id="基本"><a class="markdownIt-Anchor" href="#基本"></a> 基本</h3>
+<p>一个简单的图形具有以下形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">graph MyGraph &#123; </span><br><span class="line">	begin -- end </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-basic.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-basic.png" alt="具有两个节点的基本图" /></a></p>
+<p>如果要使用有向图（带箭头），则需要使用<code>digraph</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;  </span><br><span class="line">	begin -&gt; end </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-directed-graph.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-directed-graph.png" alt="基本有向图" /></a></p>
+<p>箭头可以单向或双向：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;  </span><br><span class="line">  a -&gt; b  </span><br><span class="line">  a -&gt; c [dir&#x3D;both] </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-bidirectional-arrow.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-bidirectional-arrow.png" alt="带有双向箭头的图" /></a></p>
+<h3 id="形状"><a class="markdownIt-Anchor" href="#形状"></a> 形状</h3>
+<p>如果我们不喜欢椭圆形，可以使用其他形状：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  a [shape&#x3D;box]</span><br><span class="line">  b [shape&#x3D;polygon,sides&#x3D;6]</span><br><span class="line">  c [shape&#x3D;triangle]</span><br><span class="line">  d [shape&#x3D;invtriangle]</span><br><span class="line">  e [shape&#x3D;polygon,sides&#x3D;4,skew&#x3D;.5]</span><br><span class="line">  f [shape&#x3D;polygon,sides&#x3D;4,distortion&#x3D;.5]</span><br><span class="line">  g [shape&#x3D;diamond]</span><br><span class="line">  h [shape&#x3D;Mdiamond]</span><br><span class="line">  i [shape&#x3D;Msquare]</span><br><span class="line">  a -&gt; b</span><br><span class="line">  a -&gt; c</span><br><span class="line">  a -&gt; d</span><br><span class="line">  a -&gt; e</span><br><span class="line">  a -&gt; f</span><br><span class="line">  a -&gt; g</span><br><span class="line">  a -&gt; h</span><br><span class="line">  a -&gt; i</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-shapes.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-shapes.png" alt="节点形状" /></a></p>
+<p>可以在<a href="https://www.graphviz.org/doc/info/shapes.html" target="_blank" rel="noopener">其文档</a>的“ <a href="https://www.graphviz.org/doc/info/shapes.html" target="_blank" rel="noopener">节点形状”部分中</a>找到不同的受支持形状。</p>
+<p>我们还可以向节点添加一些颜色和样式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  a [style&#x3D;filled,color&#x3D;green]</span><br><span class="line">  b [peripheries&#x3D;4,color&#x3D;blue]</span><br><span class="line">  c [fontcolor&#x3D;crimson]</span><br><span class="line">  d [style&#x3D;filled,fillcolor&#x3D;dodgerblue,color&#x3D;coral4,penwidth&#x3D;3]</span><br><span class="line">  e [style&#x3D;dotted]</span><br><span class="line">  f [style&#x3D;dashed]</span><br><span class="line">  g [style&#x3D;diagonals]</span><br><span class="line">  h [style&#x3D;filled,color&#x3D;&quot;#333399&quot;]</span><br><span class="line">  i [style&#x3D;filled,color&#x3D;&quot;#ff000055&quot;]</span><br><span class="line">  j [shape&#x3D;box,style&#x3D;striped,fillcolor&#x3D;&quot;red:green:blue&quot;]</span><br><span class="line">  k [style&#x3D;wedged,fillcolor&#x3D;&quot;green:white:red&quot;]</span><br><span class="line">  a -&gt; b</span><br><span class="line">  a -&gt; c</span><br><span class="line">  a -&gt; d</span><br><span class="line">  a -&gt; e</span><br><span class="line">  b -&gt; f</span><br><span class="line">  b -&gt; g</span><br><span class="line">  b -&gt; h</span><br><span class="line">  b -&gt; i</span><br><span class="line">  d -&gt; j</span><br><span class="line">  j -&gt; k</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-shapes-styles.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-shapes-styles.png" alt="节点形状样式" /></a></p>
+<p>可以在 <a href="http://www.graphviz.org/doc/info/colors.html" target="_blank" rel="noopener">颜色名称文档</a> 中找到不同的 <a href="http://www.graphviz.org/doc/info/colors.html" target="_blank" rel="noopener">颜色名称</a>。</p>
+<h3 id="箭头"><a class="markdownIt-Anchor" href="#箭头"></a> 箭头</h3>
+<p>箭头的尾巴和头部也可以修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  a -&gt; b [dir&#x3D;both,arrowhead&#x3D;open,arrowtail&#x3D;inv]</span><br><span class="line">  a -&gt; c [dir&#x3D;both,arrowhead&#x3D;dot,arrowtail&#x3D;invdot]</span><br><span class="line">  a -&gt; d [dir&#x3D;both,arrowhead&#x3D;odot,arrowtail&#x3D;invodot]</span><br><span class="line">  a -&gt; e [dir&#x3D;both,arrowhead&#x3D;tee,arrowtail&#x3D;empty]</span><br><span class="line">  a -&gt; f [dir&#x3D;both,arrowhead&#x3D;halfopen,arrowtail&#x3D;crow]</span><br><span class="line">  a -&gt; g [dir&#x3D;both,arrowhead&#x3D;diamond,arrowtail&#x3D;box]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-arrows.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-arrows.png" alt="箭" /></a></p>
+<p>可以在<a href="https://www.graphviz.org/doc/info/arrows.html" target="_blank" rel="noopener">箭头形状文档中</a>找到不同的箭头类型。</p>
+<p>以及向箭头线添加样式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  a -&gt; b [color&#x3D;&quot;black:red:blue&quot;]</span><br><span class="line">  a -&gt; c [color&#x3D;&quot;black:red;0.5:blue&quot;]</span><br><span class="line">  a -&gt; d [dir&#x3D;none,color&#x3D;&quot;green:red:blue&quot;]</span><br><span class="line">  a -&gt; e [dir&#x3D;none,color&#x3D;&quot;green:red;.3:blue&quot;]</span><br><span class="line">  a -&gt; f [dir&#x3D;none,color&#x3D;&quot;orange&quot;]</span><br><span class="line">  d -&gt; g [arrowsize&#x3D;2.5]</span><br><span class="line">  d -&gt; h [style&#x3D;dashed]</span><br><span class="line">  d -&gt; i [style&#x3D;dotted]</span><br><span class="line">  d -&gt; j [penwidth&#x3D;5]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-arrows-styles.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-arrows-styles.png" alt="箭" /></a></p>
+<p>如果我们注意上面的代码和图表，我们可以看到，当我们为箭头指定多种颜色时，如果不指定任何权重，每种颜色将只有一行。如果我们想要一个带有多种颜色的箭头，则至少一种颜色必须指定要覆盖的线条的重量百分比：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1  a -&gt; e [dir&#x3D;none,color&#x3D;&quot;green:red;.3:blue&quot;]</span><br></pre></td></tr></table></figure>
+<h3 id="标签"><a class="markdownIt-Anchor" href="#标签"></a> 标签</h3>
+<p>我们可以向节点添加标签：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  begin [label&#x3D;&quot;This is the beginning&quot;]</span><br><span class="line">  end [label&#x3D;&quot;It ends here&quot;]</span><br><span class="line">  begin -&gt; end</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-labels.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-labels.png" alt="标签" /></a></p>
+<p>以及顶点：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  begin</span><br><span class="line">  end</span><br><span class="line">  begin -&gt; end [label&#x3D;&quot;Beginning to end&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-vertix-label.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-vertix-label.png" alt="Vertix标签" /></a></p>
+<p>我们可以设置标签样式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  begin [label&#x3D;&quot;This is the beginning&quot;,fontcolor&#x3D;green,fontsize&#x3D;10]</span><br><span class="line">  end [label&#x3D;&quot;It ends here&quot;,fontcolor&#x3D;red,fontsize&#x3D;10]</span><br><span class="line">  begin -&gt; end [label&#x3D;&quot;Beginning to end&quot;,fontcolor&#x3D;gray,fontsize&#x3D;16]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-label-styles.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-label-styles.png" alt="标签样式" /></a></p>
+<h3 id="集群"><a class="markdownIt-Anchor" href="#集群"></a> 集群</h3>
+<p>聚类也称为子图。集群的名称必须以开头<code>cluster_</code>，否则将不会包含在框中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  subgraph cluster_a &#123;</span><br><span class="line">    b</span><br><span class="line">    c -&gt; d</span><br><span class="line">  &#125;</span><br><span class="line">  a -&gt; b</span><br><span class="line">  d -&gt; e</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-cluster.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-cluster.png" alt="集群" /></a></p>
+<p>集群可以根据需要嵌套：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  subgraph cluster_a &#123;</span><br><span class="line">    subgraph cluster_b &#123;</span><br><span class="line">      subgraph cluster_c &#123;</span><br><span class="line">        d</span><br><span class="line">      &#125;</span><br><span class="line">      c -&gt; d</span><br><span class="line">    &#125;</span><br><span class="line">    b -&gt; c</span><br><span class="line">  &#125;</span><br><span class="line">  a -&gt; b</span><br><span class="line">  d -&gt; e</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-clusters-nested.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-clusters-nested.png" alt="嵌套集群" /></a></p>
+<h3 id="html"><a class="markdownIt-Anchor" href="#html"></a> HTML</h3>
+<p>HTML使我们可以创建更复杂的节点，这些节点可以分为多个部分。可以在图中独立地引用每个部分：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">    a [shape=plaintext,label=<span class="tag">&lt;</span></span><br><span class="line">      &lt;table&gt;</span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span>&gt;</span>Hello<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span>&gt;</span>world!<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">colspan</span>=<span class="string">"2"</span> <span class="attr">port</span>=<span class="string">"a1"</span>&gt;</span>are you ok?<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">    &gt;]</span><br><span class="line">    b [shape=plaintext,label=<span class="tag">&lt;</span></span><br><span class="line">      &lt;table border="0" cellborder="1" cellspacing="0"&gt;</span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">rowspan</span>=<span class="string">"3"</span>&gt;</span>left<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span>&gt;</span>top<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">rowspan</span>=<span class="string">"3"</span> <span class="attr">port</span>=<span class="string">"b2"</span>&gt;</span>right<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">port</span>=<span class="string">"b1"</span>&gt;</span>center<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span>&gt;</span>bottom<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">    &gt;]</span><br><span class="line"></span><br><span class="line">    a:a1 -&gt; b:b1</span><br><span class="line">    a:a1 -&gt; b:b2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-html.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-html.png" alt="HTML节点" /></a></p>
+<p>只有HTML的一个子集可用于创建节点，并且规则非常严格。为了使节点正确显示，我们需要将设置<code>shape</code>为<code>plaintext</code>。</p>
+<p>需要注意的另一件事是<code>port</code>属性，它使我们可以使用冒号（<code>a:a1</code>）来引用该特定单元格。</p>
+<p>我们可以设置HTML节点的样式，但只能使用HTML的子集：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">    a [shape=plaintext,label=<span class="tag">&lt;</span></span><br><span class="line">      &lt;table&gt;</span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">color</span>=<span class="string">"#ff0000"</span> <span class="attr">bgcolor</span>=<span class="string">"#008822"</span>&gt;</span><span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">"#55ff00"</span>&gt;</span>Hello<span class="tag">&lt;/<span class="name">font</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span>&gt;</span>world!<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">colspan</span>=<span class="string">"2"</span> <span class="attr">color</span>=<span class="string">"#00ff00"</span> <span class="attr">bgcolor</span>=<span class="string">"#ff0000"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">"#ffffff"</span>&gt;</span>are you ok?<span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">    &gt;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-html-style.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-html-style.png" alt="HTML节点样式" /></a></p>
+<h3 id="图片"><a class="markdownIt-Anchor" href="#图片"></a> 图片</h3>
+<p>有时我们想为节点使用指定图标，这可以通过<code>image</code>属性来完成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  ec2 [shape&#x3D;none,label&#x3D;&quot;&quot;,image&#x3D;&quot;icons&#x2F;ec2.png&quot;]</span><br><span class="line">  igw [shape&#x3D;none,label&#x3D;&quot;&quot;,image&#x3D;&quot;icons&#x2F;igw.png&quot;]</span><br><span class="line">  rds [shape&#x3D;none,label&#x3D;&quot;&quot;,image&#x3D;&quot;icons&#x2F;rds.png&quot;]</span><br><span class="line">  vpc [shape&#x3D;none,label&#x3D;&quot;&quot;,image&#x3D;&quot;icons&#x2F;vpc.png&quot;]</span><br><span class="line"></span><br><span class="line">  subgraph cluster_vpc &#123;</span><br><span class="line">    label&#x3D;&quot;VPC&quot;</span><br><span class="line"></span><br><span class="line">    subgraph cluster_public_subnet &#123;</span><br><span class="line">      label&#x3D;&quot;Public Subnet&quot;</span><br><span class="line">      ec2</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    subgraph cluster_private_subnet &#123;</span><br><span class="line">      label&#x3D;&quot;Private Subnet&quot;</span><br><span class="line">      ec2 -&gt; rds</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    vpc</span><br><span class="line">    igw -&gt; ec2</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  users -&gt; igw</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-images.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-images.png" alt="节点图片" /></a></p>
+<h3 id="rank"><a class="markdownIt-Anchor" href="#rank"></a> Rank</h3>
+<p>等级是最难理解的事情之一，因为它们会改变渲染引擎的工作方式。在这里，我将介绍一些我认为有用的基本知识。</p>
+<p>图表通常会从上到下呈现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  a -&gt; b</span><br><span class="line">  b -&gt; c</span><br><span class="line">  a -&gt; d</span><br><span class="line">  a -&gt; c</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-top-bottom.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-top-bottom.png" alt="上下图" /></a></p>
+<p>使用<code>rankdir</code>属性，我们可以从左到右渲染它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  rankdir&#x3D;LR</span><br><span class="line"></span><br><span class="line">  a -&gt; b</span><br><span class="line">  b -&gt; c</span><br><span class="line">  a -&gt; d</span><br><span class="line">  a -&gt; c</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-left-right.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-left-right.png" alt="左右图" /></a></p>
+<p>排名还可以用于强制一个节点与另一个节点处于同一级别：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  rankdir&#x3D;LR</span><br><span class="line"></span><br><span class="line">  a -&gt; b</span><br><span class="line">  b -&gt; c</span><br><span class="line">  a -&gt; d</span><br><span class="line">  a -&gt; c</span><br><span class="line"></span><br><span class="line">  &#123;rank&#x3D;same;c;b&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-rank-same.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-rank-same.png" alt="等级=相同" /></a></p>
+<p>在上面的示例中，我们用于<code>rank=same</code>将node <code>c</code>与node 对齐<code>b</code>。</p>
+<p>该<code>rankdir</code>属性是全局属性，因此无法在集群内部更改，但是使用<code>rank</code>我们可以模拟<code>LR</code>集群内部的方向：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  subgraph cluster_A &#123;</span><br><span class="line">    a1 -&gt; a2</span><br><span class="line">    a2 -&gt; a3</span><br><span class="line"></span><br><span class="line">    &#123;rank&#x3D;same;a1;a2;a3&#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  subgraph cluster_B &#123;</span><br><span class="line">    a3 -&gt; b1</span><br><span class="line">    b1 -&gt; b2</span><br><span class="line">    b2 -&gt; b3</span><br><span class="line"></span><br><span class="line">    &#123;rank&#x3D;same;b1;b2;b3&#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  begin -&gt; a1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-rank-cluster.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-rank-cluster.png" alt="等级=集群内部相同" /></a></p>
+<p>我们可以结合<code>rank</code>使用<code>constraint=false</code>以创建更紧凑的图形：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  subgraph cluster_A &#123;</span><br><span class="line">    a1</span><br><span class="line">    a2</span><br><span class="line">    a3</span><br><span class="line">    &#123;rank&#x3D;same;a1;a2;a3&#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  subgraph cluster_B &#123;</span><br><span class="line">    b1</span><br><span class="line">    b2</span><br><span class="line">    b3</span><br><span class="line"></span><br><span class="line">    &#123;rank&#x3D;same;b1;b2;b3&#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  begin -&gt; a1</span><br><span class="line">  a1 -&gt; a2 [constraint&#x3D;false]</span><br><span class="line">  a2 -&gt; a3 [constraint&#x3D;false]</span><br><span class="line">  a3 -&gt; b1</span><br><span class="line">  b1 -&gt; b2</span><br><span class="line">  b2 -&gt; b3</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-constrained.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-constraint.png" alt="Graphviz约束" /></a></p>
+<p>等级还可以用于指定每个节点之间的距离：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">digraph MyGraph &#123;</span><br><span class="line">  rankdir&#x3D;LR</span><br><span class="line">  ranksep&#x3D;1</span><br><span class="line">  a -&gt; b</span><br><span class="line">  b -&gt; c</span><br><span class="line">  c -&gt; d</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://ncona.com/images/posts/graphviz-ranksep.png" target="_blank" rel="noopener"><img src="https://ncona.com/images/posts/graphviz-ranksep.png" alt="朗塞普" /></a></p>
+<p>其缺省值<code>ranksep</code>是<code>.5</code>。</p>
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
+<p>在这篇文章中，我们学习了如何使用 Graphviz 基于声明性语言生成图。这使我在将来更容易绘制架构图并对其进行修改。</p>
+<p>我介绍了我认为对于日常使用最重要的功能，但是坦率地说，很多功能我仍还不了解。</p>
+<p>[ <a href="https://ncona.com/tag/open_source/" target="_blank" rel="noopener"><code>open_source</code> </a> ]</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://yuechuanx.top/create-diagrams-with-code-using-graphviz/" title="使用Graphviz创建图表" target="_blank" rel="external">https://yuechuanx.top/create-diagrams-with-code-using-graphviz/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/yuechuanx" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="../images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/yuechuanx" target="_blank"><span class="text-dark">Yuechuan Xiao</span><small class="ml-1x">DevOps &amp; Automation</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="../Python/prettytable/" title="用 Prettytable 在终端输出漂亮的表格"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">
+        <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+    
+	
+    <ul class="social-links">
+    	
+        <li><a href="../https:/github.com/yuechuanx" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="../atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+        
+        &copy; 2020 Yuechuan Xiao
+        
+        <!-- <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div> -->
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="../js/plugin.min.js"></script>
+
+
+<script src="../js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '../content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="../js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: true,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: true
+  });
+  </script>
+
+     
+
+
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
+
+
+
+    <script defer type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-153687468-1', 'auto');
+ga('send', 'pageview');
+
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+</body>
+</html>
