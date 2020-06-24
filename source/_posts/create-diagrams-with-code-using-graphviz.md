@@ -505,5 +505,3 @@ digraph MyGraph {
 在这篇文章中，我们学习了如何使用 Graphviz 基于声明性语言生成图。这使我在将来更容易绘制架构图并对其进行修改。
 
 我介绍了我认为对于日常使用最重要的功能，但是坦率地说，很多功能我仍还不了解。
-
-[ [`open_source` ](https://ncona.com/tag/open_source/) ]
