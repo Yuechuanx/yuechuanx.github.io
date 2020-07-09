@@ -1,5 +1,5 @@
 ---
-title: '<流畅的Python> 笔记: Python 数据类型'
+title: '<流畅的Python> Python 数据类型'
 toc: true
 comments: true
 tags:
@@ -130,7 +130,7 @@ Card('7', 'beasts') in deck
 
 
     False
-    
+
 
 
 
@@ -147,7 +147,7 @@ card.rank
 
 
     'A'
-    
+
 
 
 

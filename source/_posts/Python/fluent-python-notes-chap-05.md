@@ -1,5 +1,5 @@
 ---
-title: '<流畅的 Python> 笔记：一等函数'
+title: '<流畅的 Python> 一等函数'
 toc: true
 comments: true
 tags:

@@ -1,5 +1,5 @@
 ---
-title: <流畅的Python> 笔记：函数装饰器与闭包
+title: '<流畅的Python> 函数装饰器与闭包'
 toc: true
 comments: true
 tags:

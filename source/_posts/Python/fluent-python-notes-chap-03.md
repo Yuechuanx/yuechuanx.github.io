@@ -1,5 +1,5 @@
 ---
-title: '<流畅的Python> 笔记：字典和集合'
+title: '<流畅的Python> 字典和集合'
 toc: true
 comments: true
 tags:
