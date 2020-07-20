@@ -1,10 +1,12 @@
 ---
-title: '<流畅的Python> 接口：从协议到抽象基类'
+title: <流畅的Python> 接口：从协议到抽象基类
 toc: true
 comments: true
-date: 2020-07-09 16:24:11
 tags:
-- python
+  - python
+categories:
+  - Python
+date: 2020-07-09 16:24:11
 ---
 > 抽象类表示接口。  
 > ——Bjarne Stroustrup, C++ 之父
